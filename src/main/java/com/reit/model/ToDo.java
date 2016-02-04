@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "todo")
-public class ToDo {
+public class Todo {
 
     @Id
     @Column(name = "id")
@@ -24,17 +24,17 @@ public class ToDo {
     private String description;
 
 
-    public ToDo() {
+    public Todo() {
     }
 
-    public ToDo(String id, String description, String author, String state) {
+    public Todo(String id, String description, String author, String state) {
         this.id = id;
         this.description = description;
         this.author = author;
         this.state = state;
     }
 
-    public ToDo(String description, String author, String state) {
+    public Todo(String description, String author, String state) {
         this.description = description;
         this.author = author;
         this.state = state;

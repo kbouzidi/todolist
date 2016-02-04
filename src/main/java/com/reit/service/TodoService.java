@@ -1,7 +1,7 @@
 package com.reit.service;
 
 import com.reit.dao.TodoDao;
-import com.reit.model.ToDo;
+import com.reit.model.Todo;
 
 import java.util.List;
 
@@ -15,37 +15,37 @@ public class TodoService {
         todoDao = new TodoDao();
     }
 
-    public void add(ToDo todo) {
+    public void add(Todo todo) {
         todoDao.openCurrentSessionwithTransaction();
         todoDao.add(todo);
         todoDao.closeCurrentSessionwithTransaction();
     }
 
-    public void update(ToDo entity) {
+    public void update(Todo entity) {
         todoDao.openCurrentSessionwithTransaction();
         todoDao.update(entity);
         todoDao.closeCurrentSessionwithTransaction();
     }
 
-    public ToDo findById(String id) {
+    public Todo findById(String id) {
         todoDao.openCurrentSession();
-        ToDo ToDo = todoDao.findById(id);
+        Todo todo = todoDao.findById(id);
         todoDao.closeCurrentSession();
-        return ToDo;
+        return todo;
     }
 
     public void delete(String id) {
         todoDao.openCurrentSessionwithTransaction();
-        ToDo ToDo = todoDao.findById(id);
-        todoDao.delete(ToDo);
+        Todo todo = todoDao.findById(id);
+        todoDao.delete(todo);
         todoDao.closeCurrentSessionwithTransaction();
     }
 
-    public List<ToDo> findAll() {
+    public List<Todo> findAll() {
         todoDao.openCurrentSession();
-        List<ToDo> ToDos = todoDao.findAll();
+        List<Todo> todoList = todoDao.findAll();
         todoDao.closeCurrentSession();
-        return ToDos;
+        return todoList;
     }
 
     public void deleteAll() {
