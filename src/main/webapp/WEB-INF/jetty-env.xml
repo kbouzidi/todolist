@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+
+<Configure class="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
+
+
+    <!-- ==============================================================  -->
+    <!--                     DataSource                                  -->
+    <!-- ==============================================================  -->
+
+    <New id="ReitPostgres" class="org.eclipse.jetty.plus.jndi.Resource">
+        <Arg></Arg>
+        <Arg>jdbc/ReitPostgres</Arg>
+        <Arg>
+            <New class="org.postgresql.ds.PGConnectionPoolDataSource">
+                <Set name="User">test</Set>
+                <Set name="Password">test</Set>
+                <Set name="DatabaseName">reitdb</Set>
+                <Set name="ServerName">localhost</Set>
+                <Set name="PortNumber">5432</Set>
+            </New>
+        </Arg>
+    </New>
+
+</Configure>

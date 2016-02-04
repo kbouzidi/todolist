@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.0">
+
+    <display-name>reit-test</display-name>
+
+    <filter>
+        <filter-name>SparkFilter</filter-name>
+        <filter-class>spark.servlet.SparkFilter</filter-class>
+        <init-param>
+            <param-name>applicationClass</param-name>
+            <param-value>com.reit.app.main</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>SparkFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <resource-ref>
+        <description>Reit Postgres</description>
+        <res-ref-name>jdbc/ReitPostgres</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
+</web-app>
