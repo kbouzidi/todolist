@@ -15,7 +15,7 @@
             <New class="org.postgresql.ds.PGConnectionPoolDataSource">
                 <Set name="User">test</Set>
                 <Set name="Password">test</Set>
-                <Set name="DatabaseName">reitdb</Set>
+                <Set name="DatabaseName">todo</Set>
                 <Set name="ServerName">localhost</Set>
                 <Set name="PortNumber">5432</Set>
             </New>

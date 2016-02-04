@@ -7,7 +7,7 @@
 
         <!-- DB credentials-->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/reitdb</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/todo</property>
         <property name="hibernate.connection.username">test</property>
         <property name="hibernate.connection.password">test</property>
 
@@ -18,7 +18,7 @@
 
 
         <!-- Models -->
-        <mapping class="com.reit.model.ToDo"/>
+        <mapping class="com.reit.model.Todo"/>
 
     </session-factory>
 </hibernate-configuration>

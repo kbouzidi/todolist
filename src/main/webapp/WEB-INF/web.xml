@@ -5,14 +5,14 @@
          http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd"
          version="3.0">
 
-    <display-name>reit-test</display-name>
+    <display-name>todo-app</display-name>
 
     <filter>
         <filter-name>SparkFilter</filter-name>
         <filter-class>spark.servlet.SparkFilter</filter-class>
         <init-param>
             <param-name>applicationClass</param-name>
-            <param-value>com.reit.app.main</param-value>
+            <param-value>com.reit.app.Main</param-value>
         </init-param>
     </filter>
 
