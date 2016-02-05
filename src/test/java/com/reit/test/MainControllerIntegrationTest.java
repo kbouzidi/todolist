@@ -32,10 +32,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.junit.AfterClass;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
@@ -91,10 +93,10 @@ public class MainControllerIntegrationTest {
         assertEquals(200, res.status);
     }
 
-    @Test
+    // @Test
     public void getTodos() {
         TestResponse res = request("GET", "/todos", null);
-        List<Map<String, String>> todoList = res.getTodoList();
+        List<Map<String, Objects>> todoList = res.getTodoList();
         assertEquals(200, res.status);
         assertEquals(user, todoList.get(0).get("author"));
         assertEquals(desc, todoList.get(0).get("description"));
@@ -115,6 +117,18 @@ public class MainControllerIntegrationTest {
         res = request("PUT", "/update", jsonObject);
         assertEquals(200, res.status);
         assertEquals(DONE, res.getTodo().getState());
+    }
+
+    @Test
+    public void deleteTodo() {
+        TestResponse res = request("GET", "/todos", null);
+        List<Map<String, Objects>> todoList = res.getTodoList();
+        assertEquals(200, res.status);
+        Map<String, Objects> result = todoList.get(0);
+        Double value = Double.parseDouble(String.valueOf(result.get("id")));
+        res = request("DELETE", "/delete/" + value.toString(), null);
+        assertEquals(200, res.status);
+        assertNotNull(res.getBody());
     }
 
     private TestResponse request(String method, String path, String data) {

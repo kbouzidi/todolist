@@ -27,14 +27,14 @@ public class TodoService {
         todoDao.closeCurrentSessionwithTransaction();
     }
 
-    public Todo findById(String id) {
+    public Todo findById(Long id) {
         todoDao.openCurrentSession();
         Todo todo = todoDao.findById(id);
         todoDao.closeCurrentSession();
         return todo;
     }
 
-    public void delete(String id) {
+    public void delete(Long id) {
         todoDao.openCurrentSessionwithTransaction();
         Todo todo = todoDao.findById(id);
         todoDao.delete(todo);

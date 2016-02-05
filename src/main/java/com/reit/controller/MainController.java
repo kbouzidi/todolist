@@ -60,8 +60,10 @@ public class MainController {
 
 
         // Delete task state
-        delete("/delete", (req, res) -> {
-            return "Delete";
+        delete("/delete/:id", (req, res) -> {
+            Double id = Double.parseDouble(req.params(":id"));
+            todoService.delete(id.longValue());
+            return id;
         }, JsonUtil.json());
 
         after((req, res) -> {

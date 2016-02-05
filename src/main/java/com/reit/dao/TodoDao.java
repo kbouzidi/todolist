@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * *
  */
-public class TodoDao implements ITodoDao<Todo, String> {
+public class TodoDao implements ITodoDao<Todo, Long> {
 
     private Session currentSession;
 
@@ -72,7 +72,7 @@ public class TodoDao implements ITodoDao<Todo, String> {
         getCurrentSession().update(todo);
     }
 
-    public Todo findById(String id) {
+    public Todo findById(Long id) {
         Todo todo = (Todo) getCurrentSession().get(Todo.class, id);
         return todo;
     }
