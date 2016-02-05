@@ -81,3 +81,6 @@ hs_err_pid*
 
 # Target
 target
+
+# Vendor
+/src/main/resources/public/vendor
