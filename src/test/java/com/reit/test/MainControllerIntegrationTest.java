@@ -52,7 +52,7 @@ public class MainControllerIntegrationTest {
         MainTest.main(null);
         logger.info("SERVER LAUNCHED !");
         try {
-            Thread.sleep(300);
+            Thread.sleep(15000);
         } catch (InterruptedException ex) {
             logger.error(ex.getMessage());
             fail("Sending request failed: " + ex.getMessage());
