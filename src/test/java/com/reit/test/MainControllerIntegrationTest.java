@@ -26,6 +26,7 @@ package com.reit.test;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.logging.Level;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -48,6 +49,12 @@ public class MainControllerIntegrationTest {
     public static void setUp() {
         MainTest.main(null);
         logger.info("SERVER LAUNCHED !");
+        try {
+            Thread.sleep(30000);
+        } catch (InterruptedException ex) {
+            logger.error(ex.getMessage());
+            fail("Sending request failed: " + ex.getMessage());
+        }
     }
 
     @AfterClass
