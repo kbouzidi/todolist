@@ -57,6 +57,7 @@ public class MainControllerIntegrationTest {
     @Test
     public void healthTest() {
         TestResponse res = request("GET", "/ping");
+        logger.debug(res.getBody());
         assertEquals(200, res.getStatus());
         assertEquals("pong", res.getBody());
     }
