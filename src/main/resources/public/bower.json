@@ -1,0 +1,28 @@
+{
+  "name": "todoapp",
+  "homepage": "https://github.com/kbouzidi/todolist",
+  "authors": [
+    "kbouzidi <kr.bouzidi@gmail.com>"
+  ],
+  "description": "Todo Web App",
+  "main": "index.html",
+  "moduleType": [
+    "es6"
+  ],
+  "keywords": [
+    "Todo"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.5.0",
+    "angular-route": "~1.5.0",
+    "bootstrap": "~3.3.6"
+  }
+}
