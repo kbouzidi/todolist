@@ -84,8 +84,8 @@ public class TodoDao implements ITodoDao<Todo, String> {
 
 
     public List<Todo> findAll() {
-        List<Todo> todos = (List<Todo>) getCurrentSession().createQuery("from Todo").list();
-        return todos;
+        List<Todo> todoList = (List<Todo>) getCurrentSession().createQuery("from Todo").list();
+        return todoList;
     }
 
     public void deleteAll() {
