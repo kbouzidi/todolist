@@ -2,9 +2,10 @@ package com.reit.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "todo")
@@ -12,7 +13,8 @@ public class Todo {
 
     @Id
     @Column(name = "id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Column(name = "author")
     String author;
@@ -23,23 +25,21 @@ public class Todo {
     @Column(name = "description")
     private String description;
 
-
     public Todo() {
     }
 
-    public Todo(String id, String description, String author, String state) {
+    public Todo(Long id, String author, String description, String state) {
         this.id = id;
-        this.description = description;
         this.author = author;
+        this.description = description;
         this.state = state;
     }
 
-    public Todo(String description, String author, String state) {
-        this.description = description;
+    public Todo(String author, String description, String state) {
         this.author = author;
+        this.description = description;
         this.state = state;
     }
-
 
     public String getDescription() {
         return description;
@@ -49,12 +49,11 @@ public class Todo {
         this.description = description;
     }
 
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -73,7 +72,6 @@ public class Todo {
     public void setState(String state) {
         this.state = state;
     }
-
 
     @Override
     public String toString() {

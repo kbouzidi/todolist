@@ -26,6 +26,8 @@ package com.reit.test;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -50,7 +52,7 @@ public class MainControllerIntegrationTest {
         MainTest.main(null);
         logger.info("SERVER LAUNCHED !");
         try {
-            Thread.sleep(30000);
+            Thread.sleep(300);
         } catch (InterruptedException ex) {
             logger.error(ex.getMessage());
             fail("Sending request failed: " + ex.getMessage());
@@ -68,6 +70,26 @@ public class MainControllerIntegrationTest {
         logger.debug(res.getBody());
         assertEquals(200, res.getStatus());
         assertEquals("pong", res.getBody());
+    }
+
+    @Test
+    public void addTodo() {
+        TestResponse res = request("POST", "/add/toto/TaskeTest/start");
+        logger.debug(res.getBody());
+
+    }
+
+    @Test
+    public void getTodos() {
+        TestResponse res = request("GET", "/todos");
+        List<Map<String, String>> jsonList = res.jsonList();
+        assertEquals(200, res.status);
+        String user = jsonList.get(0).get("author");
+        String description = jsonList.get(0).get("description");
+        String state = jsonList.get(0).get("state");
+        assertEquals("toto", user);
+        assertEquals("TaskeTest", description);
+        assertEquals("start", state);
     }
 
     private TestResponse request(String method, String path) {

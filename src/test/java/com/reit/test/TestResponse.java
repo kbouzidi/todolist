@@ -25,6 +25,7 @@ package com.reit.test;
 
 import com.google.gson.Gson;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +40,10 @@ public class TestResponse {
     public TestResponse(int status, String body) {
         this.status = status;
         this.body = body;
+    }
+
+    public List<Map<String, String>> jsonList() {
+        return new Gson().fromJson(body, List.class);
     }
 
     public Map<String, String> json() {
