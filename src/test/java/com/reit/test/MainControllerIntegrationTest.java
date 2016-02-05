@@ -71,7 +71,6 @@ public class MainControllerIntegrationTest {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
             connection.setDoOutput(true);
-            connection.connect();
             if (connection.getResponseCode() >= 200 && connection.getResponseCode() < 300) {
                 String body = IOUtils.toString(connection.getInputStream());
                 return new TestResponse(connection.getResponseCode(), body);
