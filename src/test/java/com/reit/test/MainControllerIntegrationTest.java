@@ -64,15 +64,22 @@ public class MainControllerIntegrationTest {
     }
 
     private TestResponse request(String method, String path) {
+        HttpURLConnection connection;
         try {
             // Listeneing to embaded Spark Jetty server port 4567
             URL url = new URL("http://localhost:4567" + path);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
             connection.setDoOutput(true);
             connection.connect();
-            String body = IOUtils.toString(connection.getInputStream());
-            return new TestResponse(connection.getResponseCode(), body);
+            if (connection.getResponseCode() >= 200 && connection.getResponseCode() < 300) {
+                String body = IOUtils.toString(connection.getInputStream());
+                return new TestResponse(connection.getResponseCode(), body);
+            } else {
+                String body = IOUtils.toString(connection.getErrorStream());
+                return new TestResponse(connection.getResponseCode(), body);
+            }
+
         } catch (IOException e) {
             logger.error(e.getMessage());
             fail("Sending request failed: " + e.getMessage());
