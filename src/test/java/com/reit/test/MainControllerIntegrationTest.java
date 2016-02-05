@@ -42,11 +42,12 @@ import spark.utils.IOUtils;
  */
 public class MainControllerIntegrationTest {
 
-    Logger logger = LoggerFactory.getLogger(MainControllerIntegrationTest.class);
+    static Logger logger = LoggerFactory.getLogger(MainControllerIntegrationTest.class);
 
     @BeforeClass
-    public static void beforeClass() {
+    public static void setUp() {
         MainTest.main(null);
+        logger.info("SERVER LAUNCHED !");
     }
 
     @AfterClass
