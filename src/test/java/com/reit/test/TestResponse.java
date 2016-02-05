@@ -24,9 +24,12 @@
 package com.reit.test;
 
 import com.google.gson.Gson;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.reit.model.Todo;
 
 /**
  *
@@ -42,12 +45,12 @@ public class TestResponse {
         this.body = body;
     }
 
-    public List<Map<String, String>> jsonList() {
+    public List<Map<String, String>> getTodoList() {
         return new Gson().fromJson(body, List.class);
     }
 
-    public Map<String, String> json() {
-        return new Gson().fromJson(body, HashMap.class);
+    public Todo getTodo() {
+        return new Gson().fromJson(body, Todo.class);
     }
 
     public int getStatus() {

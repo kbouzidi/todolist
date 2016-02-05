@@ -23,15 +23,21 @@
  */
 package com.reit.test;
 
+import com.google.gson.Gson;
+import com.reit.dao.EStates;
+import com.reit.model.Todo;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+
 import org.junit.AfterClass;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -40,19 +46,24 @@ import spark.Spark;
 import spark.utils.IOUtils;
 
 /**
- *
  * @author kbouzidi
  */
 public class MainControllerIntegrationTest {
 
     static Logger logger = LoggerFactory.getLogger(MainControllerIntegrationTest.class);
 
+    Todo todo;
+    Gson gson = new Gson();
+    String user = "User";
+    String desc = "This is a Task";
+    String state = EStates.STARTED.getValue();
+
     @BeforeClass
     public static void setUp() {
         MainTest.main(null);
         logger.info("SERVER LAUNCHED !");
         try {
-            Thread.sleep(15000);
+            Thread.sleep(500);
         } catch (InterruptedException ex) {
             logger.error(ex.getMessage());
             fail("Sending request failed: " + ex.getMessage());
@@ -66,7 +77,7 @@ public class MainControllerIntegrationTest {
 
     @Test
     public void healthTest() {
-        TestResponse res = request("GET", "/ping");
+        TestResponse res = request("GET", "/ping", null);
         logger.debug(res.getBody());
         assertEquals(200, res.getStatus());
         assertEquals("pong", res.getBody());
@@ -74,32 +85,50 @@ public class MainControllerIntegrationTest {
 
     @Test
     public void addTodo() {
-        TestResponse res = request("POST", "/add/toto/TaskeTest/start");
-        logger.debug(res.getBody());
-
+        todo = new Todo(Long.decode("1"), user, desc, state);
+        String toJson = gson.toJson(todo);
+        TestResponse res = request("POST", "/add", toJson);
+        assertEquals(200, res.status);
     }
 
     @Test
     public void getTodos() {
-        TestResponse res = request("GET", "/todos");
-        List<Map<String, String>> jsonList = res.jsonList();
+        TestResponse res = request("GET", "/todos", null);
+        List<Map<String, String>> todoList = res.getTodoList();
         assertEquals(200, res.status);
-        String user = jsonList.get(0).get("author");
-        String description = jsonList.get(0).get("description");
-        String state = jsonList.get(0).get("state");
-        assertEquals("toto", user);
-        assertEquals("TaskeTest", description);
-        assertEquals("start", state);
+        assertEquals(user, todoList.get(0).get("author"));
+        assertEquals(desc, todoList.get(0).get("description"));
+        assertEquals(state, todoList.get(0).get("state"));
     }
 
-    private TestResponse request(String method, String path) {
+    @Test
+    public void updateTodo() {
+        final String DONE = "DONE";
+        todo = new Todo(Long.decode("2"), user, desc, state);
+        String toJson = gson.toJson(todo);
+        TestResponse res = request("POST", "/add", toJson);
+        assertEquals(200, res.status);
+        todo = res.getTodo();
+        todo.setState(DONE);
+        String jsonObject = gson.toJson(todo);
+
+        res = request("PUT", "/update", jsonObject);
+        assertEquals(200, res.status);
+        assertEquals(DONE, res.getTodo().getState());
+    }
+
+    private TestResponse request(String method, String path, String data) {
         HttpURLConnection connection;
         try {
-            // Listeneing to embaded Spark Jetty server port 4567
+            // Listening to embedded Spark Jetty server port 4567
             URL url = new URL("http://localhost:4567" + path);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
             connection.setDoOutput(true);
+            if (data != null) {
+                connection.getOutputStream().write(data.getBytes());
+            }
+
             if (connection.getResponseCode() >= 200 && connection.getResponseCode() < 300) {
                 String body = IOUtils.toString(connection.getInputStream());
                 return new TestResponse(connection.getResponseCode(), body);

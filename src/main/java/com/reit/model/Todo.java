@@ -73,6 +73,15 @@ public class Todo {
         this.state = state;
     }
 
+
+    public Todo getTodo() {
+        Todo todo = new Todo();
+        todo.author = author;
+        todo.description = description;
+        todo.state = state;
+        return todo;
+    }
+
     @Override
     public String toString() {
         return "Todo : " + this.id + ", " + this.description + ", " + this.author + ", " + this.state;
