@@ -66,7 +66,7 @@ public class MainControllerIntegrationTest {
     private TestResponse request(String method, String path) {
         try {
             // Listeneing to embaded Spark Jetty server port 4567
-            URL url = new URL("localhost:4567" + path);
+            URL url = new URL("http://localhost:4567" + path);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
             connection.setDoOutput(true);
