@@ -4,9 +4,7 @@ package com.reit.test.service;
 import com.reit.dao.TodoDao;
 import com.reit.model.Todo;
 import com.reit.service.TodoService;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +17,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 import com.reit.test.utils.*;
-import org.powermock.api.mockito.PowerMockito;
 
 import static org.mockito.Mockito.*;
 
@@ -28,7 +25,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-//@PrepareForTest({TodoDao.class, TodoService.class})
 public class TodoServiceTest {
 
     @Mock
