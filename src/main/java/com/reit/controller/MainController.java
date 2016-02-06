@@ -4,10 +4,6 @@ import com.google.gson.Gson;
 import com.reit.dao.EStates;
 import com.reit.error.ResponseError;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-
 import com.reit.model.Todo;
 import com.reit.service.TodoService;
 import com.reit.utils.JsonUtil;
