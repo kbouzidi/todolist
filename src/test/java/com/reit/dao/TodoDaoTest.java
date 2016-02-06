@@ -3,7 +3,6 @@ package com.reit.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -14,7 +13,6 @@ import org.mockito.Spy;
 import org.mockito.InjectMocks;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 
 import org.junit.runner.RunWith;
 import org.junit.Before;
@@ -33,7 +31,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Query;
 
 
-import com.reit.dao.TodoDao;
 import com.reit.model.Todo;
 import com.reit.service.TodoService;
 
@@ -68,7 +65,6 @@ public class TodoDaoTest {
         todo = new Todo(Long.decode("1"), user, desc, state);
         MockitoAnnotations.initMocks(this);
         todoList = getTodoList();
-        // todoDaoMock = new TodoDao();
         sessionMock = Mockito.mock(Session.class);
         sessionFactoryMock = Mockito.mock(SessionFactory.class);
         Mockito.when(sessionFactoryMock.getCurrentSession()).thenReturn(sessionMock);
