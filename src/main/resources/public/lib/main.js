@@ -31,7 +31,18 @@ angular.module('todowebapp', [
 
     })
 
-    .controller('AddCtrl', function ($scope, $http) {
+    .controller('AddCtrl', function ($scope, $http, $location) {
+        $scope.todo = {
+            state: "STARTED"
+        };
 
+        $scope.createTodo = function () {
+            console.log($scope.todo);
+            $http.post('/add', $scope.todo).success(function (data) {
+                $location.path('/');
+            }).error(function (data, status) {
+                console.log('Error ' + data)
+            })
+        }
     })
 ;
