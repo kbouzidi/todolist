@@ -15,57 +15,12 @@ import java.util.List;
 /**
  * *
  */
-public class TodoDao implements ITodoDao<Todo, Long> {
-
-    private Session currentSession;
-
-    private Transaction currentTransaction;
+public class TodoDao extends AbstractDao implements ITodoDao<Todo, Long> {
 
     public TodoDao() {
     }
 
-    /**
-     * *
-     *
-     * @return
-     */
-    private static SessionFactory getSessionFactory() {
-        Configuration configuration = new Configuration().configure();
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties());
-        return configuration.buildSessionFactory(builder.build());
-    }
 
-
-    public Session openCurrentSession() {
-        currentSession = getSessionFactory().openSession();
-        return currentSession;
-    }
-
-    public Session openCurrentSessionwithTransaction() {
-        currentSession = getSessionFactory().openSession();
-        currentTransaction = currentSession.beginTransaction();
-        return currentSession;
-    }
-
-    public void closeCurrentSession() {
-        currentSession.close();
-    }
-
-    public void closeCurrentSessionwithTransaction() {
-        currentTransaction.commit();
-        currentSession.close();
-    }
-
-    public Session getCurrentSession() {
-        return currentSession;
-    }
-
-    /**
-     * Add Todo
-     *
-     * @param todo
-     */
     public void add(Todo todo) {
         getCurrentSession().save(todo);
     }
