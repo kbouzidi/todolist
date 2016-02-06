@@ -7,6 +7,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 
@@ -87,6 +89,18 @@ public class TodoDao implements ITodoDao<Todo, Long> {
         List<Todo> todoList = (List<Todo>) getCurrentSession().createQuery("from Todo").list();
         return todoList;
     }
+
+
+    public List<Todo> findbyState(String state) {
+        Criteria criteria = getCurrentSession().createCriteria(Todo.class).add(Restrictions.eq("state", state));
+        return criteria.list();
+    }
+
+    public List<Todo> findbyUser(String user) {
+        Criteria criteria = getCurrentSession().createCriteria(Todo.class).add(Restrictions.eq("author", user));
+        return criteria.list();
+    }
+
 
     public void deleteAll() {
         List<Todo> todoList = findAll();

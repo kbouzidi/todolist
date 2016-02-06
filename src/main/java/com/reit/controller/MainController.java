@@ -1,6 +1,7 @@
 package com.reit.controller;
 
 import com.google.gson.Gson;
+import com.reit.dao.EStates;
 import com.reit.error.ResponseError;
 
 import java.util.HashMap;
@@ -44,11 +45,13 @@ public class MainController {
             Todo todo = gson.fromJson(req.body(), Todo.class);
             todoService.add(todo);
             return todo;
-        }, JsonUtil.json());
+        }, json());
 
 
         // Get all tasks
-        get("/todos", (req, res) -> todoService.findAll(), json());
+        get("/todos", (req, res) ->
+                todoService.findAll()
+                , json());
 
 
         // Update task state
@@ -56,15 +59,33 @@ public class MainController {
             Todo todo = gson.fromJson(req.body(), Todo.class);
             todoService.update(todo);
             return todo.getTodo();
-        }, JsonUtil.json());
+        }, json());
 
 
         // Delete task state
-        delete("/delete/:id", (req, res) -> {
+        delete("/todo/:id", (req, res) -> {
             Double id = Double.parseDouble(req.params(":id"));
             todoService.delete(id.longValue());
             return id;
-        }, JsonUtil.json());
+        }, json());
+
+        // Get done tasks 
+        get("/done", (req, res) ->
+                todoService.findbyState(EStates.DONE.getValue())
+                , json());
+
+        // Get task by User
+        get("/todo/:user", (req, res) ->
+                todoService.findbyUser(req.params(":user"))
+                , json());
+
+
+        // Reset dashboard
+        delete("/todos/all", (req, res) -> {
+            todoService.deleteAll();
+            return null;
+        }, json());
+
 
         after((req, res) -> {
             res.type("application/json");

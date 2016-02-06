@@ -48,6 +48,21 @@ public class TodoService {
         return todoList;
     }
 
+    public List<Todo> findbyState(String state) {
+        todoDao.openCurrentSession();
+        List<Todo> todoList = todoDao.findbyState(state);
+        todoDao.closeCurrentSession();
+        return todoList;
+    }
+
+
+    public List<Todo> findbyUser(String user) {
+        todoDao.openCurrentSession();
+        List<Todo> todoList = todoDao.findbyUser(user);
+        todoDao.closeCurrentSession();
+        return todoList;
+    }
+
     public void deleteAll() {
         todoDao.openCurrentSessionwithTransaction();
         todoDao.deleteAll();
