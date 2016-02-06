@@ -21,44 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.reit.app;
+package com.reit.test.app;
 
-import com.google.gson.Gson;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import com.reit.model.Todo;
+import com.reit.controller.MainController;
+import com.reit.service.TodoService;
 
 /**
  *
  * @author kbouzidi
  */
-public class TestResponse {
+public class MainTest {
 
-    public final String body;
-    public final int status;
-
-    public TestResponse(int status, String body) {
-        this.status = status;
-        this.body = body;
-    }
-
-    public List<Map<String, Objects>> getTodoList() {
-        return new Gson().fromJson(body, List.class);
-    }
-
-    public Todo getTodo() {
-        return new Gson().fromJson(body, Todo.class);
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public String getBody() {
-        return body;
+    /**
+     * Starting embedded Jetty server that listens on Port 4567
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        new MainController(new TodoService());
     }
 }

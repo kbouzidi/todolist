@@ -1,4 +1,4 @@
-package com.reit.dao;
+package com.reit.test.dao;
 
 
 import java.util.ArrayList;
@@ -10,7 +10,6 @@ import org.mockito.Mockito;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.InjectMocks;
 
 import static org.mockito.Matchers.any;
 
@@ -32,7 +31,8 @@ import org.hibernate.Query;
 
 
 import com.reit.model.Todo;
-import com.reit.service.TodoService;
+import com.reit.dao.TodoDao;
+import com.reit.test.utils.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -52,9 +52,6 @@ public class TodoDaoTest {
     @Mock
     TodoDao todoDaoMock;
 
-    @InjectMocks
-    TodoService todoService;
-
     @Spy
     List<Todo> todoList = new ArrayList<>();
 
@@ -62,12 +59,9 @@ public class TodoDaoTest {
 
     @Before
     public void setUp() {
-        todo = new Todo(Long.decode("1"), user, desc, state);
+        todo = new Todo(Long.decode("1"), Constants.user, Constants.desc, Constants.state);
         MockitoAnnotations.initMocks(this);
-        todoList = getTodoList();
-        sessionMock = Mockito.mock(Session.class);
-        sessionFactoryMock = Mockito.mock(SessionFactory.class);
-        Mockito.when(sessionFactoryMock.getCurrentSession()).thenReturn(sessionMock);
+        todoList = Constants.getTodoList(todoList);
         Mockito.when(todoDaoMock.getCurrentSession()).thenReturn(sessionMock);
     }
 
@@ -77,7 +71,7 @@ public class TodoDaoTest {
         Mockito.when(sessionMock.save(any())).thenReturn(todo);
         todoDaoMock.add(todoList.get(0));
         verify(todoDaoMock, times(1)).add(captor.capture());
-        verifyNoMoreInteractions(todoDaoMock);
+        Mockito.verifyNoMoreInteractions(todoDaoMock);
         assertEquals(captor.getValue().getAuthor(), todoList.get(0).getAuthor());
 
     }
@@ -88,7 +82,7 @@ public class TodoDaoTest {
         doNothing().when(sessionMock).update(any());
         todoDaoMock.update(todoList.get(0));
         verify(todoDaoMock, times(1)).update(captor.capture());
-        verifyNoMoreInteractions(todoDaoMock);
+        Mockito.verifyNoMoreInteractions(todoDaoMock);
         assertEquals(captor.getValue().getAuthor(), todoList.get(0).getAuthor());
     }
 
@@ -97,7 +91,7 @@ public class TodoDaoTest {
         doNothing().when(sessionMock).delete(any());
         todoDaoMock.delete(todoList.get(0));
         verify(todoDaoMock, times(1)).delete(captor.capture());
-        verifyNoMoreInteractions(todoDaoMock);
+        Mockito.verifyNoMoreInteractions(todoDaoMock);
         assertEquals(captor.getValue().getAuthor(), todoList.get(0).getAuthor());
 
     }
@@ -109,7 +103,7 @@ public class TodoDaoTest {
         Mockito.when(todoDaoMock.findAll()).thenReturn(todoList);
         todoDaoMock.deleteAll();
         verify(todoDaoMock, times(1)).deleteAll();
-        verifyNoMoreInteractions(todoDaoMock);
+        Mockito.verifyNoMoreInteractions(todoDaoMock);
     }
 
     @Test
@@ -133,15 +127,4 @@ public class TodoDaoTest {
 
     }
 
-    String user = "User";
-    String desc = "This is a Task";
-    String state = EStates.STARTED.getValue();
-
-    public List<Todo> getTodoList() {
-        Todo t1 = new Todo(Long.decode("1"), user, desc, state);
-        Todo t2 = new Todo(Long.decode("2"), user + "2", desc + "2", state);
-        todoList.add(t1);
-        todoList.add(t2);
-        return todoList;
-    }
 }

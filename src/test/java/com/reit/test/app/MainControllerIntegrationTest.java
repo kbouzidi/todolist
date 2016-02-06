@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.reit.app;
+package com.reit.test.app;
 
 import com.google.gson.Gson;
 import com.reit.dao.EStates;
