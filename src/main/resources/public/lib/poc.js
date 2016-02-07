@@ -1,19 +1,15 @@
 angular
     .module('MyApp', ['ngRoute', 'ngMaterial', 'ngMessages'])
-    .controller('AppCtrl', AppCtrl);
+    .controller('AppCtrl', AppCtrl)
+    .controller('ListCtrl', ListCtrl).controller('DialogController', DialogController);
 
-function AppCtrl($scope, $log) {
+function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $timeout) {
     var tabs = [
             { title: 'One', content: "Tabs will become paginated if there isn't enough room for them."},
             { title: 'Two', content: "You can swipe left and right on a mobile device to change tabs."},
-            { title: 'Three', content: "You can bind the selected tab via the selected attribute on the md-tabs element."},
-            { title: 'Four', content: "If you set the selected tab binding to -1, it will leave no tab selected."},
-            { title: 'Five', content: "If you remove a tab, it will try to select a new one."},
-            { title: 'Six', content: "There's an ink bar that follows the selected tab, you can turn it off if you want."},
-            { title: 'Seven', content: "If you set ng-disabled on a tab, it becomes unselectable. If the currently selected tab becomes disabled, it will try to select the next tab."},
-            { title: 'Eight', content: "If you look at the source, you're using tabs to look at a demo for tabs. Recursion!"},
-            { title: 'Nine', content: "If you set md-theme=\"green\" on the md-tabs element, you'll get green tabs."},
-            { title: 'Ten', content: "If you're still reading this, you should just go check out the API docs for tabs!"}
+            { title: 'Three', content: "You can bind the selected tab via the selected attribute on the md-tabs element."}
+
+
         ],
 
 
@@ -29,7 +25,8 @@ function AppCtrl($scope, $log) {
         previous = null;
     $scope.tabs = tabs;
     $scope.tasks = tasks;
-    $scope.selectedIndex = 2;
+
+    $scope.selectedIndex = 1;
 
     $scope.$watch('selectedIndex', function (current, old) {
         previous = selected;
@@ -40,26 +37,78 @@ function AppCtrl($scope, $log) {
     $scope.addTab = function (title, view) {
         view = view || title + " Content View";
         tabs.push({ title: title, content: view, disabled: false});
+        $timeout(function () {
+            $scope.selectedIndex = tabs.length - 1;
+        });
+        $mdDialog.hide();
     };
     $scope.removeTab = function (tab) {
         var index = tabs.indexOf(tab);
         tabs.splice(index, 1);
     };
 
-    $scope.models = {
-        selected: null,
-        lists: {"A": [], "B": []}
+
+    $scope.showListBottomSheet = function () {
+        $scope.alert = '';
+        $mdBottomSheet.show({
+            templateUrl: 'views/list.html',
+            controller: 'ListCtrl'
+        }).then(function (clickedItem) {
+            $scope.alert = clickedItem['name'] + ' clicked!';
+        });
     };
 
-    // Generate initial model
-    for (var i = 1; i <= 3; ++i) {
-        $scope.models.lists.A.push({label: "Item A" + i});
-        $scope.models.lists.B.push({label: "Item B" + i});
-    }
 
-    // Model to JSON for demo purpose
-    $scope.$watch('models', function (model) {
-        $scope.modelAsJson = angular.toJson(model, true);
-    }, true);
+    $scope.showAdd = function (ev) {
+        $mdDialog.show({
+            controller: DialogController,
+            templateUrl: 'views/addTask.html'
 
+        })
+            .then(function (answer) {
+                $scope.alert = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.alert = 'You cancelled the dialog.';
+            });
+    };
+
+
+    $scope.addProject = function () {
+        $mdDialog.show({
+            controller: AppCtrl,
+            templateUrl: 'views/addProject.html'
+
+        })
+            .then(function (answer) {
+                $scope.alert = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.alert = 'You cancelled the dialog.';
+            });
+    };
+}
+
+function ListCtrl($scope) {
+
+    $scope.items = [
+        { name: 'Share', icon: 'share-arrow' },
+        { name: 'Upload', icon: 'upload' },
+        { name: 'Copy', icon: 'copy' },
+        { name: 'Print this page', icon: 'print' },
+    ];
+    $scope.listItemClick = function ($index) {
+        var clickedItem = $scope.items[$index];
+        $mdBottomSheet.hide(clickedItem);
+    };
+}
+
+function DialogController($scope, $mdDialog) {
+    $scope.hide = function () {
+        $mdDialog.hide();
+    };
+    $scope.cancel = function () {
+        $mdDialog.cancel();
+    };
+    $scope.answer = function (answer) {
+        $mdDialog.hide(answer);
+    };
 }
