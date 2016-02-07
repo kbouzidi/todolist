@@ -5,11 +5,65 @@
     <title></title>
     <title>Todo App</title>
     <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
-<body>
+<body style="margin: 0; padding: 0;" ng-controller="MainCtrl">
 
-<div class="navbar navbar-inverse">
+<!--  header  -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+    <tr>
+        <td>
+            <table width="600" cellpadding="0" cellspacing="0" align="center"
+                   style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <tr>
+                    <td width="100%" height="40"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <!--  Logo  -->
+                        <table border="0" align="left" cellpadding="0" cellspacing="0"
+                               style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <a href="/todos"><img src="img/TodoLogo.png" alt="Bella" border="0"
+                                                          style="display: block;"/>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <!--  navigation menu  -->
+                        <table border="0" align="right" cellpadding="0" cellspacing="0"
+                               style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                            <tbody>
+                            <tr>
+                                <td height="3"></td>
+                            </tr>
+
+                            <tr>
+                                <td style="color: #6c6b6b; font-family: 'Raleway', arial; font-weight: 400; font-size: 14px; letter-spacing:0.5px;">
+                                    <a href="#" style="color: #6c6b6b; text-decoration:none;">About</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100%" height="40"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<!--  end header  -->
+
+
+<!--<div class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle">
@@ -21,16 +75,22 @@
             <a class="navbar-brand" href="/">TodoApp</a>
         </div>
     </div>
+</div>-->
+
+<!--  services  -->
+<!--  call to action  -->
+<div class="container">
+
+    <!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
+    <div ui-view></div>
+
 </div>
 
-<div class="container" ng-view="">
-
-
-</div>
 
 </body>
 <script src="vendor/angular/angular.min.js"></script>
 <script src="vendor/angular-route/angular-route.min.js"></script>
+<script src="vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="vendor/jquery/dist/jquery.min.js"></script>
 <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="lib/main.js"></script>
