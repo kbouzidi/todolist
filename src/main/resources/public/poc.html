@@ -13,7 +13,7 @@
 
 <div ng-controller="AppCtrl" class="sample tabsdemoDynamicTabs" layout="column" ng-cloak="" ng-app="MyApp">
     <md-content class="md-padding">
-        <md-tabs md-selected="selectedIndex" md-border-bottom="" md-autoselect="">
+        <md-tabs md-dynamic-height md-selected="selectedIndex" md-border-bottom="" md-autoselect="">
             <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.title}}">
 
                 <!-- <md-toolbar class="md-menu-toolbar">
