@@ -5,8 +5,8 @@
     <title>Todo App</title>
     <link rel="stylesheet" href="vendor/angular-material/angular-material.css">
     <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"
-             >-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            >
     <link rel="stylesheet" href="css/poc.css">
 </head>
 <body>
@@ -44,33 +44,31 @@
                         </md-button>
                     </div>
                 </md-toolbar>
-                <section>
-                    <form ng-submit="addTab(tTitle,tContent)" layout="column" class="md-padding"
-                          style="padding-top: 0;">
-                        <div layout="row" layout-sm="column">
-                            <div flex="" style="position: relative;">
-                                <h2 class="md-subhead"
-                                    style="position: absolute; bottom: 0; left: 0; margin: 0; font-weight: 500; text-transform: uppercase; line-height: 35px; white-space: nowrap;">
-                                    Add a new Tab:</h2>
-                            </div>
-                            <md-input-container>
-                                <label for="label">Label</label>
-                                <input type="text" id="label" ng-model="tTitle">
-                            </md-input-container>
-                            <md-input-container>
-                                <label for="content">Content</label>
-                                <input type="text" id="content" ng-model="tContent">
-                            </md-input-container>
-                            <md-button class="add-tab md-primary md-raised" ng-disabled="!tTitle || !tContent"
-                                       type="submit"
-                                       style="margin-right: 0;">Add Tab
-                            </md-button>
+
+                <form ng-submit="addTab(tTitle,tContent)" layout="column" class="md-padding"
+                      style="padding-top: 0;">
+                    <div layout="row" layout-sm="column">
+                        <div flex="" style="position: relative;">
+                            <h3 class="md-subhead"> Add a new Project:</h3>
                         </div>
-                    </form>
-                </section>
+                        <md-input-container>
+                            <label for="label">Project Name</label>
+                            <input type="text" id="label" ng-model="tTitle">
+                        </md-input-container>
+                        <md-input-container>
+                            <label for="content">Description</label>
+                            <input type="text" id="content" ng-model="tContent">
+                        </md-input-container>
+                        <md-button class="add-tab md-primary md-raised" ng-disabled="!tTitle || !tContent"
+                                   type="submit"
+                                >Add Project
+                        </md-button>
+                    </div>
+                </form>
+
                 <div layout="row" layout-wrap>
                     <div flex="30">
-                        <md-subheader class="md-primary">Backlog</md-subheader>
+                        <md-subheader class="md-primary">Todo</md-subheader>
                         <md-list>
                             <md-list-item class="md-3-line" ng-repeat="task in tasks" style="background-color: grey;">
                                 <div class="md-list-item-text">
@@ -146,7 +144,7 @@
 <script src="vendor/angular-aria/angular-aria.js"></script>
 <script src="vendor/angular-messages/angular-messages.min.js"></script>
 <script src="vendor/angular-route/angular-route.min.js"></script>
-<!--<script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>-->
+<script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>
 <script src="vendor/angular-material/angular-material.js"></script>
 
 <script src="lib/poc.js"></script>
