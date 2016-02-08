@@ -1,4 +1,4 @@
-package com.reit.dao;
+package com.reit.utils;
 
 
 public enum EStates {

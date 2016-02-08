@@ -18,7 +18,9 @@
 
 
         <!-- Models -->
-        <mapping class="com.reit.model.Todo"/>
+        <mapping class="com.reit.model.Task"/>
+        <mapping class="com.reit.model.Project"/>
+        <mapping class="com.reit.model.User"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -24,7 +24,7 @@
 package com.reit.test.app;
 
 import com.reit.controller.MainController;
-import com.reit.service.TodoService;
+import com.reit.service.TaskService;
 
 /**
  *
@@ -38,6 +38,6 @@ public class MainTest {
      * @param args
      */
     public static void main(String[] args) {
-        new MainController(new TodoService());
+        new MainController(new TaskService());
     }
 }

@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import com.reit.model.Todo;
+import com.reit.model.Task;
 
 /**
  *
@@ -49,8 +49,8 @@ public class TestResponse {
         return new Gson().fromJson(body, List.class);
     }
 
-    public Todo getTodo() {
-        return new Gson().fromJson(body, Todo.class);
+    public Task getTodo() {
+        return new Gson().fromJson(body, Task.class);
     }
 
     public int getStatus() {

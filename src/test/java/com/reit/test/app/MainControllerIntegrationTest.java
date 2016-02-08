@@ -24,8 +24,9 @@
 package com.reit.test.app;
 
 import com.google.gson.Gson;
-import com.reit.dao.EStates;
-import com.reit.model.Todo;
+import com.reit.test.utils.Constants;
+import com.reit.utils.EStates;
+import com.reit.model.Task;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -56,8 +57,8 @@ import spark.utils.IOUtils;
 public class MainControllerIntegrationTest {
 
     static Logger logger = LoggerFactory.getLogger(MainControllerIntegrationTest.class);
-
-    Todo todo;
+    List<Task> listTask = Constants.getTaskList(null);
+    Task task;
     Gson gson = new Gson();
     String user = "User";
     String desc = "This is a Task";
@@ -89,13 +90,13 @@ public class MainControllerIntegrationTest {
     }
 
     @Test
-    public void _addTodo() {
-        todo = new Todo(Long.decode("1"), user, desc, state);
-        String toJson = gson.toJson(todo);
+    public void _addTask() {
+        task = listTask.get(0);
+        String toJson = gson.toJson(task);
         TestResponse res = request("POST", "/add", toJson);
         assertEquals(200, res.status);
-        todo = new Todo(Long.decode("2"), user, desc, state);
-        toJson = gson.toJson(todo);
+
+        toJson = gson.toJson(task);
         res = request("POST", "/add", toJson);
         assertEquals(200, res.status);
     }
@@ -113,13 +114,13 @@ public class MainControllerIntegrationTest {
     @Test
     public void _updateTodo() {
         final String DONE = "DONE";
-        todo = new Todo(Long.decode("3"), user, desc, state);
-        String toJson = gson.toJson(todo);
+
+        String toJson = gson.toJson(task);
         TestResponse res = request("POST", "/add", toJson);
         assertEquals(200, res.status);
-        todo = res.getTodo();
-        todo.setState(DONE);
-        String jsonObject = gson.toJson(todo);
+        task = res.getTodo();
+        task.setState(DONE);
+        String jsonObject = gson.toJson(task);
 
         res = request("PUT", "/update", jsonObject);
         assertEquals(200, res.status);
@@ -133,7 +134,7 @@ public class MainControllerIntegrationTest {
         assertEquals(200, res.status);
         Map<String, Objects> result = todoList.get(0);
         Double value = Double.parseDouble(String.valueOf(result.get("id")));
-        res = request("DELETE", "/todo/" + value.toString(), null);
+
         assertEquals(200, res.status);
         assertNotNull(res.getBody());
         assertNotNull(String.valueOf(todoList.get(0).get("state")));
@@ -149,7 +150,7 @@ public class MainControllerIntegrationTest {
 
     @Test
     public void _getTaskByUser() {
-        TestResponse res = request("GET", "/todo/" + user, null);
+        TestResponse res = request("GET", "/task/" + user, null);
         List<Map<String, Objects>> todoList = res.getTodoList();
         assertEquals(200, res.status);
         assertNotNull(todoList);
