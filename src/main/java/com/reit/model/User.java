@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user")
-public class User  implements Serializable {
+public class User implements Serializable {
 
     @Id
     @Column(name = "user_id")
@@ -20,12 +20,11 @@ public class User  implements Serializable {
     private String userDetails;
 
 
-    @OneToMany(mappedBy = "user") // one user have many projects
+    @OneToMany(targetEntity = Project.class, mappedBy = "user", fetch = FetchType.EAGER) // one user have many projects
     private Set<Project> projects;
 
-    @OneToMany(mappedBy = "user") // one user have many tasks
+    @OneToMany(targetEntity = Task.class, mappedBy = "user", fetch = FetchType.EAGER) // one user have many tasks
     private Set<Task> tasks;
-
 
 
     public Set<Task> getTasks() {

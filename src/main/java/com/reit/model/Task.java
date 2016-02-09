@@ -10,6 +10,9 @@ import java.util.Set;
 @Table(name = "task")
 public class Task implements Serializable {
 
+    public Task() {
+    }
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,34 +29,42 @@ public class Task implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne // many task have one project
+
+    @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
 
-
-    public Task() {
+    public User getUser() {
+        return user;
     }
 
-    public Task(Long id, User user, String description, String state) {
-        this.id = id;
+    public void setUser(User user) {
         this.user = user;
-        this.description = description;
-        this.state = state;
-    }
-
-    public Task(User user, String description, String state) {
-        this.user = user;
-        this.description = description;
-        this.state = state;
     }
 
     public Project getProject() {
         return project;
     }
 
-    public void setProjects(Project project) {
+    public void setProject(Project project) {
         this.project = project;
     }
+
+    public Task(Long id, User user, Project project, String description, String state) {
+        this.id = id;
+        this.user = user;
+        this.project = project;
+        this.description = description;
+        this.state = state;
+    }
+
+    public Task(User user, Project project, String description, String state) {
+        this.user = user;
+        this.project = project;
+        this.description = description;
+        this.state = state;
+    }
+
 
     public String getDescription() {
         return description;

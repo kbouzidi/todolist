@@ -49,7 +49,7 @@ public class Constants {
         Task task1 = new Task();
         task1.setId(one);
         task1.setDescription(taskName + one.toString());
-        task1.setProjects(project1);
+      //  task1.setProject(project1);
         task1.setState(EStates.STARTED.getValue());
         task1.setUsers(user1);
 
@@ -58,7 +58,7 @@ public class Constants {
         Task task2 = new Task();
         task2.setId(one);
         task2.setDescription(taskName + one.toString());
-        task2.setProjects(project1);
+      //  task2.setProject(project1);
         task2.setState(EStates.STARTED.getValue());
         task2.setUsers(user1);
 
@@ -66,7 +66,7 @@ public class Constants {
         Task task3 = new Task();
         task3.setId(one);
         task3.setDescription(taskName + one.toString());
-        task3.setProjects(project2);
+     //   task3.setProject(project2);
         task3.setState(EStates.STARTED.getValue());
         task3.setUsers(user1);
 
@@ -74,7 +74,7 @@ public class Constants {
         Task task4 = new Task();
         task4.setId(one);
         task4.setDescription(taskName + one.toString());
-        task4.setProjects(project2);
+      //  task4.setProject(project2);
         task4.setState(EStates.STARTED.getValue());
         task4.setUsers(user2);
 

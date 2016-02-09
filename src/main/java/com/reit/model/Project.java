@@ -26,7 +26,7 @@ public class Project implements Serializable {
     private User user;
 
 
-    @OneToMany(mappedBy = "project") // one project have many tasks
+    @OneToMany(targetEntity=Task.class, mappedBy = "project") // one project have many tasks
     private Set<Task> tasks;
 
 
