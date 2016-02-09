@@ -6,37 +6,20 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "project")
+@Table(name = "REIT_PROJECT")
 public class Project implements Serializable {
 
     @Id
-    @Column(name = "project_id")
+    @Column(name = "N_PROJECT_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long projectId;
 
-    @Column(name = "project_name")
+    @Column(name = "N_PROJECT_NAME")
     private String projectName;
 
-    @Column(name = "project_description")
+    @Column(name = "C_PROJECT_DESCRIPTION")
     private String projectDescription;
 
-    // many project have one user
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-
-    @OneToMany(targetEntity=Task.class, mappedBy = "project") // one project have many tasks
-    private Set<Task> tasks;
-
-
-    public Set<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
-    }
 
     public String getProjectDescription() {
         return projectDescription;

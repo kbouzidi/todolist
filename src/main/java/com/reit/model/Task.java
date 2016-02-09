@@ -7,31 +7,29 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "task")
+@Table(name = "REIT_TASK")
 public class Task implements Serializable {
 
     public Task() {
     }
 
     @Id
-    @Column(name = "id")
+    @Column(name = "N_TASK_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "state")
+    @Column(name = "C_TASK_STATE")
     private String state;
 
-    @Column(name = "description")
+    @Column(name = "C_TASK_DESCRIPTION")
     private String description;
 
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "N_USER_ID")
     private User user;
 
-
-    @ManyToOne
-    @JoinColumn(name = "project_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "N_PROJECT_ID")
     private Project project;
 
     public User getUser() {
@@ -64,7 +62,6 @@ public class Task implements Serializable {
         this.description = description;
         this.state = state;
     }
-
 
     public String getDescription() {
         return description;

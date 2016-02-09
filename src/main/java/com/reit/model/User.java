@@ -5,35 +5,20 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "REIT_USER")
 public class User implements Serializable {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "N_USER_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
 
-    @Column(name = "user_name")
+    @Column(name = "C_USER_NAME")
     private String userName;
 
-    @Column(name = "user_details")
+    @Column(name = "C_USER_DETAILS")
     private String userDetails;
 
-
-    @OneToMany(targetEntity = Project.class, mappedBy = "user", fetch = FetchType.EAGER) // one user have many projects
-    private Set<Project> projects;
-
-    @OneToMany(targetEntity = Task.class, mappedBy = "user", fetch = FetchType.EAGER) // one user have many tasks
-    private Set<Task> tasks;
-
-
-    public Set<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
-    }
 
     public Long getUserId() {
         return userId;
@@ -59,11 +44,5 @@ public class User implements Serializable {
         this.userDetails = userDetails;
     }
 
-    public Set<Project> getProjects() {
-        return projects;
-    }
 
-    public void setProjects(Set<Project> projects) {
-        this.projects = projects;
-    }
 }
