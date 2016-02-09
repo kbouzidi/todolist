@@ -1,7 +1,9 @@
 package com.reit.service;
 
 import com.reit.dao.TaskDaoImpl;
+import com.reit.model.Project;
 import com.reit.model.Task;
+import com.reit.model.User;
 
 import java.util.List;
 
@@ -17,6 +19,12 @@ public class TaskService {
     public void add(Task task) {
         getTaskDao().openCurrentSessionwithTransaction();
         getTaskDao().add(task);
+        getTaskDao().closeCurrentSessionwithTransaction();
+    }
+
+    public void add(Task task, Project project, User user) {
+        getTaskDao().openCurrentSessionwithTransaction();
+        getTaskDao().add(task, project, user);
         getTaskDao().closeCurrentSessionwithTransaction();
     }
 

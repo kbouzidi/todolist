@@ -1,7 +1,9 @@
 package com.reit.dao;
 
 
+import com.reit.model.Project;
 import com.reit.model.Task;
+import com.reit.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
@@ -15,6 +17,22 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
     public TaskDaoImpl() {
     }
 
+    public void add(Task task, Project project, User user) {
+        Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
+                .add(Restrictions.eq("projectName", project.getProjectName())).uniqueResult();
+
+        User userResult = (User) getCurrentSession().createCriteria(User.class)
+                .add(Restrictions.eq("userName", user.getUserName())).uniqueResult();
+
+        if (projectResul != null && userResult != null) {
+            task.setProject(projectResul);
+            task.setUser(userResult);
+            getCurrentSession().save(task);
+        } else {
+            getCurrentSession().save(task);
+        }
+
+    }
 
     public void add(Task task) {
         getCurrentSession().save(task);

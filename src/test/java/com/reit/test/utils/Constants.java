@@ -48,4 +48,13 @@ public class Constants {
         return task;
     }
 
+    public static Task getTaskSample2() {
+        Task task = new Task();
+        task.setDescription(desc);
+        task.setTaskName(taskName + two.toString());
+        task.setProject(getProjectSample(two.toString()));
+        task.setUser(getUserSample(two.toString()));
+        task.setState("STARTED");
+        return task;
+    }
 }

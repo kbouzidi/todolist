@@ -103,6 +103,13 @@ public class MainControllerIntegrationTest {
         assertEquals(200, res.status);
     }
 
+    @Test
+    public void _addTask2() {
+        String toJson = gson.toJson(Constants.getTaskSample2());
+        TestResponse res = request("POST", "/add/task", toJson);
+        assertEquals(200, res.status);
+    }
+
     private TestResponse request(String method, String path, String data) {
         HttpURLConnection connection;
         try {

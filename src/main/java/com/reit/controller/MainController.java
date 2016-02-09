@@ -56,11 +56,11 @@ public class MainController {
             projectService.add(project);
             return project;
         }, json());
-        
+
         // Add new task
         post("/add/task", (req, res) -> {
             Task task = gson.fromJson(req.body(), Task.class);
-            taskService.add(task);
+            taskService.add(task, task.getProject(), task.getUser());
             return task;
         }, json());
 
