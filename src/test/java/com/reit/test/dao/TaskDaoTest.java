@@ -60,9 +60,8 @@ public class TaskDaoTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        taskList = Constants.getTaskList(taskList);
         Mockito.when(taskDaoMock.getCurrentSession()).thenReturn(sessionMock);
-        task = taskList.get(0);
+        task = Constants.getTaskSample();
         Mockito.spy(task);
     }
 
@@ -70,10 +69,10 @@ public class TaskDaoTest {
     @Test
     public void add() {
         Mockito.when(sessionMock.save(any())).thenReturn(task);
-        taskDaoMock.add(taskList.get(0)); // task1
+        taskDaoMock.add(Constants.getTaskSample()); // task1
         verify(taskDaoMock, times(1)).add(captor.capture());
         Mockito.verifyNoMoreInteractions(taskDaoMock);
-        assertEquals(captor.getValue().getTask().getDescription(), taskList.get(0).getTask().getDescription());
+        assertEquals(captor.getValue().getTask().getDescription(), Constants.getTaskSample().getTask().getDescription());
 
     }
 
@@ -81,19 +80,19 @@ public class TaskDaoTest {
     @Test
     public void update() {
         doNothing().when(sessionMock).update(any());
-        taskDaoMock.update(taskList.get(0));
+        taskDaoMock.update(Constants.getTaskSample());
         verify(taskDaoMock, times(1)).update(captor.capture());
         Mockito.verifyNoMoreInteractions(taskDaoMock);
-        assertEquals(captor.getValue().getTask().getDescription(), taskList.get(0).getTask().getDescription());
+        assertEquals(captor.getValue().getTask().getDescription(), Constants.getTaskSample().getTask().getDescription());
     }
 
     @Test
     public void delete() {
         doNothing().when(sessionMock).delete(any());
-        taskDaoMock.delete(taskList.get(0));
+        taskDaoMock.delete(Constants.getTaskSample());
         verify(taskDaoMock, times(1)).delete(captor.capture());
         Mockito.verifyNoMoreInteractions(taskDaoMock);
-        assertEquals(captor.getValue().getTask().getDescription(), taskList.get(0).getTask().getDescription());
+        assertEquals(captor.getValue().getTask().getDescription(), Constants.getTaskSample().getTask().getDescription());
 
     }
 
@@ -111,8 +110,8 @@ public class TaskDaoTest {
     public void findById() {
         Mockito.when(sessionMock.get(Mockito.<Class>any(), Mockito.any())).thenReturn(task);
         Mockito.when(taskDaoMock.findById(Mockito.any())).thenCallRealMethod();
-        Task result = (Task) taskDaoMock.findById(taskList.get(0).getId());
-      //  assertEquals(result.getUsers().getUserName(), taskList.get(0).getTask().getUsers().getUserName());
+        Task result = (Task) taskDaoMock.findById(Constants.getTaskSample().getId());
+      //  assertEquals(result.getUsers().getUserName(), Constants.getTaskSample().getTask().getUsers().getUserName());
 
     }
 

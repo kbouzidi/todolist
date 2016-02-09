@@ -57,7 +57,6 @@ import spark.utils.IOUtils;
 public class MainControllerIntegrationTest {
 
     static Logger logger = LoggerFactory.getLogger(MainControllerIntegrationTest.class);
-    List<Task> listTask = Constants.getTaskList(null);
     Task task;
     Gson gson = new Gson();
     String user = "User";
@@ -81,17 +80,17 @@ public class MainControllerIntegrationTest {
         Spark.stop();
     }
 
-    //@Test
+    @Test
     public void _addUser() {
-        String toJson = gson.toJson(Constants.getUserSample());
+        String toJson = gson.toJson(Constants.getUserSample(null));
         TestResponse res = request("POST", "/add/user", toJson);
         assertEquals(200, res.status);
 
     }
 
-   // @Test
+    @Test
     public void _addProject() {
-        String toJson = gson.toJson(Constants.getProjectSample());
+        String toJson = gson.toJson(Constants.getProjectSample(null));
         TestResponse res = request("POST", "/add/project", toJson);
         assertEquals(200, res.status);
 

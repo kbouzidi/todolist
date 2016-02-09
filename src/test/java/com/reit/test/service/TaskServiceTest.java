@@ -1,6 +1,5 @@
 package com.reit.test.service;
 
-
 import com.reit.dao.TaskDao;
 import com.reit.model.Task;
 import com.reit.service.TaskService;
@@ -50,38 +49,35 @@ public class TaskServiceTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        taskList = Constants.getTaskList(taskList);
-        task = taskList.get(0);
+        task = Constants.getTaskSample();
         Mockito.spy(task);
     }
 
     @Test
     public void add() {
         doNothing().when(todoDaoMock).add(any());
-        taskServiceMock.add(taskList.get(0));
+        taskServiceMock.add(Constants.getTaskSample());
         verify(taskServiceMock, times(1)).add(captor.capture());
-        assertEquals(captor.getValue().getTask().getDescription(), taskList.get(0).getTask().getDescription());
+        assertEquals(captor.getValue().getTask().getDescription(), Constants.getTaskSample().getTask().getDescription());
     }
-
 
     @Test
     public void update() {
         doNothing().when(todoDaoMock).update(any());
-        taskServiceMock.update(taskList.get(0));
+        taskServiceMock.update(Constants.getTaskSample());
         verify(taskServiceMock, times(1)).update(captor.capture());
         Mockito.verifyNoMoreInteractions(todoDaoMock);
-        assertEquals(captor.getValue().getTask().getDescription(), taskList.get(0).getTask().getDescription());
+        assertEquals(captor.getValue().getTask().getDescription(), Constants.getTaskSample().getTask().getDescription());
     }
 
     @Test
     public void delete() {
         doNothing().when(todoDaoMock).delete(any());
-        taskServiceMock.delete(taskList.get(0).getId());
+        taskServiceMock.delete(Constants.getTaskSample().getId());
         verify(taskServiceMock, times(1)).delete(captorLong.capture());
         Mockito.verifyNoMoreInteractions(taskServiceMock);
 
     }
-
 
     @Test
     public void deleteAll() {
@@ -97,11 +93,10 @@ public class TaskServiceTest {
         Mockito.when(todoDaoMock.findById(any())).thenReturn(task);
         Mockito.when(taskServiceMock.getTaskDao()).thenReturn(todoDaoMock);
         Mockito.when(taskServiceMock.findById(Mockito.any())).thenCallRealMethod();
-        Task result = (Task) taskServiceMock.findById(taskList.get(0).getId());
-        //assertEquals(result.getUsers().getUserName(), taskList.get(0).getTask().getUsers().getUserName());
+        Task result = (Task) taskServiceMock.findById(Constants.getTaskSample().getId());
+        assertEquals(result.getName(),  Constants.getTaskSample().getTask().getName());
 
     }
-
 
     @Test
     public void findAll() {

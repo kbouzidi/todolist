@@ -16,10 +16,13 @@ public class Task implements Serializable {
     @Id
     @Column(name = "N_TASK_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long taskId;
 
     @Column(name = "C_TASK_STATE")
     private String state;
+
+    @Column(name = "C_TASK_NAME")
+    private String taskName;
 
     @Column(name = "C_TASK_DESCRIPTION")
     private String description;
@@ -48,17 +51,10 @@ public class Task implements Serializable {
         this.project = project;
     }
 
-    public Task(Long id, User user, Project project, String description, String state) {
-        this.id = id;
+    public Task(User user, Project project, String taskName, String description, String state) {
         this.user = user;
         this.project = project;
-        this.description = description;
-        this.state = state;
-    }
-
-    public Task(User user, Project project, String description, String state) {
-        this.user = user;
-        this.project = project;
+        this.taskName = taskName;
         this.description = description;
         this.state = state;
     }
@@ -80,11 +76,11 @@ public class Task implements Serializable {
     }
 
     public Long getId() {
-        return id;
+        return taskId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.taskId = id;
     }
 
     public Task getTask() {
@@ -97,7 +93,15 @@ public class Task implements Serializable {
 
     @Override
     public String toString() {
-        return "Todo : " + this.id + ", " + this.description + ", " + this.user + ", " + this.state;
+        return "Todo : " + this.taskId + ", " + this.taskName + ", " + this.description + ", " + this.user + ", " + this.state;
+    }
+
+    public void setName(String name) {
+        this.taskName = name;
+    }
+
+    public String getName() {
+        return taskName;
     }
 
 }
