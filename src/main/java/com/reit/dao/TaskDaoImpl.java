@@ -10,9 +10,9 @@ import java.util.List;
 /**
  * *
  */
-public class TaskDao extends AbstractDao implements ITaskDao<Task, Long> {
+public class TaskDaoImpl extends AbstractDao implements ITaskDao<Task, Long> {
 
-    public TaskDao() {
+    public TaskDaoImpl() {
     }
 
 

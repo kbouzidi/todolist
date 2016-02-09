@@ -41,7 +41,7 @@ public class Constants {
     public static Task getTaskSample() {
         Task task = new Task();
         task.setDescription(desc);
-        task.setName(taskName + one.toString());
+        task.setTaskName(taskName + one.toString());
         task.setProject(getProjectSample(two.toString()));
         task.setUser(getUserSample(two.toString()));
         task.setState("STARTED");

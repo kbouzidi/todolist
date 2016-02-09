@@ -4,7 +4,7 @@ package com.reit.test.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.reit.dao.TaskDao;
+import com.reit.dao.TaskDaoImpl;
 import com.reit.model.Task;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -50,7 +50,7 @@ public class TaskDaoTest {
 
 
     @Mock
-    TaskDao taskDaoMock;
+    TaskDaoImpl taskDaoMock;
 
     @Spy
     List<Task> taskList = new ArrayList<>();

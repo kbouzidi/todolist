@@ -23,7 +23,7 @@
  */
 package com.reit.service;
 
-import com.reit.dao.ProjectDao;
+import com.reit.dao.ProjectDaoImpl;
 import com.reit.model.Project;
 import java.util.List;
 
@@ -33,10 +33,10 @@ import java.util.List;
  */
 public class ProjectService {
 
-    private static ProjectDao projectrDao;
+    private static ProjectDaoImpl projectrDao;
 
     public ProjectService() {
-        projectrDao = new ProjectDao();
+        projectrDao = new ProjectDaoImpl();
     }
 
     public void add(Project task) {
@@ -92,7 +92,7 @@ public class ProjectService {
         getProjectDao().closeCurrentSessionwithTransaction();
     }
 
-    public ProjectDao getProjectDao() {
+    public ProjectDaoImpl getProjectDao() {
         return projectrDao;
     }
 }

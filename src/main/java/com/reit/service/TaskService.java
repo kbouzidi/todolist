@@ -1,6 +1,6 @@
 package com.reit.service;
 
-import com.reit.dao.TaskDao;
+import com.reit.dao.TaskDaoImpl;
 import com.reit.model.Task;
 
 import java.util.List;
@@ -8,10 +8,10 @@ import java.util.List;
 
 public class TaskService {
 
-    private static TaskDao taskDao;
+    private static TaskDaoImpl taskDao;
 
     public TaskService() {
-        taskDao = new TaskDao();
+        taskDao = new TaskDaoImpl();
     }
 
     public void add(Task task) {
@@ -68,7 +68,7 @@ public class TaskService {
         getTaskDao().closeCurrentSessionwithTransaction();
     }
 
-    public TaskDao getTaskDao() {
+    public TaskDaoImpl getTaskDao() {
         return taskDao;
     }
 }

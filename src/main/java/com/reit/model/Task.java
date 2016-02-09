@@ -87,6 +87,7 @@ public class Task implements Serializable {
         Task task = new Task();
         task.user = user;
         task.description = description;
+        task.taskName = taskName;
         task.state = state;
         return task;
     }
@@ -96,11 +97,11 @@ public class Task implements Serializable {
         return "Todo : " + this.taskId + ", " + this.taskName + ", " + this.description + ", " + this.user + ", " + this.state;
     }
 
-    public void setName(String name) {
+    public void setTaskName(String name) {
         this.taskName = name;
     }
 
-    public String getName() {
+    public String getTaskName() {
         return taskName;
     }
 

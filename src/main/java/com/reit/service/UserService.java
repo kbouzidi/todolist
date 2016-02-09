@@ -23,7 +23,7 @@
  */
 package com.reit.service;
 
-import com.reit.dao.UserDao;
+import com.reit.dao.UserDaoImpl;
 import com.reit.model.User;
 import java.util.List;
 
@@ -32,10 +32,10 @@ import java.util.List;
  * @author kbouzidi
  */
 public class UserService {
-     private static UserDao userDao;
+     private static UserDaoImpl userDao;
 
     public UserService() {
-        userDao = new UserDao();
+        userDao = new UserDaoImpl();
     }
 
     public void add(User task) {
@@ -91,7 +91,7 @@ public class UserService {
         getUserDao().closeCurrentSessionwithTransaction();
     }
 
-    public UserDao getUserDao() {
+    public UserDaoImpl getUserDao() {
         return userDao;
     }
 }

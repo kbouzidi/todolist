@@ -1,6 +1,6 @@
 package com.reit.test.service;
 
-import com.reit.dao.TaskDao;
+import com.reit.dao.TaskDaoImpl;
 import com.reit.model.Task;
 import com.reit.service.TaskService;
 import org.hibernate.Session;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 public class TaskServiceTest {
 
     @Mock
-    TaskDao todoDaoMock;
+    TaskDaoImpl todoDaoMock;
 
     @Spy
     List<Task> taskList = new ArrayList<>();
@@ -94,7 +94,7 @@ public class TaskServiceTest {
         Mockito.when(taskServiceMock.getTaskDao()).thenReturn(todoDaoMock);
         Mockito.when(taskServiceMock.findById(Mockito.any())).thenCallRealMethod();
         Task result = (Task) taskServiceMock.findById(Constants.getTaskSample().getId());
-        assertEquals(result.getName(),  Constants.getTaskSample().getTask().getName());
+        assertEquals(result.getTaskName(),  Constants.getTaskSample().getTask().getTaskName());
 
     }
 

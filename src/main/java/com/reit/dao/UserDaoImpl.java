@@ -23,7 +23,7 @@
  */
 package com.reit.dao;
 
-import com.reit.model.Project;
+import com.reit.model.Task;
 import com.reit.model.User;
 import java.util.List;
 
@@ -31,32 +31,30 @@ import java.util.List;
  *
  * @author kbouzidi
  */
-public class ProjectDao extends AbstractDao implements ITaskDao<Project, Long> {
+public class UserDaoImpl extends AbstractDao implements ITaskDao<User, Long> {
 
-    public ProjectDao() {
-    }
-
-    public void add(Project entity) {
-        getCurrentSession().save(entity);
+    @Override
+    public void add(User entity) {
+         getCurrentSession().save(entity);
     }
 
     @Override
-    public void update(Project entity) {
+    public void update(User entity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Project findById(Long id) {
+    public User findById(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void delete(Project entity) {
+    public void delete(User entity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Project> findAll() {
+    public List<User> findAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -64,5 +62,5 @@ public class ProjectDao extends AbstractDao implements ITaskDao<Project, Long> {
     public void deleteAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }
