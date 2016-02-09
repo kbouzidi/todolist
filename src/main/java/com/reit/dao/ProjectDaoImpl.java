@@ -24,11 +24,12 @@
 package com.reit.dao;
 
 import com.reit.model.Project;
+import com.reit.model.Task;
 import com.reit.model.User;
+
 import java.util.List;
 
 /**
- *
  * @author kbouzidi
  */
 public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, Long> {
@@ -57,7 +58,8 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
 
     @Override
     public List<Project> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Project> projectList = (List<Project>) getCurrentSession().createQuery("from Project").list();
+        return projectList;
     }
 
     @Override

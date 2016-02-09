@@ -25,6 +25,8 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
 import static spark.Spark.delete;
+import static spark.Spark.options;
+import static spark.Spark.before;
 import static spark.Spark.staticFileLocation;
 
 public class MainController {
@@ -65,8 +67,12 @@ public class MainController {
         }, json());
 
         // Get all tasks
-        get("/todos", (req, res)
+        get("/tasks", (req, res)
                 -> taskService.findAll(), json());
+
+        // Get all tasks
+        get("/projects", (req, res)
+                -> projectService.findAll(), json());
 
         // Update task state
         put("/update", (req, res) -> {
@@ -100,9 +106,30 @@ public class MainController {
             res.type("application/json");
         });
 
+
         exception(IllegalArgumentException.class, (e, req, res) -> {
             res.status(400);
             res.body(JsonUtil.toJson(new ResponseError(e)));
+        });
+
+
+        options("/*", (req, res) -> {
+
+            String accessControlRequestHeaders = req.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                res.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
+            String accessControlRequestMethod = req.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                res.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+            }
+            return "OK";
+
+        });
+
+
+        before((req, res) -> {
+            res.header("Access-Control-Allow-Origin", "*");
         });
     }
 }
