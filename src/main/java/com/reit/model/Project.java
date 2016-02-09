@@ -1,9 +1,7 @@
 package com.reit.model;
 
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 @Entity
 @Table(name = "REIT_PROJECT")

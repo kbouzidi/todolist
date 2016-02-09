@@ -81,85 +81,26 @@ public class MainControllerIntegrationTest {
         Spark.stop();
     }
 
-    @Test
-    public void _healthTest() {
-        TestResponse res = request("GET", "/ping", null);
-        logger.debug(res.getBody());
-        assertEquals(200, res.getStatus());
-        assertEquals("pong", res.getBody());
+    //@Test
+    public void _addUser() {
+        String toJson = gson.toJson(Constants.getUserSample());
+        TestResponse res = request("POST", "/add/user", toJson);
+        assertEquals(200, res.status);
+
+    }
+
+   // @Test
+    public void _addProject() {
+        String toJson = gson.toJson(Constants.getProjectSample());
+        TestResponse res = request("POST", "/add/project", toJson);
+        assertEquals(200, res.status);
+
     }
 
     @Test
     public void _addTask() {
-        task = listTask.get(0);
-        String toJson = gson.toJson(task);
-        TestResponse res = request("POST", "/add", toJson);
-        assertEquals(200, res.status);
-
-        toJson = gson.toJson(task);
-        res = request("POST", "/add", toJson);
-        assertEquals(200, res.status);
-    }
-
-    @Test
-    public void _getAllTodo() {
-        TestResponse res = request("GET", "/todos", null);
-        List<Map<String, Objects>> todoList = res.getTodoList();
-        assertEquals(200, res.status);
-        assertNotNull(String.valueOf(todoList.get(0).get("author")));
-        assertNotNull(String.valueOf(todoList.get(0).get("description")));
-        assertNotNull(String.valueOf(todoList.get(0).get("state")));
-    }
-
-    @Test
-    public void _updateTodo() {
-        final String DONE = "DONE";
-
-        String toJson = gson.toJson(task);
-        TestResponse res = request("POST", "/add", toJson);
-        assertEquals(200, res.status);
-        task = res.getTodo();
-        task.setState(DONE);
-        String jsonObject = gson.toJson(task);
-
-        res = request("PUT", "/update", jsonObject);
-        assertEquals(200, res.status);
-        assertEquals(DONE, res.getTodo().getState());
-    }
-
-    @Test
-    public void deleteASpecificTodo() {
-        TestResponse res = request("GET", "/todos", null);
-        List<Map<String, Objects>> todoList = res.getTodoList();
-        assertEquals(200, res.status);
-        Map<String, Objects> result = todoList.get(0);
-        Double value = Double.parseDouble(String.valueOf(result.get("id")));
-
-        assertEquals(200, res.status);
-        assertNotNull(res.getBody());
-        assertNotNull(String.valueOf(todoList.get(0).get("state")));
-    }
-
-    @Test
-    public void _getTaskByState() {
-        TestResponse res = request("GET", "/done", null);
-        List<Map<String, Objects>> todoList = res.getTodoList();
-        assertEquals(200, res.status);
-        assertNotNull(todoList);
-    }
-
-    @Test
-    public void _getTaskByUser() {
-        TestResponse res = request("GET", "/task/" + user, null);
-        List<Map<String, Objects>> todoList = res.getTodoList();
-        assertEquals(200, res.status);
-        assertNotNull(todoList);
-    }
-
-
-    @Test
-    public void deleteTodos() {
-        TestResponse res = request("DELETE", "/todos/all", null);
+        String toJson = gson.toJson(Constants.getTaskSample());
+        TestResponse res = request("POST", "/add/task", toJson);
         assertEquals(200, res.status);
     }
 

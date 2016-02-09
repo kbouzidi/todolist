@@ -17,6 +17,29 @@ public class Constants {
     public static final Long two = Long.decode("2");
     public static final String projectName = "Project";
     public static final String taskName = "Task";
+    private User user1 = new User();
+
+    public static User getUserSample() {
+        User user = new User();
+        user.setUserName(userName + one.toString());
+        return user;
+    }
+
+    public static Project getProjectSample() {
+        Project project = new Project();
+        project.setProjectName(projectName + one.toString());
+        return project;
+    }
+
+    public static Task getTaskSample() {
+        Task task = new Task();
+        task.setDescription(taskName + one.toString());
+        task.setProject(getProjectSample());
+        task.setUser(getUserSample());
+        task.setState("STARTED");
+        
+        return task;
+    }
 
     public static List<Task> getTaskList(List<Task> taskList) {
 
@@ -24,10 +47,8 @@ public class Constants {
             taskList = new ArrayList<>();
         }
         // init User 1
-        User user1 = new User();
-        // user1.setUserId(one);
-        user1.setUserName(userName + one.toString());
 
+        // user1.setUserId(one);
         // init User 2
         User user2 = new User();
         user2.setUserId(two);
@@ -47,38 +68,14 @@ public class Constants {
         Task task1 = new Task();
         // task1.setId(one);
         task1.setDescription(taskName + one.toString());
-        //task1.setProject(project1);
+        task1.setProject(project1);
         task1.setState(EStates.STARTED.getValue());
-        task1.setUsers(user1);
-
-        // init Task 2 -> Project 1 -> User 1
-        Task task2 = new Task();
-        task2.setId(one);
-        task2.setDescription(taskName + one.toString());
-        //  task2.setProject(project1);
-        task2.setState(EStates.STARTED.getValue());
-        task2.setUsers(user1);
-
-        // init Task 3 -> Project 2 -> User 1
-        Task task3 = new Task();
-        task3.setId(one);
-        task3.setDescription(taskName + one.toString());
-        //   task3.setProject(project2);
-        task3.setState(EStates.STARTED.getValue());
-        task3.setUsers(user1);
-
-        // init Task 3 -> Project 2 -> User 2
-        Task task4 = new Task();
-        task4.setId(one);
-        task4.setDescription(taskName + one.toString());
-        //  task4.setProject(project2);
-        task4.setState(EStates.STARTED.getValue());
-        task4.setUsers(user2);
+        //task1.setUser(user1);
 
         taskList.add(task1);
         //taskList.add(task2);
-       // taskList.add(task3);
-       // taskList.add(task4);
+        // taskList.add(task3);
+        // taskList.add(task4);
         return taskList;
     }
 }

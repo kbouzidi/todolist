@@ -24,7 +24,9 @@
 package com.reit.test.app;
 
 import com.reit.controller.MainController;
+import com.reit.service.ProjectService;
 import com.reit.service.TaskService;
+import com.reit.service.UserService;
 
 /**
  *
@@ -38,6 +40,6 @@ public class MainTest {
      * @param args
      */
     public static void main(String[] args) {
-        new MainController(new TaskService());
+        new MainController(new TaskService(), new ProjectService(), new UserService());
     }
 }

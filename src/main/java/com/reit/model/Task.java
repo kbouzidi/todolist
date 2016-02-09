@@ -79,14 +79,6 @@ public class Task implements Serializable {
         this.state = state;
     }
 
-    public User getUsers() {
-        return user;
-    }
-
-    public void setUsers(User user) {
-        this.user = user;
-    }
-
     public Long getId() {
         return id;
     }
