@@ -34,6 +34,7 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
 
     }
 
+
     public void add(Task task) {
         getCurrentSession().save(task);
     }
@@ -46,6 +47,14 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         Task task = (Task) getCurrentSession().get(Task.class, id);
         return task;
     }
+
+    public List<Task> findByProjectName(String projectName) {
+        Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
+                .add(Restrictions.eq("projectName", projectName)).uniqueResult();
+        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("project", projectResul));
+        return criteria.list();
+    }
+
 
     public void delete(Task task) {
 

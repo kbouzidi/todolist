@@ -41,6 +41,14 @@ public class TaskService {
         return task;
     }
 
+
+    public List<Task> findByProjectName(String projectName) {
+        getTaskDao().openCurrentSession();
+        List<Task> task = getTaskDao().findByProjectName(projectName);
+        getTaskDao().closeCurrentSession();
+        return task;
+    }
+
     public void delete(Long id) {
         getTaskDao().openCurrentSessionwithTransaction();
         Task task = getTaskDao().findById(id);

@@ -70,7 +70,14 @@ public class MainController {
         get("/tasks", (req, res)
                 -> taskService.findAll(), json());
 
-        // Get all tasks
+        // Get tasks by project Name
+        get("/tasks/:projectName", (req, res) -> {
+            String projectName = req.params(":projectName");
+            return taskService.findByProjectName(projectName);
+        }, json());
+
+
+        // Get all projects
         get("/projects", (req, res)
                 -> projectService.findAll(), json());
 
