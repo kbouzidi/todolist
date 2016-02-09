@@ -1,46 +1,79 @@
 angular
     .module('MyApp', ['ngRoute', 'ngMaterial', 'ngMessages'])
+    .constant('ApiUrl', 'http://localhost:8080')
     .controller('AppCtrl', AppCtrl)
-    .controller('ListCtrl', ListCtrl).controller('DialogController', DialogController);
+    .controller('ListCtrl', ListCtrl)
+    .controller('DialogController', DialogController)
+    .controller('LoginController', LoginController);
 
-function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $timeout) {
-    var tabs = [
-            { title: 'One', content: "Tabs will become paginated if there isn't enough room for them."},
-            { title: 'Two', content: "You can swipe left and right on a mobile device to change tabs."},
-            { title: 'Three', content: "You can bind the selected tab via the selected attribute on the md-tabs element."}
+function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $timeout, $rootScope, $http, ApiUrl) {
+    if (!$rootScope.user) {
+        $mdDialog.show({
+            controller: LoginController,
+            templateUrl: 'views/login.html'
+
+        })
+            .then(function (answer) {
+                $scope.alert = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.alert = 'You cancelled the dialog.';
+            });
+
+    }
 
 
-        ],
+    $rootScope.tabs = [];
 
+    $http.get(ApiUrl + '/projects').success(function (data) {
+        $rootScope.tabs = data;
+    }).error(function (err, status) {
+        console.log('Error ' + err)
+    });
 
-        tasks = [
-            { id: '1', desc: "Desc 1.", author: "Test1", state: "Started"},
-            { id: '2', desc: "Desc 1.", author: "Test1", state: "Started"},
-            { id: '3', desc: "Desc 2.", author: "Test3", state: "Started"},
-            { id: '4', desc: "Desc 3.", author: "Test2", state: "Started"},
-            { id: '5', desc: "Desc 4.", author: "Test1", state: "Started"}
+    var tasks = [];
+    var selected = null;
+    var previous = null;
 
-        ],
-        selected = null,
-        previous = null;
-    $scope.tabs = tabs;
-    $scope.tasks = tasks;
+    // $scope.tabs = tabs;
+    $rootScope.tasks = tasks;
+
+    if (!(selected == null || selected == null)) {
+        $http.get(ApiUrl + '/tasks').success(function (data) {
+            $rootScope.tasks = data;
+        }).error(function (err, status) {
+            console.log('Error ' + err)
+        });
+    }
+
 
     $scope.selectedIndex = 1;
 
     $scope.$watch('selectedIndex', function (current, old) {
         previous = selected;
-        selected = tabs[current];
-        if (old + 1 && (old != current)) $log.debug('Goodbye ' + previous.title + '!');
-        if (current + 1)                $log.debug('Hello ' + selected.title + '!');
+        var currentTab = $rootScope.tabs[current];
+
+
+        if ($rootScope.tabs[current]) {
+            var currentProject = $rootScope.tabs[current].projectName;
+            $http.get(ApiUrl + '/tasks/' + currentProject).success(function (data) {
+                $rootScope.tasks = data;
+            }).error(function (err, status) {
+                console.log('Error ' + err)
+            });
+
+        }
+
+        selected = $rootScope.tabs[current];
+
     });
     $scope.addTab = function (title, view) {
         view = view || title + " Content View";
-        tabs.push({ title: title, content: view, disabled: false});
-        $timeout(function () {
-            $scope.selectedIndex = tabs.length - 1;
-        });
-        $mdDialog.hide();
+        $http.post('/add', $scope.todo).success(function (data) {
+            tabs.push({ title: title, content: view, disabled: false});
+        }).error(function (data, status) {
+            console.log('Error ' + data)
+        })
+
     };
     $scope.removeTab = function (tab) {
         var index = tabs.indexOf(tab);
@@ -85,6 +118,7 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $timeout) {
                 $scope.alert = 'You cancelled the dialog.';
             });
     };
+
 }
 
 function ListCtrl($scope) {
@@ -111,4 +145,19 @@ function DialogController($scope, $mdDialog) {
     $scope.answer = function (answer) {
         $mdDialog.hide(answer);
     };
+}
+
+
+function LoginController($scope, $mdDialog, $rootScope) {
+    $scope.hide = function () {
+        $mdDialog.hide();
+    };
+    $scope.cancel = function () {
+        $mdDialog.cancel();
+    };
+
+    $scope.connect = function (logged) {
+        $rootScope.user = logged;
+        $mdDialog.hide(logged);
+    }
 }

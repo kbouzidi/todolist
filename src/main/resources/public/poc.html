@@ -14,20 +14,22 @@
 <div ng-controller="AppCtrl" class="sample tabsdemoDynamicTabs" layout="column" ng-cloak="" ng-app="MyApp">
     <md-content class="md-padding">
         <md-tabs md-dynamic-height md-selected="selectedIndex" md-border-bottom="" md-autoselect="">
-            <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.title}}">
+            <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.projectName}}">
+                <!-- projectId: 270
+projectName: "Project2"-->
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <md-button class="md-primary md-raised" ng-click="addProject( tab )"
                                    ng-disabled="tabs.length <= 1">
-                            Addddd
+                            Add
                         </md-button>
 
                         <md-button class="md-icon-button" aria-label="Settings">
                             <i class="material-icons">face</i>
                         </md-button>
-                        <h2>
-                            <span>Project {{tab.title}} Dashboard</span>
-                        </h2>
+                        <!-- <h2>
+                             <span>Project {{tab.title}} Dashboard</span>
+                         </h2>-->
                         <span flex></span>
                         <md-button class="md-icon-button" aria-label="Favorite">
 
@@ -65,17 +67,21 @@
                         </md-button>
                     </div>
                 </form>
-
+                <!--{taskId: 269, state: "STARTED", taskName: "Task1", description: "This is a Task", user: Object…}-->
                 <div layout="row" layout-wrap>
                     <div flex="30">
                         <md-subheader class="md-primary">Todo</md-subheader>
                         <md-list>
-                            <md-list-item class="md-3-line" ng-repeat="task in tasks" style="background-color: grey;">
+                            <md-list-item class="md-3-line" ng-show="task in tasks
+                            | filter: { name: query, state: 'STARTED' }" ng-repeat="task in tasks
+                            | filter: { name: query, state: 'STARTED' }" style="background-color: grey;">
                                 <div class="md-list-item-text">
-                                    <h3>{{task.id}}</h3>
-                                    <h4>{{task.author}}</h4>
+                                    <h3>{{task.taskId}}</h3>
+                                    <h4>{{task.user.userName}}</h4>
 
-                                    <p>{{task.desc}}</p>
+                                    <p>{{task.description}}</p>
+
+
                                 </div>
                                 <md-button class="md-secondary">Respond</md-button>
                                 <md-divider ng-if="!$last"></md-divider>
@@ -85,7 +91,9 @@
                     <div flex="45">
                         <md-subheader class="md-primary">Ongoing</md-subheader>
                         <md-list>
-                            <md-list-item class="md-3-line" ng-repeat="task in tasks"
+                            <md-list-item class="md-3-line" ng-show="task in tasks
+                            | filter: { name: query, state: 'ONGOING' }" ng-repeat="task in tasks
+                            | filter: { name: query, state: 'ONGOING' }"
                                           style="background-color: lightblue;">
                                 <div class="md-list-item-text">
                                     <h3>{{task.id}}</h3>
@@ -101,7 +109,9 @@
                     <div flex="25">
                         <md-subheader class="md-primary">Done</md-subheader>
                         <md-list>
-                            <md-list-item class="md-3-line" ng-repeat="task in tasks" style="background-color: green;">
+                            <md-list-item class="md-3-line" ng-show="task in tasks
+                            | filter: { name: query, state: 'DONE' }" ng-repeat="task in tasks
+                            | filter: { name: query, state: 'DONE' }" style="background-color: green;">
                                 <div class="md-list-item-text">
                                     <h3>{{task.id}}</h3>
                                     <h4>{{task.author}}</h4>

@@ -1,47 +1,28 @@
-<table width="600" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
-       style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-    <tr>
-        <td width="100%" height="100"></td>
-    </tr>
-    <tr>
-        <td style="color: #676767; font-family: 'Raleway', arial; font-size: 20px; letter-spacing:.5px; line-height:30px; text-transform:uppercase; text-align:center; font-weight:300;">
-            <span style="font-weight:600;">User Login</span>
-        </td>
-    </tr>
-    <tr>
-        <td width="100%" height="50"></td>
-    </tr>
-    <tr align="center">
-        <table width="400" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
-               style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-            <form class="form-horizontal" role="form" ng-submit="addUser(user)">
-                <tr>
-                    <td width="100%" height="15"></td>
-                </tr>
-                <tr>
-                    <td align="center">
+<md-dialog aria-label="Login">
+    <md-content class="md-padding">
+        <form name="userForm" class="form-horizontal" role="form" ng-submit="addUser(user)">
+            <tr>
+                <td width="100%" height="15"></td>
+            </tr>
+            <tr>
+                <td align="center">
 
-                        <input type="text" class="form-control" id="title" placeholder="User Name"
-                               ng-model="user.title">
+                    <input type="text" class="form-control" id="title" placeholder="User Name"
+                           ng-model="user.title">
 
-                    </td>
-                </tr>
-                <tr>
-                    <td width="100%" height="15"></td>
-                </tr>
-                <tr>
-                    <td align="center">
-                        <!--<button type="submit" class="btn btn-default">New Todo</button>-->
-                        <h3><a href="#" ng-click="connect(user)">Work
-                            Connect
-                        </a></h3>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="100%" height="15"></td>
-                </tr>
-            </form>
-
-        </table>
-    </tr>
-</table>
+                </td>
+            </tr>
+            <tr>
+                <td width="100%" height="15"></td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <!--<button type="submit" class="btn btn-default">New Todo</button>-->
+                    <h3><a href="#" ng-click="connect(user)">Work
+                        Connect
+                    </a></h3>
+                </td>
+            </tr>
+        </form>
+    </md-content>
+</md-dialog>
