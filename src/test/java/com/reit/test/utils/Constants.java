@@ -17,6 +17,7 @@ public class Constants {
     public static final Long two = Long.decode("2");
     public static final String projectName = "Project";
     public static final String taskName = "Task";
+
     private User user1 = new User();
 
     public static User getUserSample(String suffix) {
@@ -39,7 +40,8 @@ public class Constants {
 
     public static Task getTaskSample() {
         Task task = new Task();
-        task.setDescription(taskName + one.toString());
+        task.setDescription(desc);
+        task.setName(taskName + one.toString());
         task.setProject(getProjectSample(two.toString()));
         task.setUser(getUserSample(two.toString()));
         task.setState("STARTED");
