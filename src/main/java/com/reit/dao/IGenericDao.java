@@ -11,7 +11,7 @@ import java.util.List;
  * @param <T>
  * @param <Id>
  */
-public interface ITaskDao<T, Id extends Serializable> {
+public interface IGenericDao<T, Id extends Serializable> {
 
     public void add(T entity);
 

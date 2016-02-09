@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author kbouzidi
  */
-public class UserDaoImpl extends AbstractDao implements ITaskDao<User, Long> {
+public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> {
 
     @Override
     public void add(User entity) {

@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author kbouzidi
  */
-public class ProjectDaoImpl extends AbstractDao implements ITaskDao<Project, Long> {
+public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, Long> {
 
     public ProjectDaoImpl() {
     }
