@@ -26,7 +26,7 @@ It's best viewed in a modern browser but fallbacks will be available soon.
 
 ## API description
  
- - [Todo List API](docs.todolist21.apiary.io) 
+ - [Todo List API](http://docs.todolist21.apiary.io) 
 
 ## Environment setup
 Download and setup the following applications:
@@ -58,4 +58,4 @@ Go to the server folder and execute the following commands
 
 ### Contributing
 
-TODO welcomes any and all contributions! Please read the [CONTRIBUTING guide]() for details on developing and submitting your contributions.
+TODO welcomes any and all contributions! Please read the [CONTRIBUTING guide](https://github.com/kbouzidi/todolist/blob/master/CONTRIBUTING.md) for details on developing and submitting your contributions.
