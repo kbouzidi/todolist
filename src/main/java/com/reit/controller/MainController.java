@@ -59,7 +59,11 @@ public class MainController {
     Gson gson = new Gson();
 
     /**
-     * Main controller
+     * Main Controller constructor
+     *
+     * @param taskService {@link TaskService}
+     * @param projectService {@link ProjectService}
+     * @param userService {@link UserService}
      *
      */
     public MainController(final TaskService taskService, final ProjectService projectService, final UserService userService) {
@@ -68,8 +72,9 @@ public class MainController {
         staticFileLocation("/public");
 
         /**
-         * --------------------------------------------------------- Health
-         * check routes For monitoring purpose
+         * ---------------------------------------------------------
+         *
+         * Health check routes For monitoring purpose
          *
          * ---------------------------------------------------------
          */
@@ -79,8 +84,9 @@ public class MainController {
         });
 
         /**
-         * --------------------------------------------------------- Tasks
-         * routes
+         * ---------------------------------------------------------
+         *
+         * Tasks routes
          *
          * ---------------------------------------------------------
          */
@@ -143,8 +149,9 @@ public class MainController {
         }, json());
 
         /**
-         * --------------------------------------------------------- Project
-         * routes
+         * ---------------------------------------------------------
+         *
+         * Project routes
          *
          * ---------------------------------------------------------
          */
@@ -169,6 +176,7 @@ public class MainController {
          */
         /**
          * ---------------------------------------------------------
+         * 
          * Request/Response parameter + CORS conf
          *
          * ---------------------------------------------------------

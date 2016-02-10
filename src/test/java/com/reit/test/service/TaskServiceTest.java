@@ -96,7 +96,7 @@ public class TaskServiceTest {
     @Test
     public void delete() {
         doNothing().when(todoDaoMock).delete(any());
-        taskServiceMock.delete(Constants.getTaskSample().getId());
+        taskServiceMock.delete(Constants.getTaskSample().getTaskId());
         verify(taskServiceMock, times(1)).delete(captorLong.capture());
         Mockito.verifyNoMoreInteractions(taskServiceMock);
 
@@ -116,7 +116,7 @@ public class TaskServiceTest {
         Mockito.when(todoDaoMock.findById(any())).thenReturn(task);
         Mockito.when(taskServiceMock.getTaskDao()).thenReturn(todoDaoMock);
         Mockito.when(taskServiceMock.findById(Mockito.any())).thenCallRealMethod();
-        Task result = (Task) taskServiceMock.findById(Constants.getTaskSample().getId());
+        Task result = (Task) taskServiceMock.findById(Constants.getTaskSample().getTaskId());
         assertEquals(result.getTaskName(),  Constants.getTaskSample().getTask().getTaskName());
 
     }

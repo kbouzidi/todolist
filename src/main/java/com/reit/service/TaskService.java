@@ -30,7 +30,11 @@ import com.reit.model.User;
 
 import java.util.List;
 
-
+/**
+ * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
+ * class="headeranchor"></span></a>Service used to get information from
+ * {@link Task}</h3>
+ */
 public class TaskService {
 
     private static TaskDaoImpl taskDao;

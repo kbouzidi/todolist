@@ -26,6 +26,10 @@ package com.reit.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
+ * class="headeranchor"></span></a>User Model</h3>
+ */
 @Entity
 @Table(name = "REIT_USER")
 public class User implements Serializable {
@@ -40,7 +44,6 @@ public class User implements Serializable {
 
     @Column(name = "C_USER_DETAILS")
     private String userDetails;
-
 
     public Long getUserId() {
         return userId;
@@ -65,6 +68,5 @@ public class User implements Serializable {
     public void setUserDetails(String userDetails) {
         this.userDetails = userDetails;
     }
-
 
 }

@@ -62,7 +62,7 @@ public class Constants {
         task.setTaskName(taskName + one.toString());
         task.setProject(getProjectSample(two.toString()));
         task.setUser(getUserSample(two.toString()));
-        task.setState(EStates.ONGOING.getValue());
+        task.setState(EStates.ONGOING);
         return task;
     }
 
@@ -72,7 +72,7 @@ public class Constants {
         task.setTaskName(taskName + two.toString());
         task.setProject(getProjectSample(two.toString()));
         task.setUser(getUserSample(two.toString()));
-        task.setState(EStates.ONGOING.getValue());
+        task.setState(EStates.ONGOING);
         return task;
     }
 
@@ -82,7 +82,7 @@ public class Constants {
         task.setTaskName(taskName + two.toString());
         task.setProject(getProjectSample(two.toString()));
         task.setUser(getUserSample(two.toString()));
-        task.setState(EStates.TODO.getValue());
+        task.setState(EStates.TODO);
         return task;
     }
 
@@ -92,7 +92,7 @@ public class Constants {
         task.setTaskName(taskName + two.toString());
         task.setProject(getProjectSample(one.toString()));
         task.setUser(getUserSample(two.toString()));
-        task.setState(EStates.DONE.getValue());
+        task.setState(EStates.DONE);
         return task;
     }
 }

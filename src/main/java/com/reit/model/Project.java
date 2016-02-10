@@ -26,6 +26,10 @@ package com.reit.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
+ * class="headeranchor"></span></a>Project Model</h3>
+ */
 @Entity
 @Table(name = "REIT_PROJECT")
 public class Project implements Serializable {
@@ -40,7 +44,6 @@ public class Project implements Serializable {
 
     @Column(name = "C_PROJECT_DESCRIPTION")
     private String projectDescription;
-
 
     public String getProjectDescription() {
         return projectDescription;

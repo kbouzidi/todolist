@@ -23,9 +23,14 @@
  */
 package com.reit.model;
 
+import com.reit.utils.EStates;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
+ * class="headeranchor"></span></a>Task Model</h3>
+ */
 @Entity
 @Table(name = "REIT_TASK")
 public class Task implements Serializable {
@@ -39,7 +44,8 @@ public class Task implements Serializable {
     private Long taskId;
 
     @Column(name = "C_TASK_STATE")
-    private String state;
+    @Enumerated(EnumType.STRING)
+    private EStates state;
 
     @Column(name = "C_TASK_NAME")
     private String taskName;
@@ -71,7 +77,7 @@ public class Task implements Serializable {
         this.project = project;
     }
 
-    public Task(User user, Project project, String taskName, String description, String state) {
+    public Task(User user, Project project, String taskName, String description, EStates state) {
         this.user = user;
         this.project = project;
         this.taskName = taskName;
@@ -85,22 +91,6 @@ public class Task implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public Long getId() {
-        return taskId;
-    }
-
-    public void setId(Long id) {
-        this.taskId = id;
     }
 
     public Task getTask() {
@@ -123,6 +113,22 @@ public class Task implements Serializable {
 
     public String getTaskName() {
         return taskName;
+    }
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    public EStates getState() {
+        return state;
+    }
+
+    public void setState(EStates state) {
+        this.state = state;
     }
 
 }

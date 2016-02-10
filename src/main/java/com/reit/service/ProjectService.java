@@ -28,8 +28,9 @@ import com.reit.model.Project;
 import java.util.List;
 
 /**
- *
- * @author kbouzidi
+ * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
+ * class="headeranchor"></span></a>Service used to get information from
+ * {@link Project}</h3>
  */
 public class ProjectService {
 
@@ -72,20 +73,19 @@ public class ProjectService {
         return taskList;
     }
 
-   /* public List<Project> findbyState(String state) {
-        getProjectDao().openCurrentSession();
-        List<Project> taskList = projectrDao.findbyState(state);
-        getProjectDao().closeCurrentSession();
-        return taskList;
-    }
+    /* public List<Project> findbyState(String state) {
+     getProjectDao().openCurrentSession();
+     List<Project> taskList = projectrDao.findbyState(state);
+     getProjectDao().closeCurrentSession();
+     return taskList;
+     }
 
-    public List<Project> findbyUser(String user) {
-        getProjectDao().openCurrentSession();
-        List<Project> taskList = projectrDao.findbyUser(user);
-        getProjectDao().closeCurrentSession();
-        return taskList;
-    }*/
-
+     public List<Project> findbyUser(String user) {
+     getProjectDao().openCurrentSession();
+     List<Project> taskList = projectrDao.findbyUser(user);
+     getProjectDao().closeCurrentSession();
+     return taskList;
+     }*/
     public void deleteAll() {
         getProjectDao().openCurrentSessionwithTransaction();
         getProjectDao().deleteAll();
