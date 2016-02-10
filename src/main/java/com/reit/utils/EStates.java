@@ -24,6 +24,10 @@
 package com.reit.utils;
 
 
+/**
+ * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
+ * class="headeranchor"></span></a>Todo state {@link Enum}</h3>
+ */
 public enum EStates {
     TODO("TODO"),
     ONGOING("ONGOING"),

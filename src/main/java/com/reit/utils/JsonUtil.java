@@ -23,14 +23,16 @@
  */
 package com.reit.utils;
 
-
 import com.google.gson.Gson;
 import spark.ResponseTransformer;
 
+/**
+ * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
+ * class="headeranchor"></span></a>Json {@link Object} Parser util</h3>
+ */
 public class JsonUtil {
 
     public static String toJson(Object object) {
-
         return new Gson().toJson(object);
     }
 
