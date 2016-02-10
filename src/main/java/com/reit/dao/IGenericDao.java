@@ -23,28 +23,110 @@
  */
 package com.reit.dao;
 
-
 import java.io.Serializable;
 import java.util.List;
 
-
 /**
- * 
+ *
  * @param <T>
  * @param <Id>
  */
 public interface IGenericDao<T, Id extends Serializable> {
 
+    /**
+     * Add <code>Entity</code> associated to:
+     * <ul>
+     * <li>the model <code>{@link Project}</code></li>
+     * <li>the model <code>{@link Task}</code></li>
+     * <li>the model <code>{@link User}</code></li>
+     * </ul>
+     *
+     * @param entity
+     * <ul>
+     * <li><code>{@link Project}</code></li>
+     * <li><code>{@link Task}</code></li>
+     * <li><code>{@link User}</code></li>
+     * </ul>
+     *
+     */
     public void add(T entity);
 
+    /**
+     * Update <code>Entity</code> associated to:
+     * <ul>
+     * <li>the model <code>{@link Project}</code></li>
+     * <li>the model <code>{@link Task}</code></li>
+     * <li>the model <code>{@link User}</code></li>
+     * </ul>
+     *
+     * @param entity
+     * <ul>
+     * <li><code>{@link Project}</code></li>
+     * <li><code>{@link Task}</code></li>
+     * <li><code>{@link User}</code></li>
+     * </ul>
+     *
+     */
     public void update(T entity);
 
+    /**
+     * Find by ID <code>Entity</code> associated to:
+     * <ul>
+     * <li>the model <code>{@link Project}</code></li>
+     * <li>the model <code>{@link Task}</code></li>
+     * <li>the model <code>{@link User}</code></li>
+     * </ul>
+     *
+     * @param id {@link Serializable}
+     * @return entity
+     * <ul>
+     * <li><code>{@link Project}</code></li>
+     * <li><code>{@link Task}</code></li>
+     * <li><code>{@link User}</code></li>
+     * </ul>
+     *
+     */
     public T findById(Id id);
 
+    /**
+     * Delete <code>Entity</code> associated to:
+     * <ul>
+     * <li>the model <code>{@link Project}</code></li>
+     * <li>the model <code>{@link Task}</code></li>
+     * <li>the model <code>{@link User}</code></li>
+     * </ul>
+     *
+     * @param entity
+     * <ul>
+     * <li><code>{@link Project}</code></li>
+     * <li><code>{@link Task}</code></li>
+     * <li><code>{@link User}</code></li>
+     * </ul>
+     *
+     */
     public void delete(T entity);
 
+    /**
+     * Find all <code>Entity</code> associated to:
+     *
+     * @return {@link List} of entities
+     * <ul>
+     * <li><code>{@link Project}</code></li>
+     * <li><code>{@link Task}</code></li>
+     * <li><code>{@link User}</code></li>
+     * </ul>
+     *
+     */
     public List<T> findAll();
 
+    /**
+     * Delete all <code>Entites</code> associated to:
+     * <ul>
+     * <li>the model <code>{@link Project}</code></li>
+     * <li>the model <code>{@link Task}</code></li>
+     * <li>the model <code>{@link User}</code></li>
+     * </ul>
+     */
     public void deleteAll();
 
 }

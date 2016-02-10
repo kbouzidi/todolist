@@ -36,7 +36,6 @@ import com.reit.utils.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import static com.reit.utils.JsonUtil.json;
 import static spark.Spark.after;
 import static spark.Spark.exception;
@@ -49,6 +48,10 @@ import static spark.Spark.options;
 import static spark.Spark.before;
 import static spark.Spark.staticFileLocation;
 
+/**
+ * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
+ * class="headeranchor"></span></a>Main routes controller</h3>
+ */
 public class MainController {
 
     static Logger logger = LoggerFactory.getLogger(MainController.class);
@@ -64,24 +67,23 @@ public class MainController {
         // Set static file location {/resources/public}
         staticFileLocation("/public");
 
-
-        /**---------------------------------------------------------
-         *  Health check routes
-         *  For monitoring purpose  
+        /**
+         * --------------------------------------------------------- Health
+         * check routes For monitoring purpose
          *
-         *---------------------------------------------------------*/
-
+         * ---------------------------------------------------------
+         */
         // Health check
         get("/ping", (req, res) -> {
             return "pong";
         });
 
-
-        /**---------------------------------------------------------
-         *  Tasks routes
+        /**
+         * --------------------------------------------------------- Tasks
+         * routes
          *
-         *---------------------------------------------------------*/
-
+         * ---------------------------------------------------------
+         */
         // Add new user
         post("/add/user", (req, res) -> {
             User user = gson.fromJson(req.body(), User.class);
@@ -120,7 +122,6 @@ public class MainController {
             return todo.getTask();
         }, json());
 
-
         // Delete task by Task Name
         delete("/task/:taskName", (req, res) -> {
             Double id = Double.parseDouble(req.params(":taskName"));
@@ -128,31 +129,25 @@ public class MainController {
             return id;
         }, json());
 
-
         // Get tasks by state
-        
         /*get("s/tate/:state", (req, res)
-                -> taskService.findbyState(EStates.DONE.getValue()), json());*/
-
-
+         -> taskService.findbyState(EStates.DONE.getValue()), json());*/
         // Get task by User
         //TODO update the service with new data model
        /* get("/todo/:user", (req, res)
-                -> taskService.findbyUser(req.params(":user")), json());*/
-
-
+         -> taskService.findbyUser(req.params(":user")), json());*/
         // Reset dashboard
         delete("/tasks/all", (req, res) -> {
             taskService.deleteAll();
             return null;
         }, json());
 
-
-        /**---------------------------------------------------------
-         *  Project routes
+        /**
+         * --------------------------------------------------------- Project
+         * routes
          *
-         *---------------------------------------------------------*/
-
+         * ---------------------------------------------------------
+         */
         // Add new task
         post("/add/project", (req, res) -> {
             Project project = gson.fromJson(req.body(), Project.class);
@@ -164,26 +159,23 @@ public class MainController {
         get("/projects", (req, res)
                 -> projectService.findAll(), json());
 
-
         // TODO delete project by ProjectName
 
         /*
          delete("/project/:projectName", (req, res) -> {
-            taskService.deleteAll();
-            return null;
-        }, json());
-        */
-
-
-        /**---------------------------------------------------------
-         *  Request/Response parameter + CORS conf
+         taskService.deleteAll();
+         return null;
+         }, json());
+         */
+        /**
+         * ---------------------------------------------------------
+         * Request/Response parameter + CORS conf
          *
-         *---------------------------------------------------------*/
-
+         * ---------------------------------------------------------
+         */
         after((req, res) -> {
             res.type("application/json");
         });
-
 
         exception(IllegalArgumentException.class, (e, req, res) -> {
             res.status(400);
@@ -203,7 +195,6 @@ public class MainController {
             return "OK";
 
         });
-
 
         before((req, res) -> {
             res.header("Access-Control-Allow-Origin", "*");

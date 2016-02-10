@@ -28,37 +28,57 @@ import com.reit.model.User;
 import java.util.List;
 
 /**
- * @author kbouzidi
+ * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
+ * class="headeranchor"></span></a>DAO used to get information from
+ * {@link User}</h3>
  */
 public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> {
 
+    /**
+     * @see com.reit.dao.IGenericDao#add(com.reit.model.User) 
+     */
     @Override
     public void add(User entity) {
         getCurrentSession().save(entity);
     }
 
+    /**
+     * @see com.reit.dao.IGenericDao#update(com.reit.model.User)
+     */
     @Override
     public void update(User entity) {
         getCurrentSession().update(entity);
     }
 
+    /**
+     * @see com.reit.dao.IGenericDao#findById(java.lang.Long)
+     */
     @Override
     public User findById(Long id) {
         User user = (User) getCurrentSession().get(User.class, id);
         return user;
     }
 
+    /**
+     * @see com.reit.dao.IGenericDao#delete(com.reit.model.User)
+     */
     @Override
     public void delete(User entity) {
         getCurrentSession().delete(entity);
     }
 
+    /**
+     * @see com.reit.dao.IGenericDao#findAll()
+     */
     @Override
     public List<User> findAll() {
         List<User> userList = (List<User>) getCurrentSession().createQuery("from User").list();
         return userList;
     }
 
+    /**
+     * @see com.reit.dao.IGenericDao#deleteAll()
+     */
     @Override
     public void deleteAll() {
         List<User> userList = findAll();

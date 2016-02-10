@@ -29,6 +29,17 @@ import com.reit.service.TaskService;
 import com.reit.service.UserService;
 import spark.servlet.SparkApplication;
 
+/**
+ * <p>
+ * Web server launcher.</p>
+ * <h1 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
+ * class="headeranchor"></span></a>Target</h1>
+ * <lu>
+ * <li>{@link TaskService}</li>
+ * <li>{@link ProjectService}</li>
+ * <li>{@link UserService}</li>
+ * </lu>
+ */
 public class Main implements SparkApplication {
 
     @Override

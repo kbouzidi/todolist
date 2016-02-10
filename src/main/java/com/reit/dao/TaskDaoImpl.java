@@ -23,7 +23,6 @@
  */
 package com.reit.dao;
 
-
 import com.reit.model.Project;
 import com.reit.model.Task;
 import com.reit.model.User;
@@ -33,7 +32,9 @@ import org.hibernate.criterion.Restrictions;
 import java.util.List;
 
 /**
- * *
+ * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
+ * class="headeranchor"></span></a>DAO used to get information from
+ * {@link Task}</h3>
  */
 public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> {
 
@@ -57,15 +58,23 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
 
     }
 
-
+    /**
+     * @see com.reit.dao.IGenericDao#add(com.reit.model.Task)
+     */
     public void add(Task task) {
         getCurrentSession().save(task);
     }
 
+    /**
+     * @see com.reit.dao.IGenericDao#update(com.reit.model.Task)
+     */
     public void update(Task task) {
         getCurrentSession().update(task);
     }
 
+    /**
+     * @see com.reit.dao.IGenericDao#findById(java.lang.Long)
+     */
     public Task findById(Long id) {
         Task task = (Task) getCurrentSession().get(Task.class, id);
         return task;
@@ -78,18 +87,20 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         return criteria.list();
     }
 
-
+    /**
+     * @see com.reit.dao.IGenericDao#delete(com.reit.model.Task)
+     */
     public void delete(Task task) {
-
         getCurrentSession().delete(task);
     }
 
-
+    /**
+     * @see com.reit.dao.IGenericDao#findAll()
+     */
     public List<Task> findAll() {
         List<Task> taskList = (List<Task>) getCurrentSession().createQuery("from Task").list();
         return taskList;
     }
-
 
     public List<Task> findbyState(String state) {
         Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("state", state));
@@ -100,7 +111,6 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("author", user));
         return criteria.list();
     }
-
 
     public void deleteAll() {
         List<Task> taskList = findAll();
