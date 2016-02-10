@@ -24,6 +24,7 @@
 package com.reit.model;
 
 import com.reit.utils.EStates;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -54,19 +55,23 @@ public class Task implements Serializable {
     private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "N_USER_ID")
-    private User user;
+    @JoinColumn(name = "N_CREATED_BY")
+    private User createdBy;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "N_ASSIGNED_TO", nullable = true)
+    private User assignedTo;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "N_PROJECT_ID")
     private Project project;
 
-    public User getUser() {
-        return user;
+    public User getCreatedBy() {
+        return createdBy;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Project getProject() {
@@ -77,12 +82,13 @@ public class Task implements Serializable {
         this.project = project;
     }
 
-    public Task(User user, Project project, String taskName, String description, EStates state) {
-        this.user = user;
+    public Task(User createdBy, Project project, String taskName, String description, EStates state, User assignedTo) {
+        this.createdBy = createdBy;
         this.project = project;
         this.taskName = taskName;
         this.description = description;
         this.state = state;
+        this.assignedTo = assignedTo;
     }
 
     public String getDescription() {
@@ -95,16 +101,25 @@ public class Task implements Serializable {
 
     public Task getTask() {
         Task task = new Task();
-        task.user = user;
+        task.createdBy = createdBy;
         task.description = description;
         task.taskName = taskName;
         task.state = state;
+        task.assignedTo = assignedTo;
         return task;
+    }
+
+    public User getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(User assignedTo) {
+        this.assignedTo = assignedTo;
     }
 
     @Override
     public String toString() {
-        return "Todo : " + this.taskId + ", " + this.taskName + ", " + this.description + ", " + this.user + ", " + this.state;
+        return "Todo : " + this.taskId + ", " + this.taskName + ", " + this.description + ", " + this.createdBy + ", " + this.state;
     }
 
     public void setTaskName(String name) {

@@ -162,7 +162,7 @@ public class MainController {
          */
         post("/task/add", (req, res) -> {
             Task task = gson.fromJson(req.body(), Task.class);
-            taskService.add(task, task.getProject(), task.getUser());
+            taskService.add(task, task.getProject(), task.getCreatedBy());
             return task;
         }, json());
 

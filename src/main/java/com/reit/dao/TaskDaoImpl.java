@@ -107,7 +107,7 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
 
         if (projectResul != null && userResult != null) {
             task.setProject(projectResul);
-            task.setUser(userResult);
+            task.setCreatedBy(userResult);
             getCurrentSession().save(task);
         } else {
             getCurrentSession().save(task);
