@@ -12,7 +12,7 @@
             <New class="org.postgresql.ds.PGConnectionPoolDataSource">
                 <Set name="User">sylvain</Set>
                 <Set name="Password">sylvain</Set>
-                <Set name="DatabaseName">test</Set>
+                <Set name="DatabaseName">tests</Set>
                 <Set name="ServerName">localhost</Set>
                 <Set name="PortNumber">5432</Set>
             </New>

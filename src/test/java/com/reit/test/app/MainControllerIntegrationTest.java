@@ -53,11 +53,7 @@ import spark.utils.IOUtils;
 public class MainControllerIntegrationTest {
 
     static Logger logger = LoggerFactory.getLogger(MainControllerIntegrationTest.class);
-    Task task;
     Gson gson = new Gson();
-    String user = "User";
-    String desc = "This is a Task";
-    String state = EStates.TODO.getValue();
 
     @BeforeClass
     public static void setUp() {
@@ -79,7 +75,7 @@ public class MainControllerIntegrationTest {
     @Test
     public void _addUser() {
         String toJson = gson.toJson(Constants.getUserSample(null));
-        TestResponse res = request("POST", "/add/user", toJson);
+        TestResponse res = request("POST", "/user/add", toJson);
         assertEquals(200, res.status);
 
     }
@@ -87,7 +83,7 @@ public class MainControllerIntegrationTest {
     @Test
     public void _addProject() {
         String toJson = gson.toJson(Constants.getProjectSample(null));
-        TestResponse res = request("POST", "/add/project", toJson);
+        TestResponse res = request("POST", "/project/add", toJson);
         assertEquals(200, res.status);
 
     }
@@ -95,14 +91,14 @@ public class MainControllerIntegrationTest {
     @Test
     public void _addTask() {
         String toJson = gson.toJson(Constants.getTaskSample());
-        TestResponse res = request("POST", "/add/task", toJson);
+        TestResponse res = request("POST", "/task/add", toJson);
         assertEquals(200, res.status);
     }
 
     @Test
     public void _addTask2() {
         String toJson = gson.toJson(Constants.getTaskSample2());
-        TestResponse res = request("POST", "/add/task", toJson);
+        TestResponse res = request("POST", "/task/add", toJson);
         assertEquals(200, res.status);
     }
 
