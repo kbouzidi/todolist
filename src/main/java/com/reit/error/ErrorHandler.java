@@ -27,15 +27,15 @@ package com.reit.error;
 /**
  * *
  */
-public class ResponseError {
+public class ErrorHandler {
 
     private String message;
 
-    public ResponseError(String message, String... args) {
+    public ErrorHandler(String message, String... args) {
         this.message = String.format(message, args);
     }
 
-    public ResponseError(Exception e) {
+    public ErrorHandler(Exception e) {
         this.message = e.getMessage();
     }
 

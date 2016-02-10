@@ -27,7 +27,7 @@ import com.google.gson.Gson;
 import com.reit.model.Project;
 import com.reit.model.User;
 import com.reit.service.TaskService;
-import com.reit.error.ResponseError;
+import com.reit.error.ErrorHandler;
 
 import com.reit.model.Task;
 import com.reit.service.ProjectService;
@@ -187,7 +187,7 @@ public class MainController {
 
         exception(IllegalArgumentException.class, (e, req, res) -> {
             res.status(400);
-            res.body(JsonUtil.toJson(new ResponseError(e)));
+            res.body(JsonUtil.toJson(new ErrorHandler(e)));
         });
 
         options("/*", (req, res) -> {
