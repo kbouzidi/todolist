@@ -1,36 +1,143 @@
-.success-true {
-    text-decoration: line-through;
+.tabsdemoDynamicTabs md-content {
+    background-color: transparent !important;
 }
 
-html {
-    width: 100%;
+.tabsdemoDynamicTabs md-content md-tabs {
+    border: 1px solid #e1e1e1;
 }
 
-body {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    -webkit-font-smoothing: antialiased;
-    mso-margin-top-alt: 0px;
-    mso-margin-bottom-alt: 0px;
-    mso-padding-alt: 0px 0px 0px 0px;
-    background: #ffffff;
+.tabsdemoDynamicTabs md-content md-tabs md-tab-content {
+    background: #f6f6f6;
 }
 
-p, h1, h2, h3, h4 {
+.tabsdemoDynamicTabs md-content md-tabs md-tabs-wrapper {
+    background: white;
+}
+
+.tabsdemoDynamicTabs md-content h1:first-child {
     margin-top: 0;
-    margin-bottom: 0;
-    padding-top: 0;
+}
+
+.tabsdemoDynamicTabs md-input-container {
     padding-bottom: 0;
 }
 
-table {
-    font-size: 14px;
-    border: 0;
+.tabsdemoDynamicTabs .remove-tab {
+    margin-bottom: 40px;
 }
 
-img {
-    border: none !important;
+.tabsdemoDynamicTabs .demo-tab > div > div {
+    padding: 25px;
+    box-sizing: border-box;
 }
 
+.tabsdemoDynamicTabs .edit-form input {
+    width: 100%;
+}
 
+.tabsdemoDynamicTabs md-tabs {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.tabsdemoDynamicTabs md-tab[disabled] {
+    opacity: 0.5;
+}
+
+.tabsdemoDynamicTabs label {
+    text-align: left;
+}
+
+.tabsdemoDynamicTabs .long > input {
+    width: 800px;
+}
+
+.tabsdemoDynamicTabs .md-button.add-tab {
+    transform: translateY(5px);
+}
+
+.subheaderdemoBasicUsage .face {
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    width: 48px;
+    margin: 16px;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px; /* Preferred icon size */
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+.bottomSheetdemoBasicUsage .md-inline-list-icon-label {
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: -10px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+.bottomSheetdemoBasicUsage .md-grid-item-content {
+    height: 96px;
+}
+
+.bottomSheetdemoBasicUsage .md-grid-item-content md-icon {
+    height: 48px;
+    width: 48px;
+}
+
+.bottomSheetdemoBasicUsage .md-grid-text {
+    padding-bottom: 5px;
+}
+
+.bottomSheetdemoBasicUsage md-list-item, .bottomSheetdemoBasicUsage md-list-item .md-list-item-inner {
+    min-height: 48px;
+}
+
+.bottomSheetdemoBasicUsage h2 {
+    line-height: 36px;
+    padding-top: 10px;
+}
+
+.bottomSheetdemoBasicUsage .md-subheader .md-subheader-inner {
+    padding: 0px;
+}
+
+.bottomSheetdemoBasicUsage md-toast {
+    background-color: #B14141;
+}
+
+.bottomSheetdemoBasicUsage md-toast > * {
+    font-weight: bolder;
+}
+
+/*
+Copyright 2016 Google Inc. All Rights Reserved. 
+Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+*/
+
+/*
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+*/
