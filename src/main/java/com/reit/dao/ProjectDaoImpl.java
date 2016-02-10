@@ -24,6 +24,8 @@
 package com.reit.dao;
 
 import com.reit.model.Project;
+import com.reit.model.User;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.ArrayList;
@@ -94,9 +96,9 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
 
     /**
      * ---------------------------------------------------------
-     *
+     * <p/>
      * Find By methods
-     *
+     * <p/>
      * ---------------------------------------------------------
      */
 
@@ -108,9 +110,11 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
     }
 
 
-    // TODO implement method
-    public List<Project> findByTaskeName(String taskName) {
-        return new ArrayList<>();
+    public List<Project> findByUserName(String userName) {
+        User userResult = (User) getCurrentSession().createCriteria(Project.class)
+                .add(Restrictions.eq("userName", userName)).uniqueResult();
+        Criteria criteria = getCurrentSession().createCriteria(Project.class).add(Restrictions.eq("user", userResult));
+        return criteria.list();
     }
 
 

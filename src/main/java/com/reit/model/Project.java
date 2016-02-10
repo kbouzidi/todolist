@@ -45,6 +45,19 @@ public class Project implements Serializable {
     @Column(name = "C_PROJECT_DESCRIPTION")
     private String projectDescription;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "N_USER_ID")
+    private User user;
+
+    
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public String getProjectDescription() {
         return projectDescription;
     }

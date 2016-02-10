@@ -53,6 +53,7 @@ public class Constants {
         }
         Project project = new Project();
         project.setProjectName(projectName + suffix);
+        project.setUser(getUserSample(null));
         return project;
     }
 

@@ -59,7 +59,8 @@ public class MainController {
 
     Gson gson = new Gson();
 
-    static  final String SUCCESS = "SUCCESS";
+    static final String SUCCESS = "SUCCESS";
+
     /**
      * Main Controller constructor
      *
@@ -267,11 +268,10 @@ public class MainController {
         /**
          * Get projects by user name *
          */
-        // TODO
-       /* get("/projects/:userName", (req, res) -> {
+        get("/projects/:userName", (req, res) -> {
             String userName = req.params(":userName");
             return projectService.findByProjectName(userName);
-        }, json());*/
+        }, json());
 
 
         // Delete project by Pro
