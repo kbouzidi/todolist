@@ -23,7 +23,6 @@
  */
 package com.reit.dao;
 
-import com.reit.model.Task;
 import com.reit.model.User;
 
 import java.util.List;
