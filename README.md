@@ -1,4 +1,4 @@
-# Welcome to Spark TODO List
+# Todo List Web app
 
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org) [![Build Status](https://api.travis-ci.org/kbouzidi/todolist.svg?branch=master)](https://travis-ci.org/kbouzidi/todolist/branches)  [![Build Status](https://codeship.com/projects/061c9970-ae2b-0133-3079-7e50fc25e7b7/status?branch=master)](https://codeship.com/projects/132245)
 
@@ -16,8 +16,12 @@ todolist/
 ```
 
 ## Description 
-//TODO
+TO-DO list to track project progress.
 
+
+## API description
+ 
+ - [Todo List API](docs.todolist21.apiary.io) 
 
 ## Environment setup
 Download and setup the following applications:
