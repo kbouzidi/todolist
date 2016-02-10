@@ -1,16 +1,16 @@
 angular
-    .module('MyApp', ['ngRoute', 'ngMaterial', 'ngMessages'])
-    .controller('AppCtrl', AppCtrl)
-    .controller('ListCtrl', ListCtrl)
-    .controller('DialogAddTaskController', DialogAddTaskController)
-    .controller('LoginController', LoginController);
+        .module('MyApp', ['ngRoute', 'ngMaterial', 'ngMessages'])
+        .controller('AppCtrl', AppCtrl)
+        .controller('ListCtrl', ListCtrl)
+        .controller('DialogAddTaskController', DialogAddTaskController)
+        .controller('LoginController', LoginController);
 
-function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $timeout, $rootScope, $http) {
+function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $http) {
     if (!$rootScope.user) {
         /* $mdDialog.show({
          controller: LoginController,
          templateUrl: 'views/login.html'
-
+         
          })
          .then(function (answer) {
          $scope.alert = 'You said the information was "' + answer + '".';
@@ -30,43 +30,30 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $timeout, $rootScope, 
             $rootScope.tasks = tasks;
             $scope.selectedIndex = projects.length;
         }).error(function (err, status) {
-            console.log('Error ' + err)
+            $log.debug('Error ' + err)
         });
 
     }).error(function (err, status) {
-        console.log('Error ' + err)
+        $log.debug('Error ' + err)
     });
 
     var tasks = [];
     var selected = null;
     var previous = null;
 
-    // $scope.tabs = tabs;
     $rootScope.tasks = tasks;
-
-    /*   if (!(selected == null || selected == null)) {
-     $http.get( '/tasks').success(function (data) {
-     $rootScope.tasks = data;
-     }).error(function (err, status) {
-     console.log('Error ' + err)
-     });
-     }*/
-
 
     $scope.selectedIndex = 0;
 
 
     $scope.$watch('selectedIndex', function (current, old) {
         previous = selected;
-        var currentTab = $rootScope.tabs[current];
-
-
         if ($rootScope.tabs[current]) {
             $rootScope.projectName = $rootScope.tabs[current].projectName;
             $http.get('/tasks/' + $rootScope.projectName).success(function (data) {
                 $rootScope.tasks = data;
             }).error(function (err, status) {
-                console.log('Error ' + err)
+                $log.debug('Error ' + err + 'status' + status)
             });
 
         }
@@ -77,12 +64,11 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $timeout, $rootScope, 
 
 
     $scope.addTab = function (projectName, description) {
-        // view = view || title + " Content View";
         $http.post('/add/project', {projectName: projectName, projectDescription: description}).success(function (data) {
-            console.log('data ' + data);
-            $scope.tabs.push({ projectName: projectName, disabled: false});
+            $log.debug('data ' + data);
+            $scope.tabs.push({projectName: projectName, disabled: false});
         }).error(function (data, status) {
-            console.log('Error ' + data)
+            $log.debug('Error ' + err + 'status' + status)
         })
 
     };
@@ -110,11 +96,11 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $timeout, $rootScope, 
             templateUrl: 'views/addTask.html'
 
         })
-            .then(function (answer) {
-                $scope.alert = 'You said the information was "' + answer + '".';
-            }, function () {
-                $scope.alert = 'You cancelled the dialog.';
-            });
+                .then(function (answer) {
+                    $scope.alert = 'You said the information was "' + answer + '".';
+                }, function () {
+                    $scope.alert = 'You cancelled the dialog.';
+                });
     };
 
 
@@ -124,24 +110,24 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $timeout, $rootScope, 
             templateUrl: 'views/addProject.html'
 
         })
-            .then(function (answer) {
+                .then(function (answer) {
 
-                $scope.alert = 'You said the information was "' + answer + '".';
-            }, function () {
-                $scope.alert = 'You cancelled the dialog.';
-            });
+                    $scope.alert = 'You said the information was "' + answer + '".';
+                }, function () {
+                    $scope.alert = 'You cancelled the dialog.';
+                });
     };
 
 
 }
 
-function ListCtrl($scope) {
-
+function ListCtrl($scope, $mdBottomSheet) {
+    // Reserver for futur use
     $scope.items = [
-        { name: 'Share', icon: 'share-arrow' },
-        { name: 'Upload', icon: 'upload' },
-        { name: 'Copy', icon: 'copy' },
-        { name: 'Print this page', icon: 'print' }
+        {name: 'Share', icon: 'share-arrow'},
+        {name: 'Upload', icon: 'upload'},
+        {name: 'Copy', icon: 'copy'},
+        {name: 'Print this page', icon: 'print'}
     ];
     $scope.listItemClick = function ($index) {
         var clickedItem = $scope.items[$index];
@@ -166,17 +152,17 @@ function DialogAddTaskController($scope, $http, $mdDialog, $rootScope) {
      "project":
      {"projectName":"Project2"}
      }
-
+     
      */
     $scope.addTask = function (answer) {
         answer.user = {userName: $rootScope.userName};
         answer.project = {projectName: $rootScope.projectName};
         $http.post('/add/task', answer).success(function (data) {
-            console.log('data ' + data);
+            $log.debug('data ' + data);
             $rootScope.tasks.push(answer);
             $mdDialog.hide(answer);
         }).error(function (data, status) {
-            console.log('Error ' + data);
+            $log.debug('Error ' + data);
             $mdDialog.hide(answer);
         });
 
