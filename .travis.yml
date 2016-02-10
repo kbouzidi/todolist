@@ -13,4 +13,4 @@ test:
 before_script:
   - psql -c "CREATE USER sylvain WITH PASSWORD 'sylvain';"
   - psql -c 'create database test;' -U postgres
-  - psql -c 'grant all privileges on database todo to sylvain;' -U postgres
+  - psql -c 'grant all privileges on database test to sylvain;' -U postgres
