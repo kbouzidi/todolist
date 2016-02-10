@@ -1,10 +1,10 @@
 angular
-        .module('MyApp', ['ngRoute', 'ngMaterial', 'ngMessages'])
-        .controller('AppCtrl', AppCtrl)
-        .controller('ListCtrl', ListCtrl)
-        .controller('DialogAddTaskController', DialogAddTaskController)
-        .controller('DialogAddProjectController', DialogAddProjectController)
-        .controller('LoginController', LoginController);
+    .module('MyApp', ['ngRoute', 'ngMaterial', 'ngMessages'])
+    .controller('AppCtrl', AppCtrl)
+    .controller('ListCtrl', ListCtrl)
+    .controller('DialogAddTaskController', DialogAddTaskController)
+    .controller('DialogAddProjectController', DialogAddProjectController)
+    .controller('LoginController', LoginController);
 
 function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $http) {
     if (!$rootScope.user) {
@@ -13,11 +13,11 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $http) {
             templateUrl: 'views/login.html'
 
         })
-                .then(function (answer) {
-                    $scope.alert = 'You said the information was "' + answer + '".';
-                }, function () {
-                    $scope.alert = 'You cancelled the dialog.';
-                });
+            .then(function (answer) {
+                $scope.alert = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.alert = 'You cancelled the dialog.';
+            });
 
     }
     // $rootScope.userName = "USER2"; // TODO remove it after test
@@ -65,7 +65,7 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $http) {
 
 
     $scope.addTab = function (projectName, description) {
-        $http.post('/add/project', {projectName: projectName, projectDescription: description}).success(function (data) {
+        $http.post('/project/add', {projectName: projectName, projectDescription: description}).success(function (data) {
             $log.debug('data ' + data);
             $rootScope.tabs.push({projectName: projectName, disabled: false});
         }).error(function (err, status) {
@@ -97,11 +97,11 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $http) {
             templateUrl: 'views/addTask.html'
 
         })
-                .then(function (answer) {
-                    $scope.alert = 'You said the information was "' + answer + '".';
-                }, function () {
-                    $scope.alert = 'You cancelled the dialog.';
-                });
+            .then(function (answer) {
+                $scope.alert = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.alert = 'You cancelled the dialog.';
+            });
     };
 
 
@@ -111,13 +111,26 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $http) {
             templateUrl: 'views/addProject.html'
 
         })
-                .then(function (answer) {
+            .then(function (answer) {
 
-                    $scope.alert = 'You said the information was "' + answer + '".';
-                }, function () {
-                    $scope.alert = 'You cancelled the dialog.';
-                });
+                $scope.alert = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.alert = 'You cancelled the dialog.';
+            });
     };
+
+
+    $scope.deleteTask = function (task) {
+        task.state = "DELETED";
+        $http.put('/task', task).success(function (data) {
+            $log.debug('data ' + data);
+            $rootScope.tasks = $rootScope.tasks.filter(function (obj) {
+                return obj._id !== taskId;
+            });
+        }).error(function (err, status) {
+            $log.error(err + 'status' + status);
+        })
+    }
 
 
 }
@@ -139,14 +152,14 @@ function ListCtrl($scope, $mdBottomSheet) {
 function DialogAddProjectController($scope, $http, $mdDialog, $log, $rootScope) {
 
     $scope.addProject = function (project) {
-        $http.post('/add/project', {projectName: project.projectName, projectDescription: project.description}).success(function (data) {
+        $http.post('/project/add', {projectName: project.projectName, projectDescription: project.description}).success(function (data) {
             $log.debug('data ' + data);
             $rootScope.tabs.push({projectName: project.projectName, disabled: false});
             $mdDialog.hide(project);
         }).error(function (err, status) {
             $log.error(err + 'status' + status);
         });
-    }
+    };
 
     $scope.cancelAddProject = function () {
         $mdDialog.cancel();
@@ -159,23 +172,22 @@ function DialogAddTaskController($scope, $http, $log, $mdDialog, $rootScope) {
         $mdDialog.cancel();
     };
     /*
-     {
-     "state":"ONGOING",
-     "taskName":
-     "Task1",
-     "description":
-     "This is a Task",
-     "user":
-     {"userName":"User2"},
-     "project":
-     {"projectName":"Project2"}
+     {"state": "ONGOING",
+     "taskName": "TASK1",
+     "description": "This is a Task",
+     "createdBy": {
+     "userName": "USER2"
+     },
+     "project": {
+     "projectName": "PROJECT2",
      }
-     
+     }
+
      */
     $scope.addTask = function (answer) {
-        answer.user = {userName: $rootScope.userName};
+        answer.createdBy = {userName: $rootScope.userName};
         answer.project = {projectName: $rootScope.projectName};
-        $http.post('/add/task', answer).success(function (data) {
+        $http.post('/task/add', answer).success(function (data) {
             $log.debug('data ' + data);
             $rootScope.tasks.push(answer);
             $mdDialog.hide(answer);
@@ -203,7 +215,7 @@ function LoginController($scope, $mdDialog, $log, $http, $rootScope) {
     }
 
     $scope.addUser = function (user) {
-        $http.post('/add/user', {userName: user.userName}).success(function (data) {
+        $http.post('/user/add', {userName: user.userName}).success(function (data) {
             $log.debug('data ' + data);
             $rootScope.userName = user.userName;
             $mdDialog.hide(user);

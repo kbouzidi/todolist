@@ -215,7 +215,7 @@ public class MainController {
         /**
          * Update task state * 
          */
-        put("/task/update", (req, res) -> {
+        put("/task", (req, res) -> {
             Task task = gson.fromJson(req.body(), Task.class);
             taskService.update(task);
             return task.getTask();
@@ -224,10 +224,20 @@ public class MainController {
         /**
          * Delete task by Task Name * 
          */
-        delete("/task/:taskName", (req, res) -> {
+        delete("/task/name/:taskName", (req, res) -> {
             String taskName = req.params(":taskName");
             taskService.delete(taskName);
             return taskName;
+        }, json());
+
+
+        /**
+         * Delete task by Task Id*
+         */
+        delete("/task/:id", (req, res) -> {
+            Double id = Double.parseDouble(req.params(":id"));
+            taskService.delete(id.longValue());
+            return id;
         }, json());
 
 

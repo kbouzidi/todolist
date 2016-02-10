@@ -31,7 +31,8 @@ package com.reit.utils;
 public enum EStates {
     TODO("TODO"),
     ONGOING("ONGOING"),
-    DONE("DONE");
+    DONE("DONE"),
+    DELETED("DELETED");
 
     private String value;
 
