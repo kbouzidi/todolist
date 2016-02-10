@@ -216,9 +216,9 @@ public class MainController {
          * Update task state * 
          */
         put("/task/update", (req, res) -> {
-            Task todo = gson.fromJson(req.body(), Task.class);
-            taskService.update(todo);
-            return todo.getTask();
+            Task task = gson.fromJson(req.body(), Task.class);
+            taskService.update(task);
+            return task.getTask();
         }, json());
 
         /**
