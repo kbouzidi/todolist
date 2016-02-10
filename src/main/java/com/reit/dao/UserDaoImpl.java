@@ -24,6 +24,7 @@
 package com.reit.dao;
 
 import com.reit.model.User;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 
@@ -87,4 +88,19 @@ public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> 
         }
     }
 
+
+    /**
+     * ---------------------------------------------------------
+     *
+     * Find By methods
+     *
+     * ---------------------------------------------------------
+     */
+
+    public User findByUserName(String userName) {
+        User user = (User) getCurrentSession().createCriteria(User.class)
+                .add(Restrictions.eq("userName", userName)).uniqueResult();
+        return user;
+    }
+    
 }

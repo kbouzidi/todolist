@@ -27,6 +27,7 @@ import com.reit.dao.TaskDaoImpl;
 import com.reit.model.Project;
 import com.reit.model.Task;
 import com.reit.model.User;
+import com.reit.utils.EStates;
 
 import java.util.List;
 
@@ -76,9 +77,26 @@ public class TaskService {
         return task;
     }
 
+    
+
+    public List<Task> findByUserName(String userName) {
+        getTaskDao().openCurrentSession();
+        List<Task> task = getTaskDao().findByProjectName(userName);
+        getTaskDao().closeCurrentSession();
+        return task;
+    }
+
     public void delete(Long id) {
         getTaskDao().openCurrentSessionwithTransaction();
         Task task = getTaskDao().findById(id);
+        getTaskDao().delete(task);
+        getTaskDao().closeCurrentSessionwithTransaction();
+    }
+
+
+    public void delete(String taskName) {
+        getTaskDao().openCurrentSessionwithTransaction();
+        Task task = getTaskDao().findByTaskName(taskName);
         getTaskDao().delete(task);
         getTaskDao().closeCurrentSessionwithTransaction();
     }
@@ -90,7 +108,7 @@ public class TaskService {
         return taskList;
     }
 
-    public List<Task> findbyState(String state) {
+    public List<Task> findbyState(EStates state) {
         getTaskDao().openCurrentSession();
         List<Task> taskList = taskDao.findbyState(state);
         getTaskDao().closeCurrentSession();
@@ -98,12 +116,6 @@ public class TaskService {
     }
 
 
-    public List<Task> findbyUser(String user) {
-        getTaskDao().openCurrentSession();
-        List<Task> taskList = taskDao.findbyUser(user);
-        getTaskDao().closeCurrentSession();
-        return taskList;
-    }
 
     public void deleteAll() {
         getTaskDao().openCurrentSessionwithTransaction();

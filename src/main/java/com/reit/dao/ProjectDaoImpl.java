@@ -24,9 +24,9 @@
 package com.reit.dao;
 
 import com.reit.model.Project;
-import com.reit.model.Task;
-import com.reit.model.User;
+import org.hibernate.criterion.Restrictions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -90,5 +90,28 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
             delete(project);
         }
     }
+
+
+    /**
+     * ---------------------------------------------------------
+     *
+     * Find By methods
+     *
+     * ---------------------------------------------------------
+     */
+
+
+    public Project findByProjectName(String projectName) {
+        Project project = (Project) getCurrentSession().createCriteria(Project.class)
+                .add(Restrictions.eq("projectName", projectName)).uniqueResult();
+        return project;
+    }
+
+
+    // TODO implement method
+    public List<Project> findByTaskeName(String taskName) {
+        return new ArrayList<>();
+    }
+
 
 }

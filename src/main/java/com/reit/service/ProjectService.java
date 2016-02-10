@@ -25,6 +25,8 @@ package com.reit.service;
 
 import com.reit.dao.ProjectDaoImpl;
 import com.reit.model.Project;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,9 +42,9 @@ public class ProjectService {
         projectrDao = new ProjectDaoImpl();
     }
 
-    public void add(Project task) {
+    public void add(Project project) {
         getProjectDao().openCurrentSessionwithTransaction();
-        getProjectDao().add(task);
+        getProjectDao().add(project);
         getProjectDao().closeCurrentSessionwithTransaction();
     }
 
@@ -52,19 +54,27 @@ public class ProjectService {
         getProjectDao().closeCurrentSessionwithTransaction();
     }
 
-    public Project findById(Long id) {
-        getProjectDao().openCurrentSession();
-        Project task = getProjectDao().findById(id);
-        getProjectDao().closeCurrentSession();
-        return task;
-    }
 
     public void delete(Long id) {
         getProjectDao().openCurrentSessionwithTransaction();
-        Project task = getProjectDao().findById(id);
-        getProjectDao().delete(task);
+        Project project = getProjectDao().findById(id);
+        getProjectDao().delete(project);
         getProjectDao().closeCurrentSessionwithTransaction();
     }
+
+    public void delete(String projectName) {
+        getProjectDao().openCurrentSessionwithTransaction();
+        Project project = getProjectDao().findByProjectName(projectName);
+        getProjectDao().delete(project);
+        getProjectDao().closeCurrentSessionwithTransaction();
+    }
+
+    public void deleteAll() {
+        getProjectDao().openCurrentSessionwithTransaction();
+        getProjectDao().deleteAll();
+        getProjectDao().closeCurrentSessionwithTransaction();
+    }
+
 
     public List<Project> findAll() {
         getProjectDao().openCurrentSession();
@@ -73,24 +83,27 @@ public class ProjectService {
         return taskList;
     }
 
-    /* public List<Project> findbyState(String state) {
-     getProjectDao().openCurrentSession();
-     List<Project> taskList = projectrDao.findbyState(state);
-     getProjectDao().closeCurrentSession();
-     return taskList;
-     }
 
-     public List<Project> findbyUser(String user) {
-     getProjectDao().openCurrentSession();
-     List<Project> taskList = projectrDao.findbyUser(user);
-     getProjectDao().closeCurrentSession();
-     return taskList;
-     }*/
-    public void deleteAll() {
-        getProjectDao().openCurrentSessionwithTransaction();
-        getProjectDao().deleteAll();
-        getProjectDao().closeCurrentSessionwithTransaction();
+    public Project findById(Long id) {
+        getProjectDao().openCurrentSession();
+        Project task = getProjectDao().findById(id);
+        getProjectDao().closeCurrentSession();
+        return task;
     }
+
+    public Project findByProjectName(String projectName) {
+        getProjectDao().openCurrentSession();
+        Project project = getProjectDao().findByProjectName(projectName);
+        getProjectDao().closeCurrentSession();
+        return project;
+    }
+
+
+    // TODO implement method
+    public List<Project> findByUserName(String projectName) {
+        return new ArrayList<>();
+    }
+
 
     public ProjectDaoImpl getProjectDao() {
         return projectrDao;

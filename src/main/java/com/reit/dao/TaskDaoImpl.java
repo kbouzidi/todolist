@@ -26,6 +26,7 @@ package com.reit.dao;
 import com.reit.model.Project;
 import com.reit.model.Task;
 import com.reit.model.User;
+import com.reit.utils.EStates;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
@@ -39,23 +40,6 @@ import java.util.List;
 public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> {
 
     public TaskDaoImpl() {
-    }
-
-    public void add(Task task, Project project, User user) {
-        Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
-                .add(Restrictions.eq("projectName", project.getProjectName())).uniqueResult();
-
-        User userResult = (User) getCurrentSession().createCriteria(User.class)
-                .add(Restrictions.eq("userName", user.getUserName())).uniqueResult();
-
-        if (projectResul != null && userResult != null) {
-            task.setProject(projectResul);
-            task.setUser(userResult);
-            getCurrentSession().save(task);
-        } else {
-            getCurrentSession().save(task);
-        }
-
     }
 
     /**
@@ -80,13 +64,6 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         return task;
     }
 
-    public List<Task> findByProjectName(String projectName) {
-        Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
-                .add(Restrictions.eq("projectName", projectName)).uniqueResult();
-        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("project", projectResul));
-        return criteria.list();
-    }
-
     /**
      * @see com.reit.dao.IGenericDao#delete(com.reit.model.Task)
      */
@@ -102,15 +79,8 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         return taskList;
     }
 
-    public List<Task> findbyState(String state) {
-        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("state", state));
-        return criteria.list();
-    }
 
-    public List<Task> findbyUser(String user) {
-        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("author", user));
-        return criteria.list();
-    }
+
 
     public void deleteAll() {
         List<Task> taskList = findAll();
@@ -118,4 +88,68 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
             delete(task);
         }
     }
+
+
+    /**
+     * ---------------------------------------------------------
+     *
+     * Specific Create
+     *
+     * ---------------------------------------------------------
+     */
+    
+    public void add(Task task, Project project, User user) {
+        Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
+                .add(Restrictions.eq("projectName", project.getProjectName())).uniqueResult();
+
+        User userResult = (User) getCurrentSession().createCriteria(User.class)
+                .add(Restrictions.eq("userName", user.getUserName())).uniqueResult();
+
+        if (projectResul != null && userResult != null) {
+            task.setProject(projectResul);
+            task.setUser(userResult);
+            getCurrentSession().save(task);
+        } else {
+            getCurrentSession().save(task);
+        }
+
+    }
+    
+    /**
+     * ---------------------------------------------------------
+     *
+     * Find By methods
+     *
+     * ---------------------------------------------------------
+     */
+    
+
+    public Task findByTaskName(String taskName) {
+        Task task = (Task) getCurrentSession().createCriteria(Task.class)
+                .add(Restrictions.eq("taskName", taskName)).uniqueResult();
+        return task;
+    }
+
+    public List<Task> findByProjectName(String projectName) {
+        Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
+                .add(Restrictions.eq("projectName", projectName)).uniqueResult();
+        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("project", projectResul));
+        return criteria.list();
+    }
+
+
+    public List<Task> findByUserName(String userName) {
+        Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
+                .add(Restrictions.eq("userName", userName)).uniqueResult();
+        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("project", projectResul));
+        return criteria.list();
+    }
+
+    
+    public List<Task> findbyState(EStates state) {
+        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("state", state));
+        return criteria.list();
+    }
+
+
 }

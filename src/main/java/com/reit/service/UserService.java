@@ -25,6 +25,7 @@ package com.reit.service;
 
 import com.reit.dao.UserDaoImpl;
 import com.reit.model.User;
+
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ import java.util.List;
  * {@link User}</h3>
  */
 public class UserService {
-     private static UserDaoImpl userDao;
+    private static UserDaoImpl userDao;
 
     public UserService() {
         userDao = new UserDaoImpl();
@@ -51,18 +52,39 @@ public class UserService {
         getUserDao().closeCurrentSessionwithTransaction();
     }
 
-    public User findById(Long id) {
-        getUserDao().openCurrentSession();
-        User task = getUserDao().findById(id);
-        getUserDao().closeCurrentSession();
-        return task;
-    }
 
     public void delete(Long id) {
         getUserDao().openCurrentSessionwithTransaction();
         User task = getUserDao().findById(id);
         getUserDao().delete(task);
         getUserDao().closeCurrentSessionwithTransaction();
+    }
+
+    public void delete(String userName) {
+        getUserDao().openCurrentSessionwithTransaction();
+        User task = getUserDao().findByUserName(userName);
+        getUserDao().delete(task);
+        getUserDao().closeCurrentSessionwithTransaction();
+    }
+    
+
+    public void deleteAll() {
+        getUserDao().openCurrentSessionwithTransaction();
+        getUserDao().deleteAll();
+        getUserDao().closeCurrentSessionwithTransaction();
+    }
+
+
+    // TODO implement method
+    public User findByProjectName(String projectName) {
+        return new User();
+    }
+
+    public User findById(Long id) {
+        getUserDao().openCurrentSession();
+        User task = getUserDao().findById(id);
+        getUserDao().closeCurrentSession();
+        return task;
     }
 
     public List<User> findAll() {
@@ -72,25 +94,7 @@ public class UserService {
         return taskList;
     }
 
-    /*public List<User> findbyState(String state) {
-        getUserDao().openCurrentSession();
-        List<User> taskList = userDao.findbyState(state);
-        getUserDao().closeCurrentSession();
-        return taskList;
-    }
 
-    public List<User> findbyUser(String user) {
-        getUserDao().openCurrentSession();
-        List<User> taskList = userDao.findbyUser(user);
-        getUserDao().closeCurrentSession();
-        return taskList;
-    }*/
-
-    public void deleteAll() {
-        getUserDao().openCurrentSessionwithTransaction();
-        getUserDao().deleteAll();
-        getUserDao().closeCurrentSessionwithTransaction();
-    }
 
     public UserDaoImpl getUserDao() {
         return userDao;

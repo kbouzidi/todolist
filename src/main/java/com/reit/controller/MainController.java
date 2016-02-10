@@ -32,6 +32,7 @@ import com.reit.error.ErrorHandler;
 import com.reit.model.Task;
 import com.reit.service.ProjectService;
 import com.reit.service.UserService;
+import com.reit.utils.EStates;
 import com.reit.utils.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,13 +59,13 @@ public class MainController {
 
     Gson gson = new Gson();
 
+    static  final String SUCCESS = "SUCCESS";
     /**
      * Main Controller constructor
      *
-     * @param taskService {@link TaskService}
+     * @param taskService    {@link TaskService}
      * @param projectService {@link ProjectService}
-     * @param userService {@link UserService}
-     *
+     * @param userService    {@link UserService}
      */
     public MainController(final TaskService taskService, final ProjectService projectService, final UserService userService) {
 
@@ -78,10 +79,73 @@ public class MainController {
          *
          * ---------------------------------------------------------
          */
+
         // Health check
         get("/ping", (req, res) -> {
             return "pong";
         });
+
+
+        /**
+         * ---------------------------------------------------------
+         *
+         * User routes
+         *
+         * ---------------------------------------------------------
+         */
+
+        // Add new user
+        post("/user/add", (req, res) -> {
+            User user = gson.fromJson(req.body(), User.class);
+            userService.add(user);
+            return user;
+        }, json());
+
+
+        /**
+         * Find all users* 
+         */
+        get("/users", (req, res)
+                -> userService.findAll(), json());
+
+
+        /**
+         * Get users by project Name * 
+         */
+        get("/user/:projectName", (req, res) -> {
+            String projectName = req.params(":projectName");
+            return userService.findByProjectName(projectName);
+        }, json());
+
+
+        /**
+         * Update task state * 
+         */
+        put("/user/update", (req, res) -> {
+            User user = gson.fromJson(req.body(), User.class);
+            userService.update(user);
+            return user.getUserName();
+        }, json());
+
+
+        /**
+         * Delete user by user name * 
+         */
+        delete("/user/:userName", (req, res) -> {
+            String userName = req.params(":userName");
+            userService.delete(userName);
+            return userName;
+        }, json());
+
+
+        /**
+         * Delete all users *
+         */
+        delete("/users/all", (req, res) -> {
+            userService.deleteAll();
+            return SUCCESS;
+        }, json());
+
 
         /**
          * ---------------------------------------------------------
@@ -90,63 +154,90 @@ public class MainController {
          *
          * ---------------------------------------------------------
          */
-        // Add new user
-        post("/add/user", (req, res) -> {
-            User user = gson.fromJson(req.body(), User.class);
-            userService.add(user);
-            return user;
-        }, json());
 
-        // Add new project
-        post("/add/project", (req, res) -> {
-            Project project = gson.fromJson(req.body(), Project.class);
-            projectService.add(project);
-            return project;
-        }, json());
 
-        // Add new task
-        post("/add/task", (req, res) -> {
+        /**
+         * Add new task * 
+         */
+        post("/task/add", (req, res) -> {
             Task task = gson.fromJson(req.body(), Task.class);
             taskService.add(task, task.getProject(), task.getUser());
             return task;
         }, json());
 
-        // Get all tasks
+
+        /**
+         * Get all tasks * 
+         */
         get("/tasks", (req, res)
                 -> taskService.findAll(), json());
 
-        // Get tasks by project Name
+
+        /**
+         * Get tasks by project Name * 
+         */
         get("/tasks/:projectName", (req, res) -> {
             String projectName = req.params(":projectName");
             return taskService.findByProjectName(projectName);
         }, json());
 
-        // Update task state
-        put("/update/task", (req, res) -> {
+
+        /**
+         * Get tasks by user name * 
+         */
+        get("/tasks/:userName", (req, res) -> {
+            String userName = req.params(":userName");
+            return taskService.findByUserName(userName);
+        }, json());
+
+
+        /**
+         * Get DONE tasks* 
+         */
+        get("/tasks/done", (req, res)
+                -> taskService.findbyState(EStates.DONE), json());
+
+        /**
+         * Get ONGOING tasks * 
+         */
+        get("/tasks/ongoing", (req, res)
+                -> taskService.findbyState(EStates.ONGOING), json());
+
+
+        /**
+         * Get TO-DO tasks * 
+         */
+        get("/tasks/todo", (req, res)
+                -> taskService.findbyState(EStates.TODO), json());
+
+
+        /**
+         * Update task state * 
+         */
+        put("/task/update", (req, res) -> {
             Task todo = gson.fromJson(req.body(), Task.class);
             taskService.update(todo);
             return todo.getTask();
         }, json());
 
-        // Delete task by Task Name
+        /**
+         * Delete task by Task Name * 
+         */
         delete("/task/:taskName", (req, res) -> {
-            Double id = Double.parseDouble(req.params(":taskName"));
-            taskService.delete(id.longValue());
-            return id;
+            String taskName = req.params(":taskName");
+            taskService.delete(taskName);
+            return taskName;
         }, json());
 
-        // Get tasks by state
-        /*get("s/tate/:state", (req, res)
-         -> taskService.findbyState(EStates.DONE.getValue()), json());*/
-        // Get task by User
-        //TODO update the service with new data model
-       /* get("/todo/:user", (req, res)
-         -> taskService.findbyUser(req.params(":user")), json());*/
-        // Reset dashboard
+
+        /**
+         * Delete all tasks* 
+         */
         delete("/tasks/all", (req, res) -> {
             taskService.deleteAll();
-            return null;
+            return SUCCESS;
         }, json());
+
 
         /**
          * ---------------------------------------------------------
@@ -155,28 +246,49 @@ public class MainController {
          *
          * ---------------------------------------------------------
          */
-        // Add new task
-        post("/add/project", (req, res) -> {
+
+        /**
+         * Add new project* 
+         */
+        post("/project/add", (req, res) -> {
             Project project = gson.fromJson(req.body(), Project.class);
             projectService.add(project);
             return project;
         }, json());
 
-        // Get all projects
+
+        /**
+         * Get all projects * 
+         */
         get("/projects", (req, res)
                 -> projectService.findAll(), json());
 
-        // TODO delete project by ProjectName
 
-        /*
-         delete("/project/:projectName", (req, res) -> {
-         taskService.deleteAll();
-         return null;
-         }, json());
+        /**
+         * Get projects by user name *
          */
+        // TODO
+       /* get("/projects/:userName", (req, res) -> {
+            String userName = req.params(":userName");
+            return projectService.findByProjectName(userName);
+        }, json());*/
+
+
+        // Delete project by Pro
+        delete("/project/:projectName", (req, res) -> {
+            String projectName = req.params(":projectName");
+            projectService.delete(projectName);
+            return null;
+        }, json());
+
+
+        delete("/projects/all", (req, res) -> {
+            projectService.deleteAll();
+            return null;
+        }, json());
         /**
          * ---------------------------------------------------------
-         * 
+         *
          * Request/Response parameter + CORS conf
          *
          * ---------------------------------------------------------
