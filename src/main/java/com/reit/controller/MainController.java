@@ -111,7 +111,7 @@ public class MainController {
 
 
         /**
-         * Get users by project Name * 
+         * Get users by project Name *
          */
         get("/user/:projectName", (req, res) -> {
             String projectName = req.params(":projectName");
@@ -274,7 +274,9 @@ public class MainController {
         }, json());
 
 
-        // Delete project by Pro
+        /**
+         * Delete project by project Name* 
+         */
         delete("/project/:projectName", (req, res) -> {
             String projectName = req.params(":projectName");
             projectService.delete(projectName);
@@ -282,6 +284,9 @@ public class MainController {
         }, json());
 
 
+        /**
+         * Delete all projects*
+         */
         delete("/projects/all", (req, res) -> {
             projectService.deleteAll();
             return null;
