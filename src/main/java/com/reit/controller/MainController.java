@@ -35,15 +35,32 @@ public class MainController {
 
     Gson gson = new Gson();
 
+    /**
+     * Main controller
+     *
+     */
     public MainController(final TaskService taskService, final ProjectService projectService, final UserService userService) {
 
         // Set static file location {/resources/public}
         staticFileLocation("/public");
 
+
+        /**---------------------------------------------------------
+         *  Health check routes
+         *  For monitoring purpose  
+         *
+         *---------------------------------------------------------*/
+
         // Health check
         get("/ping", (req, res) -> {
             return "pong";
         });
+
+
+        /**---------------------------------------------------------
+         *  Tasks routes
+         *
+         *---------------------------------------------------------*/
 
         // Add new user
         post("/add/user", (req, res) -> {
@@ -76,6 +93,45 @@ public class MainController {
             return taskService.findByProjectName(projectName);
         }, json());
 
+        // Update task state
+        put("/update/task", (req, res) -> {
+            Task todo = gson.fromJson(req.body(), Task.class);
+            taskService.update(todo);
+            return todo.getTask();
+        }, json());
+
+
+        // Delete task by Task Name
+        delete("/task/:taskName", (req, res) -> {
+            Double id = Double.parseDouble(req.params(":taskName"));
+            taskService.delete(id.longValue());
+            return id;
+        }, json());
+
+
+        // Get tasks by state
+        
+        /*get("s/tate/:state", (req, res)
+                -> taskService.findbyState(EStates.DONE.getValue()), json());*/
+
+
+        // Get task by User
+        //TODO update the service with new data model
+       /* get("/todo/:user", (req, res)
+                -> taskService.findbyUser(req.params(":user")), json());*/
+
+
+        // Reset dashboard
+        delete("/tasks/all", (req, res) -> {
+            taskService.deleteAll();
+            return null;
+        }, json());
+
+
+        /**---------------------------------------------------------
+         *  Project routes
+         *
+         *---------------------------------------------------------*/
 
         // Add new task
         post("/add/project", (req, res) -> {
@@ -88,33 +144,21 @@ public class MainController {
         get("/projects", (req, res)
                 -> projectService.findAll(), json());
 
-        // Update task state
-        put("/update", (req, res) -> {
-            Task todo = gson.fromJson(req.body(), Task.class);
-            taskService.update(todo);
-            return todo.getTask();
-        }, json());
 
-        // Delete task state
-        delete("/todo/:id", (req, res) -> {
-            Double id = Double.parseDouble(req.params(":id"));
-            taskService.delete(id.longValue());
-            return id;
-        }, json());
+        // TODO delete project by ProjectName
 
-        // Get done tasks 
-        get("/done", (req, res)
-                -> taskService.findbyState(EStates.DONE.getValue()), json());
-
-        // Get task by User
-        get("/todo/:user", (req, res)
-                -> taskService.findbyUser(req.params(":user")), json());
-
-        // Reset dashboard
-        delete("/todos/all", (req, res) -> {
+        /*
+         delete("/project/:projectName", (req, res) -> {
             taskService.deleteAll();
             return null;
         }, json());
+        */
+
+
+        /**---------------------------------------------------------
+         *  Request/Response parameter + CORS conf
+         *
+         *---------------------------------------------------------*/
 
         after((req, res) -> {
             res.type("application/json");
@@ -125,7 +169,6 @@ public class MainController {
             res.status(400);
             res.body(JsonUtil.toJson(new ResponseError(e)));
         });
-
 
         options("/*", (req, res) -> {
 
