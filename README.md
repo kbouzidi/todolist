@@ -18,6 +18,11 @@ todolist/
 ## Description 
 TO-DO list to track project progress.
 
+A web App for easily organising project, tasks. Check out the live demo.
+
+Todo comes with a broad range of features including nested adding new Task, new User, new project, with clean API and modern views. 
+It's best viewed in a modern browser but fallbacks will be available soon.
+
 
 ## API description
  
@@ -49,3 +54,8 @@ Go to the server folder and execute the following commands
 
 ## Run Batch
  - `mvn jetty:run`
+
+
+### Contributing
+
+TODO welcomes any and all contributions! Please read the [CONTRIBUTING guide]() for details on developing and submitting your contributions.
