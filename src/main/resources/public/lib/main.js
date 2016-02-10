@@ -6,7 +6,7 @@ angular
     .controller('DialogAddProjectController', DialogAddProjectController)
     .controller('LoginController', LoginController);
 
-function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $http) {
+function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $mdSidenav, $http) {
     if (!$rootScope.user) {
         $mdDialog.show({
             controller: LoginController,
@@ -130,7 +130,7 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $http) {
         }).error(function (err, status) {
             $log.error(err + 'status' + status);
         })
-    }
+    };
 
 
 }

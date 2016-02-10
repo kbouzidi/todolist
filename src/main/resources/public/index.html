@@ -9,9 +9,26 @@
             >
     <link rel="stylesheet" href="css/main.css">
 </head>
-<body>
+<body layout="row" ng-controller="AppCtrl">
 
-<div ng-controller="AppCtrl" class="sample tabsdemoDynamicTabs" layout="column" ng-cloak="" ng-app="MyApp">
+<!--<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
+            md-is-locked-open="$mdMedia('gt-md')">
+    <md-toolbar class="md-hue-2">
+        <span flex></span>
+
+        <div layout="row" layout-align="start center">
+            <md-icon><i class="material-icons md-48">face</i></md-icon>
+            <span flex></span>
+        </div>
+        <span flex></span>
+
+        <h2>
+            <span>{{userName}}</span>
+        </h2>
+    </md-toolbar>
+</md-sidenav>-->
+
+<div class="sample tabsdemoDynamicTabs" layout="column" ng-cloak="" class="relative" layout-fill role="main">
     <div class="page-container">
         <div class="page">
             <md-content class="md-padding">
@@ -21,25 +38,21 @@
                         <md-toolbar>
                             <div class="md-toolbar-tools">
 
-                                <md-button class="md-icon-button" aria-label="Settings">
-                                    <i class="material-icons">face</i>
+                                <md-button class="md-icon-button" aria-label="Settings" ng-click="addProject()">
+                                    <i class="material-icons">add</i>
                                 </md-button>
                                 <h2>
-                                    <span>{{userName}}</span>
+                                    <span>{{tab.projectName}} Dashboard</span>
                                 </h2>
-                                <!-- <h2>
-                                     <span>Project {{tab.title}} Dashboard</span>
-                                 </h2>-->
                                 <span flex></span>
 
+                                <h2>
+                                    <span>{{userName}} </span>
+                                </h2>
 
-                                <md-button class="md-primary md-raised" ng-click="removeTab(tab)"
-                                           ng-disabled="tabs.length <= 1">
+                                <md-button class="md-icon-button" aria-label="Settings"
+                                           ng-click="removeProject(tab.projectId)">
                                     <i class="material-icons">delete_forever</i>
-                                </md-button>
-                                <md-button class="md-primary md-raised" ng-click="addProject()"
-                                           ng-disabled="tabs.length <= 1">
-                                    Remove With modal
                                 </md-button>
                             </div>
                         </md-toolbar>
