@@ -2,11 +2,9 @@ package com.reit.utils;
 
 
 public enum EStates {
-    STARTED("STARTED"),
+    TODO("TODO"),
     ONGOING("ONGOING"),
-    DONE("DONE"),
-    DELETED("DELETED"),
-    POSTPONED("POSTPONED");
+    DONE("DONE");
 
     private String value;
 

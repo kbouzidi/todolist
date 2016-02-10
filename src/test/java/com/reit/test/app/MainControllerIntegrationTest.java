@@ -61,7 +61,7 @@ public class MainControllerIntegrationTest {
     Gson gson = new Gson();
     String user = "User";
     String desc = "This is a Task";
-    String state = EStates.STARTED.getValue();
+    String state = EStates.TODO.getValue();
 
     @BeforeClass
     public static void setUp() {

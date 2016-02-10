@@ -25,42 +25,47 @@ package com.reit.dao;
 
 import com.reit.model.Task;
 import com.reit.model.User;
+
 import java.util.List;
 
 /**
- *
  * @author kbouzidi
  */
 public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> {
 
     @Override
     public void add(User entity) {
-         getCurrentSession().save(entity);
+        getCurrentSession().save(entity);
     }
 
     @Override
     public void update(User entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getCurrentSession().update(entity);
     }
 
     @Override
     public User findById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User user = (User) getCurrentSession().get(User.class, id);
+        return user;
     }
 
     @Override
     public void delete(User entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getCurrentSession().delete(entity);
     }
 
     @Override
     public List<User> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<User> userList = (List<User>) getCurrentSession().createQuery("from User").list();
+        return userList;
     }
 
     @Override
     public void deleteAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<User> userList = findAll();
+        for (User user : userList) {
+            delete(user);
+        }
     }
-    
+
 }

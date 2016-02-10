@@ -10,13 +10,13 @@ import java.util.List;
 
 public class Constants {
 
-    public static final String userName = "User";
+    public static final String userName = "USER";
     public static final String desc = "This is a Task";
-    public static final String state = EStates.STARTED.getValue();
+    public static final String state = EStates.TODO.getValue();
     public static final Long one = Long.decode("1");
     public static final Long two = Long.decode("2");
-    public static final String projectName = "Project";
-    public static final String taskName = "Task";
+    public static final String projectName = "PROJECT";
+    public static final String taskName = "TASK";
 
     private User user1 = new User();
 
@@ -44,7 +44,7 @@ public class Constants {
         task.setTaskName(taskName + one.toString());
         task.setProject(getProjectSample(two.toString()));
         task.setUser(getUserSample(two.toString()));
-        task.setState("STARTED");
+        task.setState(EStates.ONGOING.getValue());
         return task;
     }
 
@@ -54,7 +54,29 @@ public class Constants {
         task.setTaskName(taskName + two.toString());
         task.setProject(getProjectSample(two.toString()));
         task.setUser(getUserSample(two.toString()));
-        task.setState("STARTED");
+        task.setState(EStates.ONGOING.getValue());
+        return task;
+    }
+
+
+    public static Task getTaskSample3() {
+        Task task = new Task();
+        task.setDescription(desc);
+        task.setTaskName(taskName + two.toString());
+        task.setProject(getProjectSample(two.toString()));
+        task.setUser(getUserSample(two.toString()));
+        task.setState(EStates.TODO.getValue());
+        return task;
+    }
+
+
+    public static Task getTaskSample4() {
+        Task task = new Task();
+        task.setDescription(desc);
+        task.setTaskName(taskName + two.toString());
+        task.setProject(getProjectSample(one.toString()));
+        task.setUser(getUserSample(two.toString()));
+        task.setState(EStates.DONE.getValue());
         return task;
     }
 }

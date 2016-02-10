@@ -111,7 +111,7 @@ public class TaskDaoTest {
         Mockito.when(sessionMock.get(Mockito.<Class>any(), Mockito.any())).thenReturn(task);
         Mockito.when(taskDaoMock.findById(Mockito.any())).thenCallRealMethod();
         Task result = (Task) taskDaoMock.findById(Constants.getTaskSample().getId());
-      //  assertEquals(result.getUsers().getUserName(), Constants.getTaskSample().getTask().getUsers().getUserName());
+        assertEquals(result.getTaskName(), Constants.getTaskSample().getTask().getTaskName());
 
     }
 

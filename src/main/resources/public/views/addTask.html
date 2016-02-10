@@ -1,26 +1,26 @@
 <md-dialog aria-label="New Task">
     <md-content class="md-padding">
-        <form name="userForm">
+        <form name="TaskForm">
             <div layout layout-sm="column">
-                <md-input-container flex><label>First Name</label> <input ng-model="user.firstName"
-                                                                          placeholder="Placeholder text">
+                <md-input-container flex><label>Task Name</label> <input ng-model="task.taskName"
+                                                                         placeholder="Task Name">
                 </md-input-container>
-                <md-input-container flex><label>Last Name</label> <input ng-model="theMax"></md-input-container>
-            </div>
-            <md-input-container flex><label>Address</label> <input ng-model="user.address"></md-input-container>
-            <div layout layout-sm="column">
-                <md-input-container flex><label>City</label> <input ng-model="user.city"></md-input-container>
-                <md-input-container flex><label>State</label> <input ng-model="user.state"></md-input-container>
-                <md-input-container flex><label>Postal Code</label> <input ng-model="user.postalCode">
+                <md-input-container flex><label>Description</label><input ng-model="task.description"
+                                                                          placeholder="Description">
                 </md-input-container>
             </div>
-            <md-input-container flex><label>Biography</label> <textarea ng-model="user.biography" columns="1"
-                                                                        md-maxlength="150"></textarea>
-            </md-input-container>
+
+            <md-radio-group ng-model="task.state">
+                <md-radio-button value="TODO" class="md-primary">TODO</md-radio-button>
+                <md-radio-button value="ONGOING"> ONGOING</md-radio-button>
+                <md-radio-button value="DONE">DONE</md-radio-button>
+            </md-radio-group>
+
+
         </form>
     </md-content>
     <div class="md-actions" layout="row"><span flex></span>
-        <md-button ng-click="cancel()"> Cancel</md-button>
-        <md-button ng-click="add(user)" class="md-primary"> Save</md-button>
+        <md-button ng-click="cancelAddTask()"> Cancel</md-button>
+        <md-button ng-click="addTask(task)" class="md-primary"> Save</md-button>
     </div>
 </md-dialog>

@@ -43,17 +43,18 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
 
     @Override
     public void update(Project entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getCurrentSession().update(entity);
     }
 
     @Override
     public Project findById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Project project = (Project) getCurrentSession().get(Project.class, id);
+        return project;
     }
 
     @Override
     public void delete(Project entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getCurrentSession().delete(entity);
     }
 
     @Override
@@ -64,7 +65,10 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
 
     @Override
     public void deleteAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Project> projectList = findAll();
+        for (Project project : projectList) {
+            delete(project);
+        }
     }
 
 }

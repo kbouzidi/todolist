@@ -77,6 +77,13 @@ public class MainController {
         }, json());
 
 
+        // Add new task
+        post("/add/project", (req, res) -> {
+            Project project = gson.fromJson(req.body(), Project.class);
+            projectService.add(project);
+            return project;
+        }, json());
+
         // Get all projects
         get("/projects", (req, res)
                 -> projectService.findAll(), json());
