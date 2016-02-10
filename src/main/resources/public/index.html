@@ -1,97 +1,174 @@
-<!DOCTYPE html>
-<html ng-app="todowebapp">
+<html ng-app="MyApp">
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
     <title>Todo App</title>
-    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="dependencies/angular-material.min.css">
+    <link rel="stylesheet" href="dependencies/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            >
     <link rel="stylesheet" href="css/main.css">
 </head>
-<body style="margin: 0; padding: 0;" ng-controller="MainCtrl">
+<body>
 
-<!--  header  -->
-<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
-    <tr>
-        <td>
-            <table width="600" cellpadding="0" cellspacing="0" align="center"
-                   style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <tr>
-                    <td width="100%" height="40"></td>
-                </tr>
-                <tr>
-                    <td>
-                        <!--  Logo  -->
-                        <table border="0" align="left" cellpadding="0" cellspacing="0"
-                               style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <a href="/todos"><img src="img/TodoLogo.png" alt="Bella" border="0"
-                                                          style="display: block;"/>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+<div ng-controller="AppCtrl" class="sample tabsdemoDynamicTabs" layout="column" ng-cloak="" ng-app="MyApp">
+    <md-content class="md-padding">
+        <md-tabs md-dynamic-height md-selected="selectedIndex" md-border-bottom="" md-autoselect="">
+            <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.projectName}}">
+                <!-- projectId: 270
+projectName: "Project2"-->
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
 
-                        <!--  navigation menu  -->
-                        <table border="0" align="right" cellpadding="0" cellspacing="0"
-                               style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                            <tbody>
-                            <tr>
-                                <td height="3"></td>
-                            </tr>
-
-                            <tr>
-                                <td style="color: #6c6b6b; font-family: 'Raleway', arial; font-weight: 400; font-size: 14px; letter-spacing:0.5px;">
-                                    <a href="#" style="color: #6c6b6b; text-decoration:none;">About</a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="100%" height="40"></td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-
-<!--  end header  -->
+                        <md-button class="md-icon-button" aria-label="Settings">
+                            <i class="material-icons">face</i>
+                        </md-button>
+                        <!-- <h2>
+                             <span>Project {{tab.title}} Dashboard</span>
+                         </h2>-->
+                        <span flex></span>
 
 
-<!--<div class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">TodoApp</a>
-        </div>
-    </div>
-</div>-->
+                        <md-button class="md-primary md-raised" ng-click="removeTab( tab )"
+                                   ng-disabled="tabs.length <= 1">
+                            Remove Tab
+                        </md-button>
+                    </div>
+                </md-toolbar>
 
-<!--  services  -->
-<!--  call to action  -->
-<div class="container">
+                <form ng-submit="addTab(proName,desc)" layout="column" class="md-padding"
+                      style="padding-top: 0;">
+                    <div layout="row" layout-sm="column">
+                        <div flex="" style="position: relative;">
+                            <h3 class="md-subhead"> Add a new Project:</h3>
+                        </div>
+                        <md-input-container>
+                            <label for="label">Project Name</label>
+                            <input type="text" id="label" ng-model="proName">
+                        </md-input-container>
+                        <md-input-container>
+                            <label for="content">Description</label>
+                            <input type="text" id="content" ng-model="desc">
+                        </md-input-container>
+                        <md-button class="add-tab md-primary md-raised" ng-disabled="!proName || !desc"
+                                   type="submit"
+                                >Add Project
+                        </md-button>
+                    </div>
+                </form>
+                <!--{taskId: 269, state: "STARTED", taskName: "Task1", description: "This is a Task", user: Object…}-->
+                <div layout="row" layout-wrap>
+                    <div flex="30">
+                        <md-subheader>Todo</md-subheader>
+                        <md-list>
+                            <md-list-item class="md-3-line" ng-repeat="task in tasks
+                            | filter: { name: query, state: 'TODO' }" style="background-color: #f9fbe7;">
 
-    <!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
-    <div ui-view></div>
+
+                                <div class="md-list-item-text">
+                                    <h3><i class="material-icons">card_membership</i></h3>
+
+
+                                    <h4>{{task.taskName}}</h4>
+
+                                    <p>{{task.description}}</p>
+
+
+                                </div>
+                                <md-button class="md-icon-button" aria-label="Settings">
+                                    <i class="material-icons">assignment</i>
+                                </md-button>
+                                <md-button class="md-icon-button" aria-label="Settings">
+                                    <i class="material-icons">delete</i>
+                                </md-button>
+                                <md-divider ng-if="!$last"></md-divider>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                    <div flex="45">
+                        <md-subheader class="md-primary">Ongoing</md-subheader>
+                        <md-list>
+                            <md-list-item class="md-3-line" ng-repeat="task in tasks
+                            | filter: { name: query, state: 'ONGOING' }"
+                                          style="background-color: #80d8ff;">
+                                <div class="md-list-item-text">
+                                    <h3><i class="material-icons">card_membership</i></h3>
+
+
+                                    <h4>{{task.taskName}}</h4>
+
+                                    <p>{{task.description}}</p>
+
+
+                                </div>
+
+                                <md-button class="md-icon-button" aria-label="Settings">
+                                    <i class="material-icons">done</i>
+                                </md-button>
+                                <md-button class="md-icon-button" aria-label="Settings">
+                                    <i class="material-icons">delete</i>
+                                </md-button>
+                                <md-divider ng-if="!$last"></md-divider>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                    <div flex="25">
+                        <md-subheader class="md-accent">Done</md-subheader>
+                        <md-list>
+                            <md-list-item class="md-3-line" ng-repeat="task in tasks
+                            | filter: { name: query, state: 'DONE' }" style="background-color: #d0f8ce;">
+                                <div class="md-list-item-text">
+                                    <h3><i class="material-icons">account_circle</i></h3>
+
+
+                                    <h4>{{task.taskName}}</h4>
+
+                                    <p>{{task.description}}</p>
+
+
+                                </div>
+
+                                <md-button class="md-icon-button" aria-label="Settings">
+                                    <i class="material-icons">assignment_turned_in</i>
+                                </md-button>
+                                <md-button class="md-icon-button" aria-label="Settings">
+                                    <i class="material-icons">delete</i>
+                                </md-button>
+                                <md-divider ng-if="!$last"></md-divider>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                </div>
+
+                <md-content>
+
+                </md-content>
+
+
+                <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
+                    <div ng-bind="tab.content"></div>
+                    <br>
+
+
+                    <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAddTask()">
+                        <i class="material-icons">add</i>
+                    </md-button>
+
+                </div>
+            </md-tab>
+        </md-tabs>
+    </md-content>
 
 </div>
 
-
 </body>
-<script src="vendor/angular/angular.min.js"></script>
-<script src="vendor/angular-route/angular-route.min.js"></script>
-<script src="vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
-<script src="vendor/jquery/dist/jquery.min.js"></script>
-<script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="dependencies/angular.min.js"></script>
+<script src="dependencies/angular-animate.min.js"></script>
+<script src="dependencies/angular-aria.min.js"></script>
+<script src="dependencies/angular-messages.min.js"></script>
+<script src="dependencies/angular-route.min.js"></script>
+<script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>
+<script src="dependencies/angular-material.min.js"></script>
+
 <script src="lib/main.js"></script>
 </html>

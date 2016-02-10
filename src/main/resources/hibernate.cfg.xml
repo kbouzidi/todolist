@@ -3,13 +3,11 @@
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-
         <!-- DB credentials-->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/todo</property>
-        <property name="hibernate.connection.username">test</property>
-        <property name="hibernate.connection.password">test</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/test</property>
+        <property name="hibernate.connection.username">sylvain</property>
+        <property name="hibernate.connection.password">sylvain</property>
 
         <!-- DB properties-->
         <property name="connection_pool_size">1</property>

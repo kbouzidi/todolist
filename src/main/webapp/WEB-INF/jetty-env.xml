@@ -1,6 +1,3 @@
-<?xml version="1.0"?>
-<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
-
 <Configure class="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
 
 
@@ -13,9 +10,9 @@
         <Arg>jdbc/ReitPostgres</Arg>
         <Arg>
             <New class="org.postgresql.ds.PGConnectionPoolDataSource">
-                <Set name="User">test</Set>
-                <Set name="Password">test</Set>
-                <Set name="DatabaseName">todo</Set>
+                <Set name="User">sylvain</Set>
+                <Set name="Password">sylvain</Set>
+                <Set name="DatabaseName">test</Set>
                 <Set name="ServerName">localhost</Set>
                 <Set name="PortNumber">5432</Set>
             </New>
