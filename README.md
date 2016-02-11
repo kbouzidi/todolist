@@ -51,6 +51,12 @@ For Windows users please install `Cygwin`
 ## Server installation 
 Go to the server folder and execute the following commands
 
+### Database
+- `psql -c "CREATE USER sylvain WITH PASSWORD 'sylvain';"`
+- `psql -c 'create database tests;' -U postgres`
+- `psql -c 'grant all privileges on database tests to sylvain;' -U postgres`
+
+## Maven
 - `mvn clean install`
 
 ## Run Batch
