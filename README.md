@@ -1,6 +1,7 @@
 # Todo List Web App
 
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org) [![Build Status](https://api.travis-ci.org/kbouzidi/todolist.svg?branch=master)](https://travis-ci.org/kbouzidi/todolist/branches)  [![Build Status](https://codeship.com/projects/061c9970-ae2b-0133-3079-7e50fc25e7b7/status?branch=master)](https://codeship.com/projects/132245)
+[![Coverage Status](https://coveralls.io/repos/github/kbouzidi/todolist/badge.svg?branch=master)](https://coveralls.io/github/kbouzidi/todolist?branch=master)
 
 
 ## Overall directory structure
