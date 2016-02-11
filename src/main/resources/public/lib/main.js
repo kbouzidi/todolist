@@ -1,12 +1,12 @@
 angular
     .module('MyApp', ['ngRoute', 'ngMaterial', 'ngMessages'])
     .controller('AppCtrl', AppCtrl)
-    .controller('ListCtrl', ListCtrl)
     .controller('DialogAddTaskController', DialogAddTaskController)
     .controller('DialogAddProjectController', DialogAddProjectController)
     .controller('LoginController', LoginController);
 
 function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $mdSidenav, $http) {
+    $rootScope.isNotProject = true;
     if (!$rootScope.user) {
         $mdDialog.show({
             controller: LoginController,
@@ -26,13 +26,16 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $mdSidenav
 
     $http.get('/projects').success(function (projects) {
         $rootScope.tabs = projects;
+        if (projects.length > 0) {
+            $rootScope.isNotProject = false;
+            $http.get('/tasks/' + projects[0].projectName).success(function (tasks) {
+                $rootScope.tasks = tasks;
+                $scope.selectedIndex = projects.length;
+            }).error(function (err, status) {
+                $log.error(err + 'status' + status)
+            });
+        }
 
-        $http.get('/tasks/' + projects[0].projectName).success(function (tasks) {
-            $rootScope.tasks = tasks;
-            $scope.selectedIndex = projects.length;
-        }).error(function (err, status) {
-            $log.error(err + 'status' + status)
-        });
 
     }).error(function (err, status) {
         $log.error(err + 'status' + status)
@@ -43,6 +46,7 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $mdSidenav
     var previous = null;
 
     $rootScope.tasks = tasks;
+
 
     $scope.selectedIndex = 0;
 
@@ -64,19 +68,21 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $mdSidenav
     });
 
 
-    $scope.addTab = function (projectName, description) {
-        $http.post('/project/add', {projectName: projectName, projectDescription: description}).success(function (data) {
-            $log.debug('data ' + data);
-            $rootScope.tabs.push({projectName: projectName, disabled: false});
-        }).error(function (err, status) {
-            $log.error(err + 'status' + status);
-        })
+    $scope.deleteProject = function (project) {
 
-    };
-    $scope.removeTab = function (tab) {
-        var index = $rootScope.tabs.indexOf(tab);
-        // TODO call remove Project
-        $rootScope.tabs.splice(index, 1);
+        if (project) {
+            $http.delete('/project/' + project.projectName).success(function (data) {
+                $log.debug('data ' + data);
+                $rootScope.tabs = $rootScope.tabs.filter(function (obj) {
+                    return obj.projectName !== project.projectName;
+                });
+                if ($rootScope.tabs.length<1){
+                    $rootScope.isNotProject = true;
+                }
+            }).error(function (err, status) {
+                $log.error(err + 'status' + status);
+            })
+        }
     };
 
 
@@ -121,39 +127,29 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $mdSidenav
 
 
     $scope.deleteTask = function (task) {
-        task.state = "DELETED";
-        $http.put('/task', task).success(function (data) {
-            $log.debug('data ' + data);
-            $rootScope.tasks = $rootScope.tasks.filter(function (obj) {
-                return obj._id !== taskId;
-            });
-        }).error(function (err, status) {
-            $log.error(err + 'status' + status);
-        })
+        if (task) {
+            $http.delete('/task/name/' + task.taskName).success(function (data) {
+                $log.debug('data ' + data);
+                $rootScope.tasks = $rootScope.tasks.filter(function (obj) {
+                    return obj.taskName !== task.taskName;
+                });
+            }).error(function (err, status) {
+                $log.error(err + 'status' + status);
+            })
+        }
+
     };
 
 
 }
 
-function ListCtrl($scope, $mdBottomSheet) {
-    // Reserver for futur use
-    $scope.items = [
-        {name: 'Share', icon: 'share-arrow'},
-        {name: 'Upload', icon: 'upload'},
-        {name: 'Copy', icon: 'copy'},
-        {name: 'Print this page', icon: 'print'}
-    ];
-    $scope.listItemClick = function ($index) {
-        var clickedItem = $scope.items[$index];
-        $mdBottomSheet.hide(clickedItem);
-    };
-}
 
 function DialogAddProjectController($scope, $http, $mdDialog, $log, $rootScope) {
 
     $scope.addProject = function (project) {
         $http.post('/project/add', {projectName: project.projectName, projectDescription: project.description}).success(function (data) {
             $log.debug('data ' + data);
+            $rootScope.isNotProject = false;
             $rootScope.tabs.push({projectName: project.projectName, disabled: false});
             $mdDialog.hide(project);
         }).error(function (err, status) {
@@ -217,7 +213,7 @@ function LoginController($scope, $mdDialog, $log, $http, $rootScope) {
         $rootScope.userName = logged;
         $log.debug($rootScope.userName);
         $mdDialog.hide(logged);
-    }
+    };
 
     $scope.addUser = function (user) {
         $http.post('/user/add', {userName: user.userName}).success(function (data) {
