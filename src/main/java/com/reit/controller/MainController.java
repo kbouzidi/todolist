@@ -289,7 +289,8 @@ public class MainController {
          */
         delete("/project/:projectName", (req, res) -> {
             String projectName = req.params(":projectName");
-            projectService.delete(projectName);
+            taskService.deleteAllByProjectName(projectName);
+            projectService.deleteByProjectName(projectName);
             return null;
         }, json());
 
@@ -298,6 +299,7 @@ public class MainController {
          * Delete all projects*
          */
         delete("/projects/all", (req, res) -> {
+            taskService.deleteAll();
             projectService.deleteAll();
             return null;
         }, json());

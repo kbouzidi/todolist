@@ -55,7 +55,7 @@ public class Task implements Serializable {
     private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "N_CREATED_BY")
+    @JoinColumn(name = "N_CREATED_BY", nullable = true)
     private User createdBy;
 
     @ManyToOne(cascade = CascadeType.ALL)

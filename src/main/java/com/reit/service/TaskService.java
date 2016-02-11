@@ -69,15 +69,12 @@ public class TaskService {
         return task;
     }
 
-
     public List<Task> findByProjectName(String projectName) {
         getTaskDao().openCurrentSession();
         List<Task> task = getTaskDao().findByProjectName(projectName);
         getTaskDao().closeCurrentSession();
         return task;
     }
-
-    
 
     public List<Task> findByUserName(String userName) {
         getTaskDao().openCurrentSession();
@@ -92,7 +89,6 @@ public class TaskService {
         getTaskDao().delete(task);
         getTaskDao().closeCurrentSessionwithTransaction();
     }
-
 
     public void delete(String taskName) {
         getTaskDao().openCurrentSessionwithTransaction();
@@ -115,11 +111,15 @@ public class TaskService {
         return taskList;
     }
 
-
-
     public void deleteAll() {
         getTaskDao().openCurrentSessionwithTransaction();
         getTaskDao().deleteAll();
+        getTaskDao().closeCurrentSessionwithTransaction();
+    }
+
+    public void deleteAllByProjectName(String projectName) {
+        getTaskDao().openCurrentSessionwithTransaction();
+        getTaskDao().deleteAllByProjectName(projectName);
         getTaskDao().closeCurrentSessionwithTransaction();
     }
 

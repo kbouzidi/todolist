@@ -46,7 +46,7 @@ public class Project implements Serializable {
     private String projectDescription;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "N_USER_ID")
+    @JoinColumn(name = "N_USER_ID",  nullable = true)
     private User user;
 
     

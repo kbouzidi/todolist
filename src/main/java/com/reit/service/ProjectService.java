@@ -54,7 +54,6 @@ public class ProjectService {
         getProjectDao().closeCurrentSessionwithTransaction();
     }
 
-
     public void delete(Long id) {
         getProjectDao().openCurrentSessionwithTransaction();
         Project project = getProjectDao().findById(id);
@@ -62,10 +61,12 @@ public class ProjectService {
         getProjectDao().closeCurrentSessionwithTransaction();
     }
 
-    public void delete(String projectName) {
+    public void deleteByProjectName(String projectName) {
         getProjectDao().openCurrentSessionwithTransaction();
         Project project = getProjectDao().findByProjectName(projectName);
-        getProjectDao().delete(project);
+        if (project != null) {
+            getProjectDao().delete(project);
+        }
         getProjectDao().closeCurrentSessionwithTransaction();
     }
 
@@ -75,14 +76,12 @@ public class ProjectService {
         getProjectDao().closeCurrentSessionwithTransaction();
     }
 
-
     public List<Project> findAll() {
         getProjectDao().openCurrentSession();
-        List<Project> taskList = projectrDao.findAll();
+        List<Project> projectList = projectrDao.findAll();
         getProjectDao().closeCurrentSession();
-        return taskList;
+        return projectList;
     }
-
 
     public Project findById(Long id) {
         getProjectDao().openCurrentSession();
@@ -98,12 +97,10 @@ public class ProjectService {
         return project;
     }
 
-
     // TODO implement method
     public List<Project> findByUserName(String projectName) {
         return new ArrayList<>();
     }
-
 
     public ProjectDaoImpl getProjectDao() {
         return projectrDao;

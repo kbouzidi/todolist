@@ -25,8 +25,8 @@ package com.reit.test.app;
 
 import com.google.gson.Gson;
 import com.reit.test.utils.Constants;
-import com.reit.utils.EStates;
-import com.reit.model.Task;
+import static com.reit.test.utils.Constants.projectName;
+import static com.reit.test.utils.Constants.two;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -99,6 +99,30 @@ public class MainControllerIntegrationTest {
     public void _addTask2() {
         String toJson = gson.toJson(Constants.getTaskSample2());
         TestResponse res = request("POST", "/task/add", toJson);
+        assertEquals(200, res.status);
+    }
+
+    // @Test
+    public void _deleteTask() {
+        String toJson = gson.toJson(Constants.getTaskSample2());
+        TestResponse res = request("POST", "/task/add", toJson);
+        assertEquals(200, res.status);
+    }
+
+    @Test
+    public void _deleteProject() {
+        TestResponse res = request("DELETE", "/project/" + Constants.getProjectSample(null).getProjectName(), null);
+        assertEquals(200, res.status);
+    }
+
+        @Test
+    public void _deleteProject2() {
+        TestResponse res = request("DELETE", "/project/" + projectName + two.toString(), null);
+        assertEquals(200, res.status);
+    }
+    //@Test
+    public void _deleteAllProject() {
+        TestResponse res = request("DELETE", "/projects/all", null);
         assertEquals(200, res.status);
     }
 

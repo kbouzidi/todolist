@@ -79,16 +79,15 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         return taskList;
     }
 
-
-
-
+    /**
+     * @see com.reit.dao.IGenericDao#deleteAll()
+     */
     public void deleteAll() {
         List<Task> taskList = findAll();
         for (Task task : taskList) {
             delete(task);
         }
     }
-
 
     /**
      * ---------------------------------------------------------
@@ -97,7 +96,6 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
      *
      * ---------------------------------------------------------
      */
-    
     public void add(Task task, Project project, User user) {
         Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
                 .add(Restrictions.eq("projectName", project.getProjectName())).uniqueResult();
@@ -114,7 +112,7 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         }
 
     }
-    
+
     /**
      * ---------------------------------------------------------
      *
@@ -122,8 +120,6 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
      *
      * ---------------------------------------------------------
      */
-    
-
     public Task findByTaskName(String taskName) {
         Task task = (Task) getCurrentSession().createCriteria(Task.class)
                 .add(Restrictions.eq("taskName", taskName)).uniqueResult();
@@ -137,7 +133,6 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         return criteria.list();
     }
 
-
     public List<Task> findByUserName(String userName) {
         Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
                 .add(Restrictions.eq("userName", userName)).uniqueResult();
@@ -145,11 +140,26 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         return criteria.list();
     }
 
-    
     public List<Task> findbyState(EStates state) {
         Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("state", state));
         return criteria.list();
     }
 
+    /**
+     * ---------------------------------------------------------
+     *
+     * Delete methods
+     *
+     * ---------------------------------------------------------
+     */
+    public void deleteAllByProjectName(String projectName) {
+        List<Task> taskList = findByProjectName(projectName);
+        if (!taskList.isEmpty()) {
+            for (Task task : taskList) {
+                delete(task);
+            }
+        }
+
+    }
 
 }
