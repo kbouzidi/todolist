@@ -185,6 +185,11 @@ function DialogAddTaskController($scope, $http, $log, $mdDialog, $rootScope) {
 
      */
     $scope.addTask = function (answer) {
+        // temp fix for user
+        if (!$rootScope.userName) {
+            $rootScope.userName = 'USER1'
+
+        }
         answer.createdBy = {userName: $rootScope.userName};
         answer.project = {projectName: $rootScope.projectName};
         $http.post('/task/add', answer).success(function (data) {
