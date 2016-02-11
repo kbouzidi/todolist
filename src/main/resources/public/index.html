@@ -64,16 +64,16 @@
                                         <span class="md-subhead">{{task.description}}</span>
                                         <span class="md-subhead">{{task.assignedTo}}</span>
                                     </md-card-title-text>
-                                    <md-card-title-media>
-                                        <i class="material-icons">card_membership</i>
-                                    </md-card-title-media>
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end right">
-                                    <md-button class="md-icon-button" aria-label="Settings">
-                                        <i class="material-icons">assignment</i>
+                                    <md-button class="md-icon-button" aria-label="Ongoing">
+                                        <i class="material-icons">fast_forward</i>
+                                    </md-button>
+                                    <md-button class="md-icon-button" aria-label="Assigne">
+                                        <i class="material-icons">person_outline</i>
                                     </md-button>
 
-                                    <md-button class="md-icon-button" aria-label="Settings"
+                                    <md-button class="md-icon-button" aria-label="Delete"
                                                ng-click="deleteTask(task)">
                                         <i class="material-icons">delete</i>
                                     </md-button>
@@ -86,7 +86,7 @@
 
                         </div>
                         <div flex="40">
-                            <md-subheader class="md-primary" >Ongoing</md-subheader>
+                            <md-subheader class="md-primary">Ongoing</md-subheader>
 
                             <md-card ng-repeat="task in tasks
                                                         | filter: { name: query, state: 'ONGOING' }"
@@ -97,16 +97,20 @@
                                         <span class="md-subhead">{{task.description}}</span>
                                         <span class="md-subhead">{{task.assignedTo}}</span>
                                     </md-card-title-text>
-                                    <md-card-title-media>
-                                        <i class="material-icons">card_membership</i>
-                                    </md-card-title-media>
+
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end right">
-                                    <md-button class="md-icon-button" aria-label="Settings">
-                                        <i class="material-icons">assignment</i>
+                                    <md-button class="md-icon-button" aria-label="Ongoing">
+                                        <i class="material-icons">fast_rewind</i>
+                                    </md-button>
+                                    <md-button class="md-icon-button" aria-label="Done">
+                                        <i class="material-icons">done</i>
+                                    </md-button>
+                                    <md-button class="md-icon-button" aria-label="Assigne">
+                                        <i class="material-icons">person_outline</i>
                                     </md-button>
 
-                                    <md-button class="md-icon-button" aria-label="Settings"
+                                    <md-button class="md-icon-button" aria-label="Delete"
                                                ng-click="deleteTask(task)">
                                         <i class="material-icons">delete</i>
                                     </md-button>
@@ -129,15 +133,18 @@
                                         <span class="md-subhead">{{task.assignedTo}}</span>
                                     </md-card-title-text>
                                     <md-card-title-media>
-                                        <i class="material-icons">card_membership</i>
+                                        <i class="material-icons">check_box</i>
                                     </md-card-title-media>
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end right">
-                                    <md-button class="md-icon-button" aria-label="Settings">
-                                        <i class="material-icons">assignment</i>
+                                    <md-button class="md-icon-button" aria-label="Ongoing">
+                                        <i class="material-icons">fast_rewind</i>
+                                    </md-button>
+                                    <md-button class="md-icon-button" aria-label="Assign">
+                                        <i class="material-icons">person_outline</i>
                                     </md-button>
 
-                                    <md-button class="md-icon-button" aria-label="Settings"
+                                    <md-button class="md-icon-button" aria-label="Delete"
                                                ng-click="deleteTask(task)">
                                         <i class="material-icons">delete</i>
                                     </md-button>
@@ -160,7 +167,7 @@
 
         </md-content>
         <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAddTask()">
-            <i class="material-icons">add</i>
+            <i class="material-icons">add_circle</i>
         </md-button>
     </div>
 
