@@ -16,12 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import org.junit.runner.RunWith;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import org.mockito.runners.MockitoJUnitRunner;
 
-
+@RunWith(MockitoJUnitRunner.class)
 public class ProjectDaoTest {
 
     Logger logger = LoggerFactory.getLogger(ProjectDaoTest.class);

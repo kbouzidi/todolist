@@ -27,6 +27,8 @@ import com.reit.model.User;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 
 /**
  * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
@@ -36,11 +38,15 @@ import java.util.List;
 public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> {
 
     /**
-     * @see com.reit.dao.IGenericDao#add(com.reit.model.User) 
+     * @see com.reit.dao.IGenericDao#add(com.reit.model.User)
      */
     @Override
     public void add(User entity) {
-        getCurrentSession().save(entity);
+        User user = findByUserName(entity.getUserName());
+        if (user == null) {
+            getCurrentSession().save(entity);
+        }
+
     }
 
     /**
@@ -88,7 +94,6 @@ public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> 
         }
     }
 
-
     /**
      * ---------------------------------------------------------
      *
@@ -96,11 +101,17 @@ public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> 
      *
      * ---------------------------------------------------------
      */
-
     public User findByUserName(String userName) {
-        User user = (User) getCurrentSession().createCriteria(User.class)
-                .add(Restrictions.eq("userName", userName)).uniqueResult();
-        return user;
+        /* User user = (User) getCurrentSession().createCriteria(User.class)
+         .add(Restrictions.eq("userName", userName)).uniqueResult();*/
+
+        Criteria criteria = getCurrentSession().createCriteria(User.class)
+                .add(Restrictions.eq("userName", userName));
+        try {
+            User user = (User) criteria.uniqueResult();
+            return user;
+        } catch (HibernateException ex) {
+            return null;
+        }
     }
-    
 }
