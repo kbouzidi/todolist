@@ -1,13 +1,16 @@
 angular
-    .module('MyApp', ['ngRoute', 'ngMaterial', 'ngMessages'])
+    .module('MyApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngCookies'])
     .controller('AppCtrl', AppCtrl)
     .controller('DialogAddTaskController', DialogAddTaskController)
     .controller('DialogAddProjectController', DialogAddProjectController)
     .controller('LoginController', LoginController);
 
-function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $mdSidenav, $http) {
+function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cookies, $http) {
     $rootScope.isNotProject = true;
-    if (!$rootScope.user) {
+    $rootScope.userName = $cookies.get('userInput');
+    if (!$rootScope.userName) {
+
+
         $mdDialog.show({
             controller: LoginController,
             templateUrl: 'views/login.html'
@@ -18,8 +21,8 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $mdSidenav
             }, function () {
                 $scope.alert = 'You cancelled the dialog.';
             });
-
     }
+
     // $rootScope.userName = "USER2"; // TODO remove it after test
 
     $rootScope.tabs = [];
@@ -160,6 +163,22 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $mdSidenav
     };
 
 
+    $scope.disconnect = function () {
+        $cookies.remove('userInput');
+        $rootScope.userName = undefined;
+        $mdDialog.show({
+            controller: LoginController,
+            templateUrl: 'views/login.html'
+
+        })
+            .then(function (answer) {
+                $scope.alert = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.alert = 'You cancelled the dialog.';
+            });
+    }
+
+
 }
 
 
@@ -184,29 +203,26 @@ function DialogAddProjectController($scope, $http, $mdDialog, $log, $rootScope) 
 function DialogAddTaskController($scope, $http, $log, $mdDialog, $rootScope) {
 
     $scope.cancelAddTask = function () {
+        if (!$rootScope.userName) {
+            $rootScope.userName = 'USER'
+        }
         $mdDialog.cancel();
     };
-    /*
-     {"state": "ONGOING",
-     "taskName": "TASK1",
-     "description": "This is a Task",
-     "createdBy": {
-     "userName": "USER2"
-     },
-     "project": {
-     "projectName": "PROJECT2",
-     }
-     }
 
-     */
     $scope.addTask = function (answer) {
         // temp fix for user
         if (!$rootScope.userName) {
-            $rootScope.userName = 'USER1'
+            $rootScope.userName = 'USER'
 
         }
         answer.createdBy = {userName: $rootScope.userName};
-        answer.project = {projectName: $rootScope.projectName};
+        if ($rootScope.projectName) {
+            answer.project = {projectName: $rootScope.projectName};
+        } else if ($rootScope.tabs.length == 1) {
+            answer.project = {projectName: $rootScope.tabs[0].projectName};
+
+        }
+
         $http.post('/task/add', answer).success(function (data) {
             $log.debug('data ' + data);
             $rootScope.tasks.push(answer);
@@ -220,7 +236,7 @@ function DialogAddTaskController($scope, $http, $log, $mdDialog, $rootScope) {
 }
 
 
-function LoginController($scope, $mdDialog, $log, $http, $rootScope) {
+function LoginController($scope, $mdDialog, $log, $http, $rootScope, $cookies) {
     $scope.hide = function () {
         $mdDialog.hide();
     };
@@ -228,16 +244,11 @@ function LoginController($scope, $mdDialog, $log, $http, $rootScope) {
         $mdDialog.cancel();
     };
 
-    $scope.connect = function (logged) {
-        $rootScope.userName = logged;
-        $log.debug($rootScope.userName);
-        $mdDialog.hide(logged);
-    };
-
     $scope.addUser = function (user) {
         $http.post('/user/add', {userName: user.userName}).success(function (data) {
             $log.debug('data ' + data);
             $rootScope.userName = user.userName;
+            $cookies.put('userInput', user.userName);
             $mdDialog.hide(user);
         }).error(function (err, status) {
             $log.error(err + 'status' + status);

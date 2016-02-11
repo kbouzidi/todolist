@@ -21,6 +21,14 @@
                 <span>Todo List Dashboard</span>
             </h2>
             <span flex></span>
+
+            <h2>
+                <span>{{userName}} </span>
+            </h2>
+            <md-button class="md-icon-button" aria-label="Settings" ng-click="disconnect()">
+                <i class="material-icons">settings_power</i>
+            </md-button>
+
         </div>
     </md-toolbar>
     <div class="page-container" ng-hide="isNotProject">
@@ -38,10 +46,6 @@
                                 <span>{{project.projectName}}</span>
                             </h2>
                             <span flex></span>
-
-                            <h2>
-                                <span>{{userName}} </span>
-                            </h2>
 
                             <md-button class="md-icon-button" aria-label="Settings"
                                        ng-click="deleteProject(project)">
@@ -174,7 +178,7 @@
 
         </md-content>
         <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAddTask()">
-            <i class="material-icons">add_circle</i>
+            <i class="material-icons">add</i>
         </md-button>
     </div>
 
@@ -190,6 +194,7 @@
 <script src="dependencies/angular-aria.min.js"></script>
 <script src="dependencies/angular-messages.min.js"></script>
 <script src="dependencies/angular-route.min.js"></script>
+<script src="dependencies/angular-cookies.min.js"></script>
 <script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>
 <script src="dependencies/angular-material.min.js"></script>
 
