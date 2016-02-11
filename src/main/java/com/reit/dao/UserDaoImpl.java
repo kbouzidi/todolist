@@ -29,6 +29,8 @@ import org.hibernate.criterion.Restrictions;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
@@ -37,6 +39,15 @@ import org.hibernate.HibernateException;
  */
 public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> {
 
+    Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
+
+    /**
+     * ---------------------------------------------------------
+     * <p/>
+     * Generic methods
+     * <p/>
+     * ---------------------------------------------------------
+     */
     /**
      * @see com.reit.dao.IGenericDao#add(com.reit.model.User)
      */
@@ -89,28 +100,32 @@ public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> 
     @Override
     public void deleteAll() {
         List<User> userList = findAll();
-        for (User user : userList) {
+        userList.stream().forEach((user) -> {
             delete(user);
-        }
+        });
     }
 
     /**
      * ---------------------------------------------------------
      *
-     * Find By methods
+     * Find methods
      *
      * ---------------------------------------------------------
      */
+    /**
+     * Find user by name
+     *
+     * @param userName
+     * @return user {@link User}
+     */
     public User findByUserName(String userName) {
-        /* User user = (User) getCurrentSession().createCriteria(User.class)
-         .add(Restrictions.eq("userName", userName)).uniqueResult();*/
-
         Criteria criteria = getCurrentSession().createCriteria(User.class)
                 .add(Restrictions.eq("userName", userName));
         try {
             User user = (User) criteria.uniqueResult();
             return user;
         } catch (HibernateException ex) {
+            logger.debug(ex.getMessage());
             return null;
         }
     }

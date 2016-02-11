@@ -42,8 +42,16 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
     }
 
     /**
+     * ---------------------------------------------------------
+     * <p/>
+     * Generic methods
+     * <p/>
+     * ---------------------------------------------------------
+     */
+    /**
      * @see com.reit.dao.IGenericDao#add(com.reit.model.Project)
      */
+    @Override
     public void add(Project entity) {
         getCurrentSession().save(entity);
     }
@@ -88,15 +96,16 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
     @Override
     public void deleteAll() {
         List<Project> projectList = findAll();
-        for (Project project : projectList) {
+        projectList.stream().forEach((project) -> {
             delete(project);
-        }
+        });
     }
 
+    
     /**
      * ---------------------------------------------------------
      * <p/>
-     * Find By methods
+     * Find  methods
      * <p/>
      * ---------------------------------------------------------
      */
@@ -129,7 +138,7 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
     /**
      * ---------------------------------------------------------
      * <p/>
-     * Update By methods
+     * Update methods
      * <p/>
      * ---------------------------------------------------------
      */

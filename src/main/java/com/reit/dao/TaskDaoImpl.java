@@ -43,30 +43,42 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
     }
 
     /**
+     * ---------------------------------------------------------
+     * <p/>
+     * Generic methods
+     * <p/>
+     * ---------------------------------------------------------
+     */
+    /**
      * @see com.reit.dao.IGenericDao#add(com.reit.model.Task)
      */
-    public void add(Task task) {
-        getCurrentSession().save(task);
+    @Override
+    public void add(Task entity) {
+        getCurrentSession().save(entity);
     }
 
     /**
      * @see com.reit.dao.IGenericDao#update(com.reit.model.Task)
      */
-    public void update(Task task) {
-        getCurrentSession().update(task);
+    @Override
+    public void update(Task entity) {
+        getCurrentSession().update(entity);
     }
 
     /**
      * @see com.reit.dao.IGenericDao#findById(java.lang.Long)
      */
+    @Override
     public Task findById(Long id) {
         Task task = (Task) getCurrentSession().get(Task.class, id);
         return task;
     }
 
     /**
+     * @param task {@link Task}
      * @see com.reit.dao.IGenericDao#delete(com.reit.model.Task)
      */
+    @Override
     public void delete(Task task) {
         getCurrentSession().delete(task);
     }
@@ -74,6 +86,7 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
     /**
      * @see com.reit.dao.IGenericDao#findAll()
      */
+    @Override
     public List<Task> findAll() {
         List<Task> taskList = (List<Task>) getCurrentSession().createQuery("from Task").list();
         return taskList;
@@ -82,19 +95,27 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
     /**
      * @see com.reit.dao.IGenericDao#deleteAll()
      */
+    @Override
     public void deleteAll() {
         List<Task> taskList = findAll();
-        for (Task task : taskList) {
+        taskList.stream().forEach((task) -> {
             delete(task);
-        }
+        });
     }
 
     /**
      * ---------------------------------------------------------
      *
-     * Specific Create
+     * Create methods
      *
      * ---------------------------------------------------------
+     */
+    /**
+     * Add task
+     *
+     * @param task
+     * @param project
+     * @param user
      */
     public void add(Task task, Project project, User user) {
         Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
@@ -116,9 +137,15 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
     /**
      * ---------------------------------------------------------
      *
-     * Find By methods
+     * Find methods
      *
      * ---------------------------------------------------------
+     */
+    /**
+     * Find task by name
+     *
+     * @param taskName
+     * @return task {@link Task}
      */
     public Task findByTaskName(String taskName) {
         Task task = (Task) getCurrentSession().createCriteria(Task.class)
@@ -126,6 +153,12 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         return task;
     }
 
+    /**
+     * Find task by project name
+     *
+     * @param projectName
+     * @return {@link List<>}
+     */
     public List<Task> findByProjectName(String projectName) {
         Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
                 .add(Restrictions.eq("projectName", projectName)).uniqueResult();
@@ -133,6 +166,12 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         return criteria.list();
     }
 
+    /**
+     * Find task by user name
+     *
+     * @param userName
+     * @return {@link List<>}
+     */
     public List<Task> findByUserName(String userName) {
         User user = (User) getCurrentSession().createCriteria(User.class)
                 .add(Restrictions.eq("userName", userName)).uniqueResult();
@@ -140,6 +179,12 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         return criteria.list();
     }
 
+    /**
+     * Find task by state
+     *
+     * @param state
+     * @return {@link List<>}
+     */
     public List<Task> findbyState(EStates state) {
         Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("state", state));
         return criteria.list();
@@ -152,28 +197,47 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
      *
      * ---------------------------------------------------------
      */
+    /**
+     * Delete all tasks related to a project
+     *
+     * @param projectName
+     */
     public void deleteAllByProjectName(String projectName) {
         List<Task> taskList = findByProjectName(projectName);
         if (!taskList.isEmpty()) {
-            for (Task task : taskList) {
+            taskList.stream().forEach((task) -> {
                 delete(task);
-            }
+            });
         }
 
     }
-    
-      public void unlinkTaskToUser(String userName) {
+
+    /**
+     * ---------------------------------------------------------
+     *
+     * Update methods
+     *
+     * ---------------------------------------------------------
+     */
+    /**
+     * Unlink Task from user
+     *
+     * @param userName
+     */
+    public void unlinkTaskToUser(String userName) {
         List<Task> taskList = findByUserName(userName);
         if (!taskList.isEmpty()) {
-            for (Task task : taskList) {
+            taskList.stream().map((task) -> {
                 task.setCreatedBy(null);
+                return task;
+            }).map((task) -> {
                 task.setAssignedTo(null);
+                return task;
+            }).forEach((task) -> {
                 update(task);
-            }
+            });
         }
 
     }
-      
-    
 
 }
