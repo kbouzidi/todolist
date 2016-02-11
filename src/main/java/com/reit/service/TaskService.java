@@ -126,4 +126,10 @@ public class TaskService {
     public TaskDaoImpl getTaskDao() {
         return taskDao;
     }
+
+    public void unlinkTaskToUser(String userName) {
+        getTaskDao().openCurrentSessionwithTransaction();
+        getTaskDao().unlinkTaskToUser(userName);
+        getTaskDao().closeCurrentSessionwithTransaction();
+    }
 }

@@ -64,9 +64,9 @@ public class MainController {
     /**
      * Main Controller constructor
      *
-     * @param taskService    {@link TaskService}
+     * @param taskService {@link TaskService}
      * @param projectService {@link ProjectService}
-     * @param userService    {@link UserService}
+     * @param userService {@link UserService}
      */
     public MainController(final TaskService taskService, final ProjectService projectService, final UserService userService) {
 
@@ -80,12 +80,10 @@ public class MainController {
          *
          * ---------------------------------------------------------
          */
-
         // Health check
         get("/ping", (req, res) -> {
             return "pong";
         });
-
 
         /**
          * ---------------------------------------------------------
@@ -94,7 +92,6 @@ public class MainController {
          *
          * ---------------------------------------------------------
          */
-
         // Add new user
         post("/user/add", (req, res) -> {
             User user = gson.fromJson(req.body(), User.class);
@@ -102,13 +99,11 @@ public class MainController {
             return user;
         }, json());
 
-
         /**
-         * Find all users* 
+         * Find all users*
          */
         get("/users", (req, res)
                 -> userService.findAll(), json());
-
 
         /**
          * Get users by project Name *
@@ -118,9 +113,8 @@ public class MainController {
             return userService.findByProjectName(projectName);
         }, json());
 
-
         /**
-         * Update task state * 
+         * Update task state *
          */
         put("/user/update", (req, res) -> {
             User user = gson.fromJson(req.body(), User.class);
@@ -128,16 +122,16 @@ public class MainController {
             return user.getUserName();
         }, json());
 
-
         /**
-         * Delete user by user name * 
+         * Delete user by user name *
          */
         delete("/user/:userName", (req, res) -> {
             String userName = req.params(":userName");
+            projectService.unlinkProjectsToUser(userName);
+            taskService.unlinkTaskToUser(userName);
             userService.delete(userName);
             return userName;
         }, json());
-
 
         /**
          * Delete all users *
@@ -147,7 +141,6 @@ public class MainController {
             return SUCCESS;
         }, json());
 
-
         /**
          * ---------------------------------------------------------
          *
@@ -155,10 +148,8 @@ public class MainController {
          *
          * ---------------------------------------------------------
          */
-
-
         /**
-         * Add new task * 
+         * Add new task *
          */
         post("/task/add", (req, res) -> {
             Task task = gson.fromJson(req.body(), Task.class);
@@ -166,54 +157,48 @@ public class MainController {
             return task;
         }, json());
 
-
         /**
-         * Get all tasks * 
+         * Get all tasks *
          */
         get("/tasks", (req, res)
                 -> taskService.findAll(), json());
 
-
         /**
-         * Get tasks by project Name * 
+         * Get tasks by project Name *
          */
         get("/tasks/:projectName", (req, res) -> {
             String projectName = req.params(":projectName");
             return taskService.findByProjectName(projectName);
         }, json());
 
-
         /**
-         * Get tasks by user name * 
+         * Get tasks by user name *
          */
         get("/tasks/:userName", (req, res) -> {
             String userName = req.params(":userName");
             return taskService.findByUserName(userName);
         }, json());
 
-
         /**
-         * Get DONE tasks* 
+         * Get DONE tasks*
          */
         get("/tasks/done", (req, res)
                 -> taskService.findbyState(EStates.DONE), json());
 
         /**
-         * Get ONGOING tasks * 
+         * Get ONGOING tasks *
          */
         get("/tasks/ongoing", (req, res)
                 -> taskService.findbyState(EStates.ONGOING), json());
 
-
         /**
-         * Get TO-DO tasks * 
+         * Get TO-DO tasks *
          */
         get("/tasks/todo", (req, res)
                 -> taskService.findbyState(EStates.TODO), json());
 
-
         /**
-         * Update task state * 
+         * Update task state *
          */
         put("/task", (req, res) -> {
             Task task = gson.fromJson(req.body(), Task.class);
@@ -222,14 +207,13 @@ public class MainController {
         }, json());
 
         /**
-         * Delete task by Task Name * 
+         * Delete task by Task Name *
          */
         delete("/task/name/:taskName", (req, res) -> {
             String taskName = req.params(":taskName");
             taskService.delete(taskName);
             return taskName;
         }, json());
-
 
         /**
          * Delete task by Task Id*
@@ -240,15 +224,13 @@ public class MainController {
             return id;
         }, json());
 
-
         /**
-         * Delete all tasks* 
+         * Delete all tasks*
          */
         delete("/tasks/all", (req, res) -> {
             taskService.deleteAll();
             return SUCCESS;
         }, json());
-
 
         /**
          * ---------------------------------------------------------
@@ -257,9 +239,8 @@ public class MainController {
          *
          * ---------------------------------------------------------
          */
-
         /**
-         * Add new project* 
+         * Add new project*
          */
         post("/project/add", (req, res) -> {
             Project project = gson.fromJson(req.body(), Project.class);
@@ -267,13 +248,11 @@ public class MainController {
             return project;
         }, json());
 
-
         /**
-         * Get all projects * 
+         * Get all projects *
          */
         get("/projects", (req, res)
                 -> projectService.findAll(), json());
-
 
         /**
          * Get projects by user name *
@@ -283,9 +262,8 @@ public class MainController {
             return projectService.findByProjectName(userName);
         }, json());
 
-
         /**
-         * Delete project by project Name* 
+         * Delete project by project Name*
          */
         delete("/project/:projectName", (req, res) -> {
             String projectName = req.params(":projectName");
@@ -293,7 +271,6 @@ public class MainController {
             projectService.deleteByProjectName(projectName);
             return null;
         }, json());
-
 
         /**
          * Delete all projects*

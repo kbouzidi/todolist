@@ -134,9 +134,9 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
     }
 
     public List<Task> findByUserName(String userName) {
-        Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
+        User user = (User) getCurrentSession().createCriteria(User.class)
                 .add(Restrictions.eq("userName", userName)).uniqueResult();
-        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("project", projectResul));
+        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("createdBy", user));
         return criteria.list();
     }
 
@@ -161,5 +161,19 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         }
 
     }
+    
+      public void unlinkTaskToUser(String userName) {
+        List<Task> taskList = findByUserName(userName);
+        if (!taskList.isEmpty()) {
+            for (Task task : taskList) {
+                task.setCreatedBy(null);
+                task.setAssignedTo(null);
+                update(task);
+            }
+        }
+
+    }
+      
+    
 
 }

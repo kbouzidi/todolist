@@ -97,6 +97,15 @@ public class ProjectService {
         return project;
     }
 
+    public void unlinkProjectsToUser(String userName) {
+        getProjectDao().openCurrentSession();
+        List<Project> projectList = getProjectDao().findByUserName(userName);
+        getProjectDao().closeCurrentSession();
+        getProjectDao().openCurrentSessionwithTransaction();
+        getProjectDao().unlinkProject(projectList);
+        getProjectDao().closeCurrentSessionwithTransaction();
+    }
+
     // TODO implement method
     public List<Project> findByUserName(String projectName) {
         return new ArrayList<>();

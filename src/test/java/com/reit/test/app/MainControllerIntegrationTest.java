@@ -102,7 +102,13 @@ public class MainControllerIntegrationTest {
         assertEquals(200, res.status);
     }
 
-    // @Test
+    @Test
+    public void _deleteUser() {
+        TestResponse res = request("DELETE", "/user/" + Constants.getUserSample(two.toString()).getUserName(), null);
+        assertEquals(200, res.status);
+    }
+
+    @Test
     public void _deleteTask() {
         String toJson = gson.toJson(Constants.getTaskSample2());
         TestResponse res = request("POST", "/task/add", toJson);
@@ -115,14 +121,21 @@ public class MainControllerIntegrationTest {
         assertEquals(200, res.status);
     }
 
-        @Test
+    @Test
     public void _deleteProject2() {
         TestResponse res = request("DELETE", "/project/" + projectName + two.toString(), null);
         assertEquals(200, res.status);
     }
-    //@Test
-    public void _deleteAllProject() {
+
+    @Test
+    public void _deleteZAllProject() {
         TestResponse res = request("DELETE", "/projects/all", null);
+        assertEquals(200, res.status);
+    }
+
+    @Test
+    public void _deleteZAllUser() {
+        TestResponse res = request("DELETE", "/users/all", null);
         assertEquals(200, res.status);
     }
 

@@ -93,7 +93,6 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
         }
     }
 
-
     /**
      * ---------------------------------------------------------
      * <p/>
@@ -101,21 +100,52 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
      * <p/>
      * ---------------------------------------------------------
      */
-
-
+    /**
+     * Find By project name
+     *
+     * @param projectName
+     * @return project {@link Project}
+     */
     public Project findByProjectName(String projectName) {
         Project project = (Project) getCurrentSession().createCriteria(Project.class)
                 .add(Restrictions.eq("projectName", projectName)).uniqueResult();
         return project;
     }
 
-
+    /**
+     *
+     * Find By user name
+     *
+     * @param userName
+     * @return project {@link List}
+     */
     public List<Project> findByUserName(String userName) {
-        User userResult = (User) getCurrentSession().createCriteria(Project.class)
+        User userResult = (User) getCurrentSession().createCriteria(User.class)
                 .add(Restrictions.eq("userName", userName)).uniqueResult();
         Criteria criteria = getCurrentSession().createCriteria(Project.class).add(Restrictions.eq("user", userResult));
         return criteria.list();
     }
 
+    /**
+     * ---------------------------------------------------------
+     * <p/>
+     * Update By methods
+     * <p/>
+     * ---------------------------------------------------------
+     */
+    /**
+     * Unlink Project
+     *
+     * @param projects
+     */
+    public void unlinkProject(List<Project> projects) {
+        if (!projects.isEmpty()) {
+            for (Project project : projects) {
+                project.setUser(null);
+                getCurrentSession().update(project);
+            }
+        }
+
+    }
 
 }
