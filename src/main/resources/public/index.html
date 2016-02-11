@@ -65,11 +65,13 @@
                                         <span class="md-subhead">{{task.assignedTo}}</span>
                                     </md-card-title-text>
                                 </md-card-title>
+
                                 <md-card-actions layout="row" layout-align="end right">
-                                    <md-button class="md-icon-button" aria-label="Ongoing">
+                                    <md-button class="md-icon-button" aria-label="ongoing"
+                                               ng-click="updateTo(task, 'ONGOING')">
                                         <i class="material-icons">fast_forward</i>
                                     </md-button>
-                                    <md-button class="md-icon-button" aria-label="Assigne">
+                                    <md-button class="md-icon-button" aria-label="assign">
                                         <i class="material-icons">person_outline</i>
                                     </md-button>
 
@@ -100,13 +102,15 @@
 
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end right">
-                                    <md-button class="md-icon-button" aria-label="Ongoing">
+                                    <md-button class="md-icon-button" aria-label="ongoing"
+                                               ng-click="updateTo(task, 'TODO')">
                                         <i class="material-icons">fast_rewind</i>
                                     </md-button>
-                                    <md-button class="md-icon-button" aria-label="Done">
+                                    <md-button class="md-icon-button" aria-label="done"
+                                               ng-click="updateTo(task, 'DONE')">
                                         <i class="material-icons">done</i>
                                     </md-button>
-                                    <md-button class="md-icon-button" aria-label="Assigne">
+                                    <md-button class="md-icon-button" aria-label="Assign">
                                         <i class="material-icons">person_outline</i>
                                     </md-button>
 
@@ -137,10 +141,13 @@
                                     </md-card-title-media>
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end right">
-                                    <md-button class="md-icon-button" aria-label="Ongoing">
+
+                                    <md-button class="md-icon-button" aria-label="ongoing"
+                                               ng-click="updateTo(task, 'ONGOING')">
                                         <i class="material-icons">fast_rewind</i>
                                     </md-button>
-                                    <md-button class="md-icon-button" aria-label="Assign">
+
+                                    <md-button class="md-icon-button" aria-label="Assign" ng-click="assignTO()">
                                         <i class="material-icons">person_outline</i>
                                     </md-button>
 

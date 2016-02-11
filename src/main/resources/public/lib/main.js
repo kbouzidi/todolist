@@ -69,14 +69,13 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $mdSidenav
 
 
     $scope.deleteProject = function (project) {
-
         if (project) {
             $http.delete('/project/' + project.projectName).success(function (data) {
                 $log.debug('data ' + data);
                 $rootScope.tabs = $rootScope.tabs.filter(function (obj) {
                     return obj.projectName !== project.projectName;
                 });
-                if ($rootScope.tabs.length<1){
+                if ($rootScope.tabs.length < 1) {
                     $rootScope.isNotProject = true;
                 }
             }).error(function (err, status) {
@@ -85,6 +84,26 @@ function AppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $mdSidenav
         }
     };
 
+
+    $scope.updateTo = function (task, state) {
+        if (task) {
+            task.state = state;
+            $http.put('/task', task).success(function (data) {
+                $log.debug('data ' + data);
+
+                $rootScope.tasks = $rootScope.tasks.filter(function (obj) {
+                    return obj.taskName !== task.taskName;
+                });
+
+                $rootScope.tasks.push(task);
+
+
+            }).error(function (err, status) {
+                $log.error(err + 'status' + status);
+            })
+        }
+
+    };
 
     $scope.showListBottomSheet = function () {
         $scope.alert = '';
