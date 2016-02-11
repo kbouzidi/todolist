@@ -35,6 +35,7 @@ Download and setup the following applications:
 - [Spark](http://sparkjava.com) 
 - [Maven](https://maven.apache.org/)
 - [Postgres](http://www.postgresql.org/)
+- [Angular Material](https://material.angularjs.org/latest/)
 
 For Windows users please install `Cygwin`
 
