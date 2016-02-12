@@ -75,6 +75,13 @@ public class TaskService {
         return task;
     }
 
+    public Task findByTaskName(String taskName) {
+        getTaskDao().openCurrentSession();
+        Task task = getTaskDao().findByTaskName(taskName);
+        getTaskDao().closeCurrentSession();
+        return task;
+    }
+
     public List<Task> findByProjectName(String projectName) {
         getTaskDao().openCurrentSession();
         List<Task> task = getTaskDao().findByProjectName(projectName);

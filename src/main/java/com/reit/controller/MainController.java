@@ -204,11 +204,10 @@ public class MainController {
         /**
          * Update task state *
          */
-        put("/task/:id/:state", (req, res) -> {
-            logger.warn(req.params(":id"));
+        put("/task/:name/:state", (req, res) -> {
+            logger.warn(req.params(":name"));
             logger.warn(req.params(":state"));
-            Double id = Double.parseDouble(req.params(":id"));
-            Task task = taskService.findById(id.longValue());
+            Task task = taskService.findByTaskName(req.params(":name"));
             EStates state = EStates.fromString(req.params(":state"));
             logger.warn(state.getValue());
             task.setState(state);
