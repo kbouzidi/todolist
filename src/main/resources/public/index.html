@@ -1,4 +1,4 @@
-<html ng-app="MyApp">
+<html ng-app="TodoWebApp">
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/main.css">
 </head>
-<body layout="row" ng-controller="AppCtrl">
+<body layout="row" ng-controller="TodoAppCtrl">
 
 
 <div class="sample tabsdemoDynamicTabs" layout="column" ng-cloak="" class="relative" layout-fill role="main">
@@ -66,16 +66,18 @@
                                     <md-card-title-text>
                                         <span class="md-headline">{{task.taskName}}</span>
                                         <span class="md-subhead">{{task.description}}</span>
-                                        <span class="md-subhead">{{task.assignedTo}}</span>
                                     </md-card-title-text>
                                 </md-card-title>
 
                                 <md-card-actions layout="row" layout-align="end right">
+                                    <md-button class="md-accent" ng-show="task.assignedTo.userName"> Assigned to:
+                                        {{task.assignedTo.userName}}
+                                    </md-button>
                                     <md-button class="md-icon-button" aria-label="ongoing"
                                                ng-click="updateTo(task, 'ONGOING')">
                                         <i class="material-icons">fast_forward</i>
                                     </md-button>
-                                    <md-button class="md-icon-button" aria-label="assign">
+                                    <md-button class="md-icon-button" aria-label="assign" ng-click="assignTask(task)">
                                         <i class="material-icons">person_outline</i>
                                     </md-button>
 
@@ -101,11 +103,14 @@
                                     <md-card-title-text>
                                         <span class="md-headline">{{task.taskName}}</span>
                                         <span class="md-subhead">{{task.description}}</span>
-                                        <span class="md-subhead">{{task.assignedTo}}</span>
+
                                     </md-card-title-text>
 
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end right">
+                                    <md-button class="md-accent" ng-show="task.assignedTo.userName">
+                                        Assigned to: {{task.assignedTo.userName}}
+                                    </md-button>
                                     <md-button class="md-icon-button" aria-label="ongoing"
                                                ng-click="updateTo(task, 'TODO')">
                                         <i class="material-icons">fast_rewind</i>
@@ -114,7 +119,7 @@
                                                ng-click="updateTo(task, 'DONE')">
                                         <i class="material-icons">done</i>
                                     </md-button>
-                                    <md-button class="md-icon-button" aria-label="Assign">
+                                    <md-button class="md-icon-button" aria-label="assign" ng-click="assignTask(task)">
                                         <i class="material-icons">person_outline</i>
                                     </md-button>
 
@@ -138,20 +143,21 @@
                                     <md-card-title-text>
                                         <span class="md-headline">{{task.taskName}}</span>
                                         <span class="md-subhead">{{task.description}}</span>
-                                        <span class="md-subhead">{{task.assignedTo}}</span>
                                     </md-card-title-text>
                                     <md-card-title-media>
                                         <i class="material-icons">check_box</i>
                                     </md-card-title-media>
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end right">
-
+                                    <md-button class="md-accent" ng-show="task.assignedTo.userName">
+                                        Assigned to: {{task.assignedTo.userName}}
+                                    </md-button>
                                     <md-button class="md-icon-button" aria-label="ongoing"
                                                ng-click="updateTo(task, 'ONGOING')">
                                         <i class="material-icons">fast_rewind</i>
                                     </md-button>
 
-                                    <md-button class="md-icon-button" aria-label="Assign" ng-click="assignTO()">
+                                    <md-button class="md-icon-button" aria-label="assign" ng-click="assignTask(task)">
                                         <i class="material-icons">person_outline</i>
                                     </md-button>
 
