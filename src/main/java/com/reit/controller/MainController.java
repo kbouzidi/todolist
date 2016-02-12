@@ -64,9 +64,9 @@ public class MainController {
     /**
      * Main Controller constructor
      *
-     * @param taskService {@link TaskService}
+     * @param taskService    {@link TaskService}
      * @param projectService {@link ProjectService}
-     * @param userService {@link UserService}
+     * @param userService    {@link UserService}
      */
     public MainController(final TaskService taskService, final ProjectService projectService, final UserService userService) {
 
@@ -108,10 +108,10 @@ public class MainController {
         /**
          * Get users by project Name *
          */
-        get("/user/:projectName", (req, res) -> {
+        /*get("/user/:projectName", (req, res) -> {
             String projectName = req.params(":projectName");
             return userService.findByProjectName(projectName);
-        }, json());
+        }, json());*/
 
         /**
          * Update task state *
@@ -203,7 +203,18 @@ public class MainController {
         put("/task", (req, res) -> {
             Task task = gson.fromJson(req.body(), Task.class);
             taskService.update(task);
-            return task.getTask();
+            return SUCCESS;
+        }, json());
+
+        /**
+         * Assign task *
+         */
+        put("/task/assign", (req, res) -> {
+            Task task = gson.fromJson(req.body(), Task.class);
+            User user = userService.findByUserName(task.getAssignedTo().getUserName());
+            task.setAssignedTo(user);
+            taskService.merge(task);
+            return SUCCESS;
         }, json());
 
         /**

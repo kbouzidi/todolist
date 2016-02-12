@@ -62,6 +62,12 @@ public class TaskService {
         getTaskDao().closeCurrentSessionwithTransaction();
     }
 
+    public void merge(Task entity) {
+        getTaskDao().openCurrentSessionwithTransaction();
+        getTaskDao().merge(entity);
+        getTaskDao().closeCurrentSessionwithTransaction();
+    }
+
     public Task findById(Long id) {
         getTaskDao().openCurrentSession();
         Task task = getTaskDao().findById(id);
