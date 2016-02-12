@@ -204,8 +204,14 @@ public class MainController {
         /**
          * Update task state *
          */
-        put("/task", (req, res) -> {
-            Task task = gson.fromJson(req.body(), Task.class);
+        put("/task/:id/:state", (req, res) -> {
+            logger.warn(req.params(":id"));
+            logger.warn(req.params(":state"));
+            Double id = Double.parseDouble(req.params(":id"));
+            Task task = taskService.findById(id.longValue());
+            EStates state = EStates.fromString(req.params(":state"));
+            logger.warn(state.getValue());
+            task.setState(state);
             taskService.update(task);
             return SUCCESS;
         }, json());
