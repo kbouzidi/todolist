@@ -43,4 +43,15 @@ public enum EStates {
     public String getValue() {
         return this.value;
     }
+    
+    public static EStates fromString(String text) {
+    if (text != null) {
+      for (EStates state : EStates.values()) {
+        if (text.equalsIgnoreCase(state.getValue())) {
+          return state;
+        }
+      }
+    }
+    return null;
+  }
 }

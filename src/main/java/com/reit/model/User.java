@@ -42,9 +42,6 @@ public class User implements Serializable {
     @Column(name = "C_USER_NAME")
     private String userName;
 
-    @Column(name = "C_USER_DETAILS")
-    private String userDetails;
-
     public Long getUserId() {
         return userId;
     }
@@ -59,14 +56,6 @@ public class User implements Serializable {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getUserDetails() {
-        return userDetails;
-    }
-
-    public void setUserDetails(String userDetails) {
-        this.userDetails = userDetails;
     }
 
 }
