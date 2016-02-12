@@ -21,17 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.reit.app;
+package com.reit.cloud;
 
 import com.reit.controller.MainController;
 import com.reit.service.ProjectService;
 import com.reit.service.TaskService;
 import com.reit.service.UserService;
-import spark.servlet.SparkApplication;
+import static spark.Spark.port;
 
 /**
  * <h3 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
- * class="headeranchor"></span></a>Web App local launcher</h3>
+ * class="headeranchor"></span></a>Web App Cloud launcher</h3>
  * <h1 id="target"><a name="user-content-target" href="#target" class="headeranchor-link" aria-hidden="true"><span
  * class="headeranchor"></span></a>Target</h1>
  * <lu>
@@ -40,10 +40,17 @@ import spark.servlet.SparkApplication;
  * <li>{@link UserService}</li>
  * </lu>
  */
-public class Main implements SparkApplication {
+public class MainCloud {
 
-    @Override
-    public void init() {
-        new MainController(new TaskService(), new ProjectService(), new UserService(), null);
+    public static void MainCloud(String[] args) {
+        new MainController(new TaskService(), new ProjectService(), new UserService(), getHerokuAssignedPort());
+    }
+
+    static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
     }
 }

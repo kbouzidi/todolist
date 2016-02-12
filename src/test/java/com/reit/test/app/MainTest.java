@@ -40,6 +40,6 @@ public class MainTest {
      * @param args
      */
     public static void main(String[] args) {
-        new MainController(new TaskService(), new ProjectService(), new UserService());
+        new MainController(new TaskService(), new ProjectService(), new UserService(), null);
     }
 }

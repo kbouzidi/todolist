@@ -41,6 +41,7 @@ import static com.reit.utils.JsonUtil.json;
 import static spark.Spark.after;
 import static spark.Spark.exception;
 
+import static spark.Spark.port;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
@@ -64,12 +65,16 @@ public class MainController {
     /**
      * Main Controller constructor
      *
-     * @param taskService    {@link TaskService}
+     * @param taskService {@link TaskService}
      * @param projectService {@link ProjectService}
-     * @param userService    {@link UserService}
+     * @param userService {@link UserService}
+     * @param port {@link Integer}
      */
-    public MainController(final TaskService taskService, final ProjectService projectService, final UserService userService) {
+    public MainController(final TaskService taskService, final ProjectService projectService, final UserService userService, Integer port) {
 
+        if (port != null) {
+            port(port);
+        }
         // Set static file location {/resources/public}
         staticFileLocation("/public");
 
@@ -109,10 +114,9 @@ public class MainController {
          * Get users by project Name *
          */
         /*get("/user/:projectName", (req, res) -> {
-            String projectName = req.params(":projectName");
-            return userService.findByProjectName(projectName);
-        }, json());*/
-
+         String projectName = req.params(":projectName");
+         return userService.findByProjectName(projectName);
+         }, json());*/
         /**
          * Update task state *
          */
