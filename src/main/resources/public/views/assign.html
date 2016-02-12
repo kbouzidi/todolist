@@ -1,0 +1,52 @@
+<md-dialog aria-label="New Task">
+    <md-content class="md-padding">
+        <form name="UserForm">
+
+            <span>Assign To</span>
+
+            <span flex></span>
+            <md-input-container>
+                <label>Users</label>
+                <span flex></span>
+                <md-select ng-model="result.user">
+                    <md-option ng-repeat="usr in usersList" value="{{usr.userName}}">{{usr.userName}}</md-option>
+                </md-select>
+            </md-input-container>
+
+        </form>
+    </md-content>
+    <div class="md-actions" layout="row"><span flex></span>
+        <md-button ng-click="cancelAUpdateTask()"> Cancel</md-button>
+        <md-button ng-click="assignToUser(result, task)" class="md-primary"> Assign</md-button>
+    </div>
+</md-dialog>
+<<!--md-dialog aria-label="New Task">
+    <md-content class="md-padding">
+        <form name="TaskUpdateForm">
+
+           <!-- <md-input-container>
+                <input ng-model="task.taskName" type="text">
+            </md-input-container>
+            <md-input-container>
+                <input ng-model="task.description" type="text">
+            </md-input-container>--
+
+
+            <md-select ng-model="result.user">
+                <md-option ng-repeat="us in usersList">
+                    {{us.userName}}
+                </md-option>
+            </md-select>
+
+            </div>
+
+        </form>
+    </md-content>
+
+    <div class="md-actions" layout="row"><span flex></span>
+        <md-button ng-click="cancelAUpdateTask()"> Cancel</md-button>
+        <md-button ng-click="assignToUser(task, result)"
+                   class="md-primary"> Update
+        </md-button>
+    </div>
+</md-dialog>-->

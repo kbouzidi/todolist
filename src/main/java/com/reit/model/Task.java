@@ -66,6 +66,7 @@ public class Task implements Serializable {
     @JoinColumn(name = "N_PROJECT_ID")
     private Project project;
 
+    
     public User getCreatedBy() {
         return createdBy;
     }

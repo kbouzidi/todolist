@@ -66,7 +66,7 @@ public class UserService {
         getUserDao().delete(task);
         getUserDao().closeCurrentSessionwithTransaction();
     }
-    
+
 
     public void deleteAll() {
         getUserDao().openCurrentSessionwithTransaction();
@@ -75,25 +75,26 @@ public class UserService {
     }
 
 
-    // TODO implement method
-    public User findByProjectName(String projectName) {
-        return new User();
+    public User findByUserName(String userName) {
+        getUserDao().openCurrentSessionwithTransaction();
+        User user = getUserDao().findByUserName(userName);
+        getUserDao().closeCurrentSessionwithTransaction();
+        return user;
     }
 
     public User findById(Long id) {
         getUserDao().openCurrentSession();
-        User task = getUserDao().findById(id);
+        User user = getUserDao().findById(id);
         getUserDao().closeCurrentSession();
-        return task;
+        return user;
     }
 
     public List<User> findAll() {
         getUserDao().openCurrentSession();
-        List<User> taskList = userDao.findAll();
+        List<User> userList = userDao.findAll();
         getUserDao().closeCurrentSession();
-        return taskList;
+        return userList;
     }
-
 
 
     public UserDaoImpl getUserDao() {

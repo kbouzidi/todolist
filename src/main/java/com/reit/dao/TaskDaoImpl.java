@@ -103,6 +103,9 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         });
     }
 
+    public void merge(Task entity) {
+        getCurrentSession().merge(entity);
+    }
     /**
      * ---------------------------------------------------------
      *
