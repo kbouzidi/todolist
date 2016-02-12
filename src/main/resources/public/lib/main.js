@@ -106,8 +106,8 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
         $log.debug('task to Update ', task, 'stae', state);
         if (task) {
             task.state = state;
-            var id = task.$$hashKey.replace('object:', '');
-            $http.put('/task/' + id + '/' + state).success(function (data) {
+            var name = task.taskName.replace(' ', '');
+            $http.put('/task/' + name + '/' + state).success(function (data) {
                 $log.debug('task to Update ' + data);
 
                 $rootScope.tasks = $rootScope.tasks.filter(function (obj) {

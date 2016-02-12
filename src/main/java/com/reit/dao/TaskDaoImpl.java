@@ -152,7 +152,7 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
      */
     public Task findByTaskName(String taskName) {
         Task task = (Task) getCurrentSession().createCriteria(Task.class)
-                .add(Restrictions.eq("taskName", taskName)).uniqueResult();
+                .add(Restrictions.ilike("taskName", taskName)).uniqueResult();
         return task;
     }
 
