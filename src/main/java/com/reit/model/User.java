@@ -42,6 +42,18 @@ public class User implements Serializable {
     @Column(name = "C_USER_NAME")
     private String userName;
 
+
+    @Column(name = "C_USER_NAME_ID") // username without space
+    private String userNameId;
+
+    public String getUserNameId() {
+        return userNameId;
+    }
+
+    public void setUserNameId(String userNameId) {
+        this.userNameId = userNameId;
+    }
+
     public Long getUserId() {
         return userId;
     }

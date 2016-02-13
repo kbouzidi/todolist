@@ -323,13 +323,27 @@ function LoginController($scope, $mdDialog, $log, $http, $rootScope, $cookies) {
     $scope.hide = function () {
         $mdDialog.hide();
     };
-    $scope.cancelUser = function () {
+    $scope.guestUser = function () {
+        $scope.isLoading = true;
+        var userNameId = "GUEST".replace(" ", "").toLocaleLowerCase();
+        $http.post('/user/add', {userName: "GUEST", userNameId: userNameId }).success(function (data) {
+            $log.debug('data ' + data);
+            $rootScope.userData = data;
+            data = JSON.stringify(data);
+            $cookies.put('userInput', data);
+            $scope.isLoading = false;
+            $mdDialog.hide(user);
+        }).error(function (err, status) {
+            $log.error(err + 'status' + status);
+        });
+        
         $mdDialog.cancel();
     };
 
     $scope.addUser = function (user) {
         $scope.isLoading = true;
-        $http.post('/user/add', {userName: user.userName}).success(function (data) {
+        var userNameId = user.userName.replace(" ", "").toLocaleLowerCase();
+        $http.post('/user/add', {userName: user.userName, userNameId: userNameId }).success(function (data) {
             $log.debug('data ' + data);
             $rootScope.userData = data;
             data = JSON.stringify(data);
