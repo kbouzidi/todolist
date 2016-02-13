@@ -205,7 +205,7 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
     }
 
     public List<Task> findByUserId(Long userId) {
-        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("user.userId", userId));
+        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("createdBy.userId", userId));
         return criteria.list();
     }
     /**

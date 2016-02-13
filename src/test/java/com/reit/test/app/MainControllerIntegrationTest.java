@@ -60,7 +60,6 @@ public class MainControllerIntegrationTest {
     static Logger logger = LoggerFactory.getLogger(MainControllerIntegrationTest.class);
     Gson gson = new Gson();
 
-    Project projectAdded;
 
     @BeforeClass
     public static void setUp() {
@@ -79,69 +78,104 @@ public class MainControllerIntegrationTest {
         Spark.stop();
     }
 
-    @Test
-    public void _add1User() {
-        String toJson = gson.toJson(Constants.getUserSample(null));
-        TestResponse res = request("POST", "/user/add", toJson);
-        assertEquals(200, res.status);
-
-    }
 
     @Test
-    public void _1_Provisioning() {
+    public void _Provisioning() {
         // add User
         String toJson = gson.toJson(Constants.getUserSample(null));
         TestResponse res = request("POST", "/user/add", toJson);
         assertEquals(200, res.status);
-        User userAdded = gson.fromJson(res.body, User.class);
+        assertNotNull(res.body);
+        User userAdded1 = gson.fromJson(res.body, User.class);
 
-        // add Project
+
+        toJson = gson.toJson(Constants.getUserSample(two.toString()));
+        res = request("POST", "/user/add", toJson);
+        assertEquals(200, res.status);
+        assertNotNull(res.body);
+        User userAdded2 = gson.fromJson(res.body, User.class);
+
+        // add Project1
         toJson = gson.toJson(Constants.getProjectSample(null));
         res = request("POST", "/project/add", toJson);
         assertEquals(200, res.status);
-        assertNotNull(res.getBody());
-        Project projectAdded = gson.fromJson(res.body, Project.class);
+        assertNotNull(res.body);
+        Project project1 = gson.fromJson(res.body, Project.class);
+
+        // add Project2
+        toJson = gson.toJson(Constants.getProjectSample(two.toString()));
+        res = request("POST", "/project/add", toJson);
+        assertEquals(200, res.status);
+        assertNotNull(res.body);
+        Project project2 = gson.fromJson(res.body, Project.class);
 
         // add Task
-        Task task = Constants.getTaskSample();
-        task.setProject(projectAdded);
-        task.setCreatedBy(userAdded);
-        toJson = gson.toJson(task);
+        Task task1 = Constants.getTaskSample();
+        task1.setProject(project1);
+        task1.setCreatedBy(userAdded1);
+        toJson = gson.toJson(task1);
         res = request("POST", "/task/add", toJson);
         assertEquals(200, res.status);
+        assertNotNull(res.body);
+        task1 = gson.fromJson(res.body, Task.class);
 
 
-    }
-
-
-    //@Test
-    public void _deleteAllUser() {
-        TestResponse res = request("DELETE", "/user/" + Constants.getUserSample(two.toString()).getUserName(), null);
+        // add Task SecondTask
+        Task task2 = Constants.getTaskSample();
+        task2.setTaskName("TASK2");
+        task2.setProject(project2);
+        task2.setCreatedBy(userAdded1);
+        toJson = gson.toJson(task2);
+        res = request("POST", "/task/add", toJson);
         assertEquals(200, res.status);
-    }
+        assertNotNull(res.body);
+        task2 = gson.fromJson(res.body, Task.class);
 
-   // @Test
-    public void _deleteTask() {
-        String toJson = gson.toJson(Constants.getTaskSample2());
-        TestResponse res = request("POST", "/task/add", toJson);
+        // Update task state
+        res = request("PUT", "/task/" + task1.getTaskId() + "/DONE", null);
         assertEquals(200, res.status);
-    }
+        assertNotNull(res.body);
 
-    //@Test
-    public void _deleteProject() {
-        TestResponse res = request("DELETE", "/project/" + Constants.getProjectSample(null).getProjectName(), null);
+
+        // Assigne task1 to USER1
+        res = request("PUT", "/task/assign/" + task1.getTaskId() + "/"+userAdded2.getUserId(), null);
         assertEquals(200, res.status);
+        assertNotNull(res.body);
+        
+        
+        // DELETE task1
+        res = request("DELETE", "/task/" + task1.getTaskId(), toJson);
+        assertEquals(200, res.status);
+        assertNotNull(res.body);
+
+        // DELETE PROJECT1
+        res = request("DELETE", "/project/" + project1.getProjectId(), null);
+        assertEquals(200, res.status);
+        assertNotNull(res.body);
+
+        // DELETE USER1
+        res = request("DELETE", "/user/" + userAdded1.getUserId(), null);
+        assertEquals(200, res.status);
+        assertNotNull(res.body);
+
+
     }
 
 
     @Test
-    public void _deleteZAllProject() {
+    public void delete_AllTasks() {
+        TestResponse res = request("DELETE", "/tasks/all", null);
+        assertEquals(200, res.status);
+    }
+
+    @Test
+    public void deleteAllProject() {
         TestResponse res = request("DELETE", "/projects/all", null);
         assertEquals(200, res.status);
     }
 
     @Test
-    public void _deleteZAllUser() {
+    public void deleteAllUser() {
         TestResponse res = request("DELETE", "/users/all", null);
         assertEquals(200, res.status);
     }
