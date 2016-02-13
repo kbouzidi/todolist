@@ -103,11 +103,13 @@ public class ProjectService {
         getProjectDao().openCurrentSession();
         List<Project> projectList = getProjectDao().findByUseId(userId);
         getProjectDao().closeCurrentSession();
-        getProjectDao().openCurrentSessionwithTransaction();
-        getProjectDao().unlinkProject(projectList);
-        getProjectDao().closeCurrentSessionwithTransaction();
-    }
+        if (!projectList.isEmpty()) {
+            getProjectDao().openCurrentSessionwithTransaction();
+            getProjectDao().unlinkProject(projectList);
+            getProjectDao().closeCurrentSessionwithTransaction();
+        }
 
+    }
 
 
     public ProjectDaoImpl getProjectDao() {
