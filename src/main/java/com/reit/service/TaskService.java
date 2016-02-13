@@ -104,9 +104,8 @@ public class TaskService {
         getTaskDao().closeCurrentSessionwithTransaction();
     }
 
-    public void delete(String taskName) {
+    public void delete(Task task) {
         getTaskDao().openCurrentSessionwithTransaction();
-        Task task = getTaskDao().findByTaskName(taskName);
         getTaskDao().delete(task);
         getTaskDao().closeCurrentSessionwithTransaction();
     }
