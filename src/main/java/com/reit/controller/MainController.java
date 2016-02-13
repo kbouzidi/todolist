@@ -220,7 +220,6 @@ public class MainController {
             Double id = Double.parseDouble(req.params(":id"));
             Task task = taskService.findById(id.longValue());
             EStates state = EStates.fromString(req.params(":state"));
-            logger.warn(state.getValue());
             task.setState(state);
             taskService.update(task);
             return SUCCESS;
@@ -229,12 +228,15 @@ public class MainController {
         /**
          * Assign task *
          */
-        put("/task/assign", (req, res) -> {
-            Task task = gson.fromJson(req.body(), Task.class);
-            User user = userService.findByUserName(task.getAssignedTo().getUserName());
-            task.setAssignedTo(user);
-            taskService.merge(task);
-            return SUCCESS;
+        put("/task/assign/:taskId/:userId", (req, res) -> {
+            Double taskId = Double.parseDouble(req.params(":taskId"));
+            Double userId = Double.parseDouble(req.params(":userId"));
+            Task task = taskService.findById(taskId.longValue());
+            User user = userService.findById(userId.longValue());
+            task.setAssignedTo(user.getUserId());
+            task.setAssignedToName(user.getUserName());
+            taskService.update(task);
+            return user.getUserName();
         }, json());
 
         /**
@@ -300,7 +302,7 @@ public class MainController {
          */
         delete("/project/:id", (req, res) -> {
             Double projectId = Double.parseDouble(req.params(":id"));
-           // Project project = projectService.findById(projectId.longValue());
+            // Project project = projectService.findById(projectId.longValue());
             List<Task> taskList = taskService.findByProjectId(projectId.longValue());
             taskService.deleteAllTasks(taskList);
             projectService.delete(projectId.longValue());

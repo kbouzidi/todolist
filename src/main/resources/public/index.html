@@ -70,8 +70,8 @@
                                 </md-card-title>
 
                                 <md-card-actions layout="row" layout-align="end right">
-                                    <md-button class="md-accent" ng-show="task.assignedTo.userName"> Assigned to:
-                                        {{task.assignedTo.userName}}
+                                    <md-button class="md-accent" ng-show="task.assignedToName"> Assigned to:
+                                        {{task.assignedToName}}
                                     </md-button>
                                     <md-button class="md-icon-button" aria-label="ongoing"
                                                ng-click="updateTo(task, 'ONGOING')">
@@ -108,8 +108,8 @@
 
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end right">
-                                    <md-button class="md-accent" ng-show="task.assignedTo.userName">
-                                        Assigned to: {{task.assignedTo.userName}}
+                                    <md-button class="md-accent" ng-show="task.assignedToName">
+                                        Assigned to: {{task.assignedToName}}
                                     </md-button>
                                     <md-button class="md-icon-button" aria-label="ongoing"
                                                ng-click="updateTo(task, 'TODO')">
@@ -149,8 +149,8 @@
                                     </md-card-title-media>
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end right">
-                                    <md-button class="md-accent" ng-show="task.assignedTo.userName">
-                                        Assigned to: {{task.assignedTo.userName}}
+                                    <md-button class="md-accent" ng-show="task.assignedToName">
+                                        Assigned to: {{task.assignedToName}}
                                     </md-button>
                                     <md-button class="md-icon-button" aria-label="ongoing"
                                                ng-click="updateTo(task, 'ONGOING')">

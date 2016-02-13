@@ -58,14 +58,23 @@ public class Task implements Serializable {
     @JoinColumn(name = "N_CREATED_BY", nullable = true)
     private User createdBy;
 
-    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "N_ASSIGNED_TO", nullable = true)
-    private User assignedTo;
+    private Long assignedTo;
+
+    @JoinColumn(name = "C_ASSIGNED_TO_NAME", nullable = true)
+    private String assignedToName;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "N_PROJECT_ID", nullable = true)
     private Project project;
 
+    public String getAssignedToName() {
+        return assignedToName;
+    }
+
+    public void setAssignedToName(String assignedToName) {
+        this.assignedToName = assignedToName;
+    }
 
     public User getCreatedBy() {
         return createdBy;
@@ -83,7 +92,7 @@ public class Task implements Serializable {
         this.project = project;
     }
 
-    public Task(User createdBy, Project project, String taskName, String description, EStates state, User assignedTo) {
+    public Task(User createdBy, Project project, String taskName, String description, EStates state, Long assignedTo) {
         this.createdBy = createdBy;
         this.project = project;
         this.taskName = taskName;
@@ -107,14 +116,15 @@ public class Task implements Serializable {
         task.taskName = taskName;
         task.state = state;
         task.assignedTo = assignedTo;
+        task.assignedToName = assignedToName;
         return task;
     }
 
-    public User getAssignedTo() {
+    public Long getAssignedTo() {
         return assignedTo;
     }
 
-    public void setAssignedTo(User assignedTo) {
+    public void setAssignedTo(Long assignedTo) {
         this.assignedTo = assignedTo;
     }
 
