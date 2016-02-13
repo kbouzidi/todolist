@@ -31,6 +31,11 @@
 
         </div>
     </md-toolbar>
+    <div class="md-actions" layout="row" ng-show="isLoading">
+        <span flex></span>
+        <md-progress-circular md-mode="indeterminate" ng-show="isLoading" md-diameter="200"></md-progress-circular>
+        <span flex></span>
+    </div>
     <div class="page-container" ng-hide="isNotProject">
         <md-content class="md-padding">
             <md-tabs md-dynamic-height md-selected="selectedIndex" md-border-bottom="" md-autoselect="">
@@ -183,12 +188,12 @@
             </md-tabs>
 
         </md-content>
-        <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAddTask()">
+        <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAddTask()"  ng-hide="isNotProject">
             <i class="material-icons">add</i>
         </md-button>
     </div>
 
-    <md-button class="md-fab" aria-label="Comment" ng-click="addProject()" ng-show="isNotProject">
+    <md-button class="md-fab" aria-label="Comment" ng-click="addProject()" ng-show="isNotProject"  ng-hide="isNotProject">
         <i class="material-icons">add</i>
     </md-button>
 </div>

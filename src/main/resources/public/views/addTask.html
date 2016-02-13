@@ -1,6 +1,11 @@
 <md-dialog aria-label="New Task">
     <md-content class="md-padding">
-        <form name="TaskForm">
+        <div class="md-actions" layout="row" ng-show="isLoading">
+            <span flex></span>
+            <md-progress-circular md-mode="indeterminate" ng-show="isLoading" md-diameter="96"></md-progress-circular>
+            <span flex></span>
+        </div>
+        <form name="TaskForm" ng-hide="isLoading">
             <div layout layout-sm="column">
                 <md-input-container flex><label>Task Name</label> <input ng-model="task.taskName"
                                                                          placeholder="Task Name">
