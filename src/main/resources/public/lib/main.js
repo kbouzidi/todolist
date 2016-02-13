@@ -49,9 +49,9 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
 
     $http.get('/projects').success(function (projects) {
         $rootScope.tabs = projects;
+        $scope.isLoading = false;
         if (projects.length > 0) {
             $rootScope.isNotProject = false;
-            $scope.isLoading = false;
             $http.get('/tasks/' + projects[0].projectId).success(function (tasks) {
                 $rootScope.tasks = tasks;
                 $scope.selectedIndex = projects.length;
