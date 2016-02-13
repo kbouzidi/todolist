@@ -42,17 +42,11 @@ public class ProjectService {
         projectrDao = new ProjectDaoImpl();
     }
 
-    public void add(Project project) {
+    public Long add(Project project) {
         getProjectDao().openCurrentSessionwithTransaction();
-        getProjectDao().add(project);
+        Long projectId = getProjectDao().add(project);
         getProjectDao().closeCurrentSessionwithTransaction();
-    }
-
-    public Long addNew(Project project) {
-        getProjectDao().openCurrentSessionwithTransaction();
-        Long id = getProjectDao().addNewProject(project);
-        getProjectDao().closeCurrentSessionwithTransaction();
-        return id;
+        return projectId;
     }
 
     public void update(Project entity) {

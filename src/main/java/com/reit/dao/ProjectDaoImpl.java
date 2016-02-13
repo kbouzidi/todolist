@@ -156,10 +156,4 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
 
     }
 
-
-    public Long addNewProject(Project entity) {
-
-        return (Long) getCurrentSession().save(entity);
-    }
-
 }

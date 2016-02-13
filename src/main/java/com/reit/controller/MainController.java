@@ -278,8 +278,8 @@ public class MainController {
          */
         post("/project/add", (req, res) -> {
             Project project = gson.fromJson(req.body(), Project.class);
-            Long id = projectService.addNew(project);
-            project.setProjectId(id);
+            Long projectId = projectService.add(project);
+            project.setProjectId(projectId);
             return project;
         }, json());
 
