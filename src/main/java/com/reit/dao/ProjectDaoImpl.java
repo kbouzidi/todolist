@@ -124,13 +124,11 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
     /**
      * Find By user name
      *
-     * @param userName
+     * @param userId
      * @return project {@link List}
      */
-    public List<Project> findByUserName(String userName) {
-        User userResult = (User) getCurrentSession().createCriteria(User.class)
-                .add(Restrictions.eq("userName", userName)).uniqueResult();
-        Criteria criteria = getCurrentSession().createCriteria(Project.class).add(Restrictions.eq("user", userResult));
+    public List<Project> findByUserId(Long userId) {
+        Criteria criteria = getCurrentSession().createCriteria(Project.class).add(Restrictions.eq("user.userId", userId));
         return criteria.list();
     }
 

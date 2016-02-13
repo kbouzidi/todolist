@@ -99,6 +99,7 @@ public class MainController {
          *
          * ---------------------------------------------------------
          */
+
         // Add new user
         post("/user/add", (req, res) -> {
             User user = gson.fromJson(req.body(), User.class);
@@ -114,28 +115,12 @@ public class MainController {
                 -> userService.findAll(), json());
 
         /**
-         * Get users by project Name *
-         */
-        /*get("/user/:projectName", (req, res) -> {
-         String projectName = req.params(":projectName");
-         return userService.findByProjectName(projectName);
-         }, json());*/
-        /**
-         * Update task state *
-         */
-        put("/user/update", (req, res) -> {
-            User user = gson.fromJson(req.body(), User.class);
-            userService.update(user);
-            return user.getUserName();
-        }, json());
-
-        /**
          * Delete user by user name *
          */
         delete("/user/:id", (req, res) -> {
             Double userId = Double.parseDouble(req.params(":id"));
             projectService.unlinkProjectsToUser(userId.longValue());
-            List <Task> taskList = taskService.findByUserId(userId.longValue());
+            List<Task> taskList = taskService.findByUserId(userId.longValue());
             taskService.unlinkTaskToUser(taskList);
             userService.delete(userId.longValue());
             return SUCCESS;
@@ -198,19 +183,19 @@ public class MainController {
         /**
          * Get DONE tasks*
          */
-        get("/tasks/done", (req, res)
+        get("/done", (req, res)
                 -> taskService.findbyState(EStates.DONE), json());
 
         /**
          * Get ONGOING tasks *
          */
-        get("/tasks/ongoing", (req, res)
+        get("/ongoing", (req, res)
                 -> taskService.findbyState(EStates.ONGOING), json());
 
         /**
          * Get TO-DO tasks *
          */
-        get("/tasks/todo", (req, res)
+        get("/todo", (req, res)
                 -> taskService.findbyState(EStates.TODO), json());
 
         /**
@@ -238,15 +223,6 @@ public class MainController {
             taskService.update(task);
             return user.getUserName();
         }, json());
-
-        /**
-         * Delete task by Task Name *
-         */
-       /* delete("/task/name/:taskName", (req, res) -> {
-            String taskName = req.params(":taskName");
-            taskService.delete(taskName);
-            return taskName;
-        }, json());*/
 
         /**
          * Delete task by Task Id*
@@ -292,13 +268,13 @@ public class MainController {
         /**
          * Get projects by user name *
          */
-        get("/projects/:userName", (req, res) -> {
-            String userName = req.params(":userName");
-            return projectService.findByProjectName(userName);
+        get("/projects/:userId", (req, res) -> {
+            Double userId = Double.parseDouble(req.params(":userId"));
+            return projectService.findByUserId(userId.longValue());
         }, json());
 
         /**
-         * Delete project by project Name*
+         * Delete project by ID*
          */
         delete("/project/:id", (req, res) -> {
             Double projectId = Double.parseDouble(req.params(":id"));

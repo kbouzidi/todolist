@@ -78,9 +78,24 @@ public class MainControllerIntegrationTest {
         Spark.stop();
     }
 
+    @Test
+    public void _healthTest() {
+        TestResponse res = request("GET", "/ping", null);
+        assertEquals(200, res.getStatus());
+        assertEquals("pong", res.getBody());
+    }
 
     @Test
-    public void _Provisioning() {
+    public void apiCRUDIntegrationTest() {
+
+        /**
+         * ---------------------------------------------------------
+         * <p/>
+         * User api  methods
+         * <p/>
+         * ---------------------------------------------------------
+         */
+
         // add User
         String toJson = gson.toJson(Constants.getUserSample(null));
         TestResponse res = request("POST", "/user/add", toJson);
@@ -94,6 +109,20 @@ public class MainControllerIntegrationTest {
         assertEquals(200, res.status);
         assertNotNull(res.body);
         User userAdded2 = gson.fromJson(res.body, User.class);
+
+        // Get all projects users
+        res = request("GET", "/users", null);
+        assertEquals(200, res.status);
+        assertNotNull(res.body);
+
+
+        /**
+         * ---------------------------------------------------------
+         * <p/>
+         * Project api methods
+         * <p/>
+         * ---------------------------------------------------------
+         */
 
         // add Project1
         toJson = gson.toJson(Constants.getProjectSample(null));
@@ -109,6 +138,23 @@ public class MainControllerIntegrationTest {
         assertNotNull(res.body);
         Project project2 = gson.fromJson(res.body, Project.class);
 
+        // Get All projects
+        res = request("GET", "/projects", null);
+        assertEquals(200, res.status);
+        assertNotNull(res.body);
+
+        // Get projects by userId
+        res = request("GET", "/projects/" + userAdded1.getUserId(), null);
+        assertEquals(200, res.status);
+        assertNotNull(res.body);
+
+        /**
+         * ---------------------------------------------------------
+         * <p/>
+         * Task  api methods
+         * <p/>
+         * ---------------------------------------------------------
+         */
         // add Task
         Task task1 = Constants.getTaskSample();
         task1.setProject(project1);
@@ -131,6 +177,29 @@ public class MainControllerIntegrationTest {
         assertNotNull(res.body);
         task2 = gson.fromJson(res.body, Task.class);
 
+
+        // Get All tasks
+        res = request("GET", "/tasks", null);
+        assertEquals(200, res.status);
+        assertNotNull(res.body);
+
+        // Get DONE tasks
+        res = request("GET", "/done", null);
+        assertEquals(200, res.status);
+        assertNotNull(res.body);
+
+        // Get ONGOING tasks
+        res = request("GET", "/ongoing", null);
+        assertEquals(200, res.status);
+        assertNotNull(res.body);
+
+
+        // Get TO-DO tasks
+        res = request("GET", "/todo", null);
+        assertEquals(200, res.status);
+        assertNotNull(res.body);
+
+
         // Update task state
         res = request("PUT", "/task/" + task1.getTaskId() + "/DONE", null);
         assertEquals(200, res.status);
@@ -138,11 +207,18 @@ public class MainControllerIntegrationTest {
 
 
         // Assigne task1 to USER1
-        res = request("PUT", "/task/assign/" + task1.getTaskId() + "/"+userAdded2.getUserId(), null);
+        res = request("PUT", "/task/assign/" + task1.getTaskId() + "/" + userAdded2.getUserId(), null);
         assertEquals(200, res.status);
         assertNotNull(res.body);
-        
-        
+
+
+        /**
+         * ---------------------------------------------------------
+         * <p/>
+         * Delete  methods
+         * <p/>
+         * ---------------------------------------------------------
+         */
         // DELETE task1
         res = request("DELETE", "/task/" + task1.getTaskId(), toJson);
         assertEquals(200, res.status);
