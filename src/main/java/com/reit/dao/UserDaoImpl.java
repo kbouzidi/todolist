@@ -54,7 +54,7 @@ public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> 
      */
     @Override
     public Long add(User entity) {
-        User user = findByUserName(entity.getUserName());
+        User user = findByUserName(entity.getUserNameId());
         if (user == null) {
             return (Long) getCurrentSession().save(entity);
         }
@@ -117,12 +117,12 @@ public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> 
     /**
      * Find user by name
      *
-     * @param userName
+     * @param userNameId
      * @return user {@link User}
      */
-    public User findByUserName(String userName) {
+    public User findByUserName(String userNameId) {
         Criteria criteria = getCurrentSession().createCriteria(User.class)
-                .add(Restrictions.eq("userName", userName));
+                .add(Restrictions.eq("userNameId", userNameId));
         try {
             User user = (User) criteria.uniqueResult();
             return user;

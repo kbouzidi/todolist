@@ -40,9 +40,9 @@ public class UserService {
         userDao = new UserDaoImpl();
     }
 
-    public Long add(User task) {
+    public Long add(User user) {
         getUserDao().openCurrentSessionwithTransaction();
-        Long id = getUserDao().add(task);
+        Long id = getUserDao().add(user);
         getUserDao().closeCurrentSessionwithTransaction();
         return id;
     }
