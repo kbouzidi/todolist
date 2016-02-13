@@ -205,10 +205,9 @@ public class MainController {
         /**
          * Update task state *
          */
-        put("/task/:name/:state", (req, res) -> {
-            logger.warn(req.params(":name"));
-            logger.warn(req.params(":state"));
-            Task task = taskService.findByTaskName(req.params(":name"));
+        put("/task/:id/:state", (req, res) -> {
+            Double id = Double.parseDouble(req.params(":id"));
+            Task task = taskService.findById(id.longValue());
             EStates state = EStates.fromString(req.params(":state"));
             logger.warn(state.getValue());
             task.setState(state);
@@ -230,18 +229,19 @@ public class MainController {
         /**
          * Delete task by Task Name *
          */
-        delete("/task/name/:taskName", (req, res) -> {
+       /* delete("/task/name/:taskName", (req, res) -> {
             String taskName = req.params(":taskName");
             taskService.delete(taskName);
             return taskName;
-        }, json());
+        }, json());*/
 
         /**
          * Delete task by Task Id*
          */
         delete("/task/:id", (req, res) -> {
             Double id = Double.parseDouble(req.params(":id"));
-            taskService.delete(id.longValue());
+            Task task = taskService.findById(id.longValue());
+            taskService.delete(task);
             return id;
         }, json());
 
