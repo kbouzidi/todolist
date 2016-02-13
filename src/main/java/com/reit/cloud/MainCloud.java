@@ -42,7 +42,7 @@ import static spark.Spark.port;
  */
 public class MainCloud {
 
-    public static void MainCloud(String[] args) {
+    public static void main(String[] args) {
         new MainController(new TaskService(), new ProjectService(), new UserService(), getHerokuAssignedPort());
     }
 
