@@ -40,10 +40,11 @@ public class UserService {
         userDao = new UserDaoImpl();
     }
 
-    public void add(User task) {
+    public Long add(User task) {
         getUserDao().openCurrentSessionwithTransaction();
-        getUserDao().add(task);
+        Long id = getUserDao().add(task);
         getUserDao().closeCurrentSessionwithTransaction();
+        return id;
     }
 
     public void update(User entity) {

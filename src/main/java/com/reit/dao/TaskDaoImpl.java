@@ -53,8 +53,8 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
      * @see com.reit.dao.IGenericDao#add(com.reit.model.Task)
      */
     @Override
-    public void add(Task entity) {
-        getCurrentSession().save(entity);
+    public Long add(Task entity) {
+        return (Long) getCurrentSession().save(entity);
     }
 
     /**
@@ -120,20 +120,21 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
      * @param project
      * @param user
      */
-    public void add(Task task, Project project, User user) {
-        Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
-                .add(Restrictions.eq("projectName", project.getProjectName())).uniqueResult();
+    public Task add(Task task, Project project, User user) {
 
-        User userResult = (User) getCurrentSession().createCriteria(User.class)
-                .add(Restrictions.eq("userName", user.getUserName())).uniqueResult();
 
-        if (projectResul != null && userResult != null) {
-            task.setProject(projectResul);
+        Project projectResult = (Project) getCurrentSession().get(Project.class, project.getProjectId());
+
+        User userResult = (User) getCurrentSession().get(User.class, user.getUserId());
+
+        if (projectResult != null && userResult != null) {
+            task.setProject(projectResult);
             task.setCreatedBy(userResult);
-            getCurrentSession().save(task);
-        } else {
-            getCurrentSession().save(task);
+            Long id = (Long) getCurrentSession().save(task);
+            task.setTaskId(id);
+            return task;
         }
+        return null;
 
     }
 

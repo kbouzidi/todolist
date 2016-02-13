@@ -52,8 +52,8 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
      * @see com.reit.dao.IGenericDao#add(com.reit.model.Project)
      */
     @Override
-    public void add(Project entity) {
-        getCurrentSession().save(entity);
+    public Long add(Project entity) {
+        return (Long) getCurrentSession().save(entity);
     }
 
     /**
@@ -101,7 +101,7 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
         });
     }
 
-    
+
     /**
      * ---------------------------------------------------------
      * <p/>
@@ -122,7 +122,6 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
     }
 
     /**
-     *
      * Find By user name
      *
      * @param userName
@@ -155,6 +154,12 @@ public class ProjectDaoImpl extends AbstractDao implements IGenericDao<Project, 
             }
         }
 
+    }
+
+
+    public Long addNewProject(Project entity) {
+
+        return (Long) getCurrentSession().save(entity);
     }
 
 }

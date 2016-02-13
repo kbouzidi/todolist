@@ -65,10 +65,10 @@ public class MainController {
     /**
      * Main Controller constructor
      *
-     * @param taskService {@link TaskService}
+     * @param taskService    {@link TaskService}
      * @param projectService {@link ProjectService}
-     * @param userService {@link UserService}
-     * @param port {@link Integer}
+     * @param userService    {@link UserService}
+     * @param port           {@link Integer}
      */
     public MainController(final TaskService taskService, final ProjectService projectService, final UserService userService, Integer port) {
 
@@ -100,7 +100,8 @@ public class MainController {
         // Add new user
         post("/user/add", (req, res) -> {
             User user = gson.fromJson(req.body(), User.class);
-            userService.add(user);
+            Long id = userService.add(user);
+            user.setUserId(id);
             return user;
         }, json());
 
@@ -129,8 +130,8 @@ public class MainController {
         /**
          * Delete user by user name *
          */
-        delete("/user/:userName", (req, res) -> {
-            String userName = req.params(":userName");
+        delete("/user/:id", (req, res) -> {
+            String userName = req.params(":id");
             projectService.unlinkProjectsToUser(userName);
             taskService.unlinkTaskToUser(userName);
             userService.delete(userName);
@@ -157,7 +158,7 @@ public class MainController {
          */
         post("/task/add", (req, res) -> {
             Task task = gson.fromJson(req.body(), Task.class);
-            taskService.add(task, task.getProject(), task.getCreatedBy());
+            task = taskService.add(task, task.getProject(), task.getCreatedBy());
             return task;
         }, json());
 
@@ -264,7 +265,8 @@ public class MainController {
          */
         post("/project/add", (req, res) -> {
             Project project = gson.fromJson(req.body(), Project.class);
-            projectService.add(project);
+            Long id = projectService.addNew(project);
+            project.setProjectId(id);
             return project;
         }, json());
 
