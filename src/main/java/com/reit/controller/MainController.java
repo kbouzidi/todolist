@@ -37,6 +37,8 @@ import com.reit.utils.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 import static com.reit.utils.JsonUtil.json;
 import static spark.Spark.after;
 import static spark.Spark.exception;
@@ -171,9 +173,18 @@ public class MainController {
         /**
          * Get tasks by project Name *
          */
-        get("/tasks/:projectName", (req, res) -> {
+        get("/tasks/name/:projectName", (req, res) -> {
             String projectName = req.params(":projectName");
             return taskService.findByProjectName(projectName);
+        }, json());
+
+        /**
+         * Get tasks by project Id *
+         */
+        get("/tasks/:id", (req, res) -> {
+            Double projectId = Double.parseDouble(req.params(":id"));
+            //Project project = projectService.findById(projectId.longValue());
+            return taskService.findByProjectId(projectId.longValue());
         }, json());
 
         /**
@@ -287,11 +298,13 @@ public class MainController {
         /**
          * Delete project by project Name*
          */
-        delete("/project/:projectName", (req, res) -> {
-            String projectName = req.params(":projectName");
-            taskService.deleteAllByProjectName(projectName);
-            projectService.deleteByProjectName(projectName);
-            return null;
+        delete("/project/:id", (req, res) -> {
+            Double projectId = Double.parseDouble(req.params(":id"));
+           // Project project = projectService.findById(projectId.longValue());
+            List<Task> taskList = taskService.findByProjectId(projectId.longValue());
+            taskService.deleteAllTasks(taskList);
+            projectService.delete(projectId.longValue());
+            return SUCCESS;
         }, json());
 
         /**

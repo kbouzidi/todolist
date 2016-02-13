@@ -90,6 +90,22 @@ public class TaskService {
         return task;
     }
 
+    public List<Task> findByProject(Project project) {
+        getTaskDao().openCurrentSession();
+        List<Task> taskList = getTaskDao().findByProject(project);
+        getTaskDao().closeCurrentSession();
+        return taskList;
+    }
+
+
+
+    public List<Task> findByProjectId(Long projectId) {
+        getTaskDao().openCurrentSession();
+        List<Task> taskList = getTaskDao().findByProjectId(projectId);
+        getTaskDao().closeCurrentSession();
+        return taskList;
+    }
+    
     public List<Task> findByUserName(String userName) {
         getTaskDao().openCurrentSession();
         List<Task> task = getTaskDao().findByProjectName(userName);
@@ -105,6 +121,13 @@ public class TaskService {
     }
 
     public void delete(Task task) {
+        // unlink task
+        task.setAssignedTo(null);
+        task.setCreatedBy(null);
+        task.setProject(null);
+        update(task);
+        
+        // delete task
         getTaskDao().openCurrentSessionwithTransaction();
         getTaskDao().delete(task);
         getTaskDao().closeCurrentSessionwithTransaction();
@@ -130,12 +153,18 @@ public class TaskService {
         getTaskDao().closeCurrentSessionwithTransaction();
     }
 
-    public void deleteAllByProjectName(String projectName) {
-        getTaskDao().openCurrentSessionwithTransaction();
-        getTaskDao().deleteAllByProjectName(projectName);
-        getTaskDao().closeCurrentSessionwithTransaction();
-    }
 
+    public void deleteAllTasks(List<Task> taskList) {
+        if (!taskList.isEmpty()) {
+            taskList.stream().forEach((task) -> {
+                if (task!=null){
+                    delete(task);
+                }
+
+            });
+        }
+    }
+    
     public TaskDaoImpl getTaskDao() {
         return taskDao;
     }

@@ -63,10 +63,10 @@ public class Task implements Serializable {
     private User assignedTo;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "N_PROJECT_ID")
+    @JoinColumn(name = "N_PROJECT_ID", nullable = true)
     private Project project;
 
-    
+
     public User getCreatedBy() {
         return createdBy;
     }

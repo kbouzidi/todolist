@@ -48,7 +48,7 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
         $rootScope.tabs = projects;
         if (projects.length > 0) {
             $rootScope.isNotProject = false;
-            $http.get('/tasks/' + projects[0].projectName).success(function (tasks) {
+            $http.get('/tasks/' + projects[0].projectId).success(function (tasks) {
                 $rootScope.tasks = tasks;
                 $scope.selectedIndex = projects.length;
             }).error(function (err, status) {
@@ -80,7 +80,7 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
                 projectId: $rootScope.tabs[current].projectId
             };
             $rootScope.projectName = $rootScope.tabs[current].projectName;
-            $http.get('/tasks/' + $rootScope.projectName).success(function (data) {
+            $http.get('/tasks/' + $rootScope.projectInfo.projectId).success(function (data) {
                 $rootScope.tasks = data;
             }).error(function (err, status) {
                 $log.error(err + 'status' + status)
@@ -95,7 +95,7 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
 
     $scope.deleteProject = function (project) {
         if (project) {
-            $http.delete('/project/' + project.projectName).success(function (data) {
+            $http.delete('/project/' + project.projectId).success(function (data) {
                 $log.debug('data ' + data);
                 $rootScope.tabs = $rootScope.tabs.filter(function (obj) {
                     return obj.projectName !== project.projectName;
