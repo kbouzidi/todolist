@@ -171,19 +171,6 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
     }
 
     /**
-     * Find task by user name
-     *
-     * @param userName
-     * @return {@link List<>}
-     */
-    public List<Task> findByUserName(String userName) {
-        User user = (User) getCurrentSession().createCriteria(User.class)
-                .add(Restrictions.eq("userName", userName)).uniqueResult();
-        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("createdBy", user));
-        return criteria.list();
-    }
-
-    /**
      * Find task by state
      *
      * @param state
@@ -194,67 +181,38 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         return criteria.list();
     }
 
+    /**
+     * Find task by state
+     *
+     * @param project
+     * @return {@link List<>}
+     */
     public List<Task> findByProject(Project project) {
         Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("project", project));
         return criteria.list();
     }
 
+    /**
+     * Find task by state
+     *
+     * @param projectId
+     * @return {@link List<>}
+     */
     public List<Task> findByProjectId(Long projectId) {
         Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("project.projectId", projectId));
         return criteria.list();
     }
 
+    /**
+     * Find task by state
+     *
+     * @param userId
+     * @return {@link List<>}
+     */
     public List<Task> findByUserId(Long userId) {
         Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("createdBy.userId", userId));
         return criteria.list();
     }
-    /**
-     * ---------------------------------------------------------
-     *
-     * Delete methods
-     *
-     * ---------------------------------------------------------
-     */
-    /**
-     * Delete all tasks related to a project
-     *
-     * @param taskList
-     */
-    public void deleteAllTasks(List<Task> taskList) {
-        if (!taskList.isEmpty()) {
-            taskList.stream().forEach((task) -> {
-                delete(task);
-            });
-        }
 
-    }
-
-    /**
-     * ---------------------------------------------------------
-     *
-     * Update methods
-     *
-     * ---------------------------------------------------------
-     */
-    /**
-     * Unlink Task from user
-     *
-     * @param userName
-     */
-    public void unlinkTaskToUser(String userName) {
-        List<Task> taskList = findByUserName(userName);
-        if (!taskList.isEmpty()) {
-            taskList.stream().map((task) -> {
-                task.setCreatedBy(null);
-                return task;
-            }).map((task) -> {
-                task.setAssignedTo(null);
-                return task;
-            }).forEach((task) -> {
-                update(task);
-            });
-        }
-
-    }
 
 }

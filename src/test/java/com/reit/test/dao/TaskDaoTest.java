@@ -29,6 +29,7 @@ import java.util.List;
 
 import com.reit.dao.TaskDaoImpl;
 import com.reit.model.Task;
+import org.hibernate.Criteria;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mockito;
@@ -132,7 +133,7 @@ public class TaskDaoTest {
     public void findById() {
         Mockito.when(sessionMock.get(Mockito.<Class>any(), Mockito.any())).thenReturn(task);
         Mockito.when(taskDaoMock.findById(Mockito.any())).thenCallRealMethod();
-        Task result = (Task) taskDaoMock.findById(Constants.getTaskSample().getTaskId());
+        Task result = taskDaoMock.findById(Constants.getTaskSample().getTaskId());
         assertEquals(result.getTaskName(), Constants.getTaskSample().getTask().getTaskName());
 
     }
@@ -149,4 +150,78 @@ public class TaskDaoTest {
 
     }
 
+    @Test
+    public void findByUserId() {
+        Task task1 = new Task();
+        taskList.add(task1);
+        Criteria criteria = Mockito.mock(Criteria.class);
+        Mockito.when(sessionMock.createCriteria(Mockito.<Class>any())).thenReturn(criteria);
+        Mockito.when(criteria.add(any())).thenReturn(criteria);
+        Mockito.when(criteria.list()).thenReturn(taskList);
+
+        Mockito.when(taskDaoMock.findByUserId(Mockito.any())).thenCallRealMethod();
+        List<Task> result = taskDaoMock.findByUserId(Constants.getTaskSample().getTaskId());
+        assertEquals(result.size(), taskList.size());
+
+    }
+
+
+    @Test
+    public void findByProject() {
+        Task task1 = new Task();
+        taskList.add(task1);
+        Criteria criteria = Mockito.mock(Criteria.class);
+        Mockito.when(sessionMock.createCriteria(Mockito.<Class>any())).thenReturn(criteria);
+        Mockito.when(criteria.add(any())).thenReturn(criteria);
+        Mockito.when(criteria.list()).thenReturn(taskList);
+
+        Mockito.when(taskDaoMock.findByProject(Mockito.any())).thenCallRealMethod();
+        List<Task> result = taskDaoMock.findByProject(Constants.getProjectSample(null));
+        assertEquals(result.size(), taskList.size());
+
+    }
+
+
+    @Test
+    public void findbyState() {
+        Task task1 = new Task();
+        taskList.add(task1);
+        Criteria criteria = Mockito.mock(Criteria.class);
+        Mockito.when(sessionMock.createCriteria(Mockito.<Class>any())).thenReturn(criteria);
+        Mockito.when(criteria.add(any())).thenReturn(criteria);
+        Mockito.when(criteria.list()).thenReturn(taskList);
+
+        Mockito.when(taskDaoMock.findbyState(Mockito.any())).thenCallRealMethod();
+        List<Task> result = taskDaoMock.findbyState(Constants.getTaskSample().getState());
+        assertEquals(result.size(), taskList.size());
+
+    }
+
+    @Test
+    public void findByProjectName() {
+        Task task1 = new Task();
+        taskList.add(task1);
+        Criteria criteria = Mockito.mock(Criteria.class);
+        Mockito.when(sessionMock.createCriteria(Mockito.<Class>any())).thenReturn(criteria);
+        Mockito.when(criteria.add(any())).thenReturn(criteria);
+        Mockito.when(criteria.list()).thenReturn(taskList);
+
+        Mockito.when(taskDaoMock.findByProjectName(Mockito.any())).thenCallRealMethod();
+        List<Task> result = taskDaoMock.findByProjectName(Constants.getProjectSample(null).getProjectName());
+        assertEquals(result.size(), taskList.size());
+
+    }
+
+    @Test
+    public void findByTaskName() {
+        Criteria criteria = Mockito.mock(Criteria.class);
+        Mockito.when(sessionMock.createCriteria(Mockito.<Class>any())).thenReturn(criteria);
+        Mockito.when(criteria.add(any())).thenReturn(criteria);
+        Mockito.when(criteria.uniqueResult()).thenReturn(task);
+
+        Mockito.when(taskDaoMock.findByTaskName(Mockito.any())).thenCallRealMethod();
+        Task result = taskDaoMock.findByTaskName(Constants.getTaskSample().getTaskName());
+        assertEquals(result.getTask().getTaskName(), Constants.getTaskSample().getTaskName());
+
+    }
 }
