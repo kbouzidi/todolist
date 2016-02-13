@@ -4,7 +4,9 @@ angular
     .controller('DialogAddTaskController', DialogAddTaskController)
     .controller('DialogAddProjectController', DialogAddProjectController)
     .controller('LoginController', LoginController)
-    .controller('DialogAssignController', DialogAssignController);
+    .controller('DialogAssignController', DialogAssignController)
+    .controller('DialogDeleteProject', DialogDeleteProject);
+;
 
 
 /**
@@ -20,6 +22,7 @@ angular
  */
 function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cookies, $http) {
     $rootScope.isNotProject = true;
+    $scope.isLoading = true;
     var cookiesData = $cookies.get('userInput');
     if (cookiesData) {
         $rootScope.userData = JSON.parse(cookiesData);
@@ -27,7 +30,7 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
 
     if (!$rootScope.userData) {
 
-
+        $scope.isLoading = false;
         $mdDialog.show({
             controller: LoginController,
             templateUrl: 'views/login.html'
@@ -48,9 +51,11 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
         $rootScope.tabs = projects;
         if (projects.length > 0) {
             $rootScope.isNotProject = false;
+            $scope.isLoading = false;
             $http.get('/tasks/' + projects[0].projectId).success(function (tasks) {
                 $rootScope.tasks = tasks;
                 $scope.selectedIndex = projects.length;
+
             }).error(function (err, status) {
                 $log.error(err + 'status' + status)
             });
@@ -94,19 +99,17 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
 
 
     $scope.deleteProject = function (project) {
-        if (project) {
-            $http.delete('/project/' + project.projectId).success(function (data) {
-                $log.debug('data ' + data);
-                $rootScope.tabs = $rootScope.tabs.filter(function (obj) {
-                    return obj.projectName !== project.projectName;
-                });
-                if ($rootScope.tabs.length < 1) {
-                    $rootScope.isNotProject = true;
-                }
-            }).error(function (err, status) {
-                $log.error(err + 'status' + status);
-            })
-        }
+        $mdDialog.show({
+            controller: DialogDeleteProject,
+            templateUrl: 'views/deleteProject.html',
+            locals: {
+                project: project
+            }
+        }).then(function (answer) {
+            $scope.alert = 'You said the information was "' + answer + '".';
+        }, function () {
+            $scope.alert = 'You cancelled the dialog.';
+        });
     };
 
 
@@ -114,6 +117,7 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
         $log.debug('task to Update ', task, 'stae', state);
         if (task) {
             task.state = state;
+            $scope.isLoading = true;
             $http.put('/task/' + task.taskId + '/' + state).success(function (data) {
                 $log.debug('task to Update ' + data);
 
@@ -122,7 +126,7 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
                 });
 
                 $rootScope.tasks.push(task);
-
+                $scope.isLoading = false;
 
             }).error(function (err, status) {
                 $log.error(err + 'status' + status);
@@ -203,11 +207,13 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
 
     $scope.deleteTask = function (task) {
         if (task) {
+            $scope.isLoading = true;
             $http.delete('/task/' + task.taskId).success(function (data) {
                 $log.debug('data ' + data);
                 $rootScope.tasks = $rootScope.tasks.filter(function (obj) {
                     return obj.taskId !== data;
                 });
+                $scope.isLoading = true;
             }).error(function (err, status) {
                 $log.error(err + 'status' + status);
             })
@@ -238,6 +244,7 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
 function DialogAddProjectController($scope, $http, $mdDialog, $log, $rootScope) {
 
     $scope.addProject = function (project) {
+        $scope.isLoading = true;
         $http.post('/project/add', {projectName: project.projectName, projectDescription: project.description}).success(function (data) {
             $log.debug('data ' + data);
             $rootScope.isNotProject = false;
@@ -247,7 +254,7 @@ function DialogAddProjectController($scope, $http, $mdDialog, $log, $rootScope) 
                 projectId: data.projectId,
                 disabled: false});
             $rootScope.projectInfo = data;
-
+            $scope.isLoading = false;
             $mdDialog.hide(project);
         }).error(function (err, status) {
             $log.error(err + 'status' + status);
@@ -297,10 +304,11 @@ function DialogAddTaskController($scope, $http, $log, $mdDialog, $rootScope, dat
             };
 
         }
-
+        $scope.isLoading = true;
         $http.post('/task/add', answer).success(function (data) {
             $log.debug('data ' + data);
             $rootScope.tasks.push(data);
+            $scope.isLoading = false;
             $mdDialog.hide(answer);
         }).error(function (err, status) {
             $log.error(err + 'status' + status);
@@ -320,11 +328,13 @@ function LoginController($scope, $mdDialog, $log, $http, $rootScope, $cookies) {
     };
 
     $scope.addUser = function (user) {
+        $scope.isLoading = true;
         $http.post('/user/add', {userName: user.userName}).success(function (data) {
             $log.debug('data ' + data);
             $rootScope.userData = data;
             data = JSON.stringify(data);
             $cookies.put('userInput', data);
+            $scope.isLoading = false;
             $mdDialog.hide(user);
         }).error(function (err, status) {
             $log.error(err + 'status' + status);
@@ -343,6 +353,7 @@ function DialogAssignController($scope, $http, $log, $mdDialog, data, $rootScope
 
     $scope.assignToUser = function (user, task) {
         if (user && task) {
+            $scope.isLoading = true;
             $http.put('/task/assign/' + task.taskId + '/' + user.userId).success(function (userName) {
                 $log.debug('data ' + userName);
                 task.assignedToName = userName;
@@ -351,7 +362,7 @@ function DialogAssignController($scope, $http, $log, $mdDialog, data, $rootScope
                 });
 
                 $rootScope.tasks.push(task);
-
+                $scope.isLoading = false;
                 $mdDialog.hide(user.userId);
             }).error(function (err, status) {
                 $log.error(err + 'status' + status);
@@ -359,4 +370,32 @@ function DialogAssignController($scope, $http, $log, $mdDialog, data, $rootScope
         }
 
     };
+}
+
+function DialogDeleteProject($scope, $http, $log, $mdDialog, project, $rootScope) {
+
+    $scope.cancelProjectDeletion = function () {
+        $mdDialog.cancel();
+    };
+
+
+    $scope.deleteProjectBtn = function () {
+        if (project) {
+            $scope.isLoading = true;
+            $http.delete('/project/' + project.projectId).success(function (data) {
+                $log.debug('data ' + data);
+                $rootScope.tabs = $rootScope.tabs.filter(function (obj) {
+                    return obj.projectName !== project.projectName;
+                });
+                if ($rootScope.tabs.length < 1) {
+                    $rootScope.isNotProject = true;
+                }
+                $scope.isLoading = false;
+                $mdDialog.hide(data);
+            }).error(function (err, status) {
+                $log.error(err + 'status' + status);
+            })
+        }
+    };
+
 }

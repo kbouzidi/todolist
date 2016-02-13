@@ -1,6 +1,7 @@
 <md-dialog aria-label="New Task">
     <md-content class="md-padding">
-        <form name="UserForm">
+        <md-progress-circular md-mode="indeterminate" ng-show="isLoading" md-diameter="96"></md-progress-circular>
+        <form name="UserForm" ng-hide="isLoading">
 
             <md-input-container>
                 <label for="label">Sign Up</label>

@@ -1,21 +1,31 @@
-<form layout="column" class="md-padding"
-      style="padding-top: 0;">
-    <div layout="row" layout-sm="column">
-        <md-input-container>
-            <label for="content">Project Name</label>
-            <input type="text" id="label" ng-model="project.projectName">
-        </md-input-container>
-        <md-input-container>
-            <label for="content">Description</label>
-            <input type="text" id="content" ng-model="project.description">
-        </md-input-container>
+<md-dialog aria-label="New Task">
+    <md-content class="md-padding">
+        <div class="md-actions" layout="row" ng-show="isLoading">
+            <span flex></span>
+            <md-progress-circular md-mode="indeterminate" ng-show="isLoading" md-diameter="96"></md-progress-circular>
+            <span flex></span>
+        </div>
+        <form layout="column" class="md-padding"
+              style="padding-top: 0;" ng-hide="isLoading">
+            <div layout="row" layout-sm="column">
+                <md-input-container>
+                    <label for="content">Project Name</label>
+                    <input type="text" id="label" ng-model="project.projectName">
+                </md-input-container>
+                <md-input-container>
+                    <label for="content">Description</label>
+                    <input type="text" id="content" ng-model="project.description">
+                </md-input-container>
 
-    </div>
+            </div>
 
-    <div class="md-actions" layout="row"><span flex></span>
-        <md-button ng-click="cancelAddProject()"> Cancel</md-button>
-        <md-button ng-disabled="!project.projectName || !project.description" ng-click="addProject(project)"
-                   class="md-primary"> Save
-        </md-button>
-    </div>
-</form>
+            <div class="md-actions" layout="row"><span flex></span>
+                <md-button ng-click="cancelAddProject()"> Cancel</md-button>
+                <md-button ng-disabled="!project.projectName || !project.description" ng-click="addProject(project)"
+                           class="md-primary"> Save
+                </md-button>
+            </div>
+        </form>
+    </md-content>
+</md-dialog>
+
