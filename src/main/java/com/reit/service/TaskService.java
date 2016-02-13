@@ -50,10 +50,11 @@ public class TaskService {
         getTaskDao().closeCurrentSessionwithTransaction();
     }
 
-    public void add(Task task, Project project, User user) {
+    public Task add(Task task, Project project, User user) {
         getTaskDao().openCurrentSessionwithTransaction();
-        getTaskDao().add(task, project, user);
+        Task taskResult = getTaskDao().add(task, project, user);
         getTaskDao().closeCurrentSessionwithTransaction();
+        return taskResult;
     }
 
     public void update(Task entity) {

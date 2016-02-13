@@ -24,7 +24,11 @@
 package com.reit.test.app;
 
 import com.google.gson.Gson;
+import com.reit.model.Project;
+import com.reit.model.Task;
+import com.reit.model.User;
 import com.reit.test.utils.Constants;
+
 import static com.reit.test.utils.Constants.projectName;
 import static com.reit.test.utils.Constants.two;
 
@@ -35,6 +39,7 @@ import java.net.URL;
 import org.junit.AfterClass;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
@@ -55,6 +60,8 @@ public class MainControllerIntegrationTest {
     static Logger logger = LoggerFactory.getLogger(MainControllerIntegrationTest.class);
     Gson gson = new Gson();
 
+    Project projectAdded;
+
     @BeforeClass
     public static void setUp() {
         MainTest.main(null);
@@ -73,7 +80,7 @@ public class MainControllerIntegrationTest {
     }
 
     @Test
-    public void _addUser() {
+    public void _add1User() {
         String toJson = gson.toJson(Constants.getUserSample(null));
         TestResponse res = request("POST", "/user/add", toJson);
         assertEquals(200, res.status);
@@ -81,51 +88,51 @@ public class MainControllerIntegrationTest {
     }
 
     @Test
-    public void _addProject() {
-        String toJson = gson.toJson(Constants.getProjectSample(null));
-        TestResponse res = request("POST", "/project/add", toJson);
+    public void _1_Provisioning() {
+        // add User
+        String toJson = gson.toJson(Constants.getUserSample(null));
+        TestResponse res = request("POST", "/user/add", toJson);
         assertEquals(200, res.status);
+        User userAdded = gson.fromJson(res.body, User.class);
+
+        // add Project
+        toJson = gson.toJson(Constants.getProjectSample(null));
+        res = request("POST", "/project/add", toJson);
+        assertEquals(200, res.status);
+        assertNotNull(res.getBody());
+        Project projectAdded = gson.fromJson(res.body, Project.class);
+
+        // add Task
+        Task task = Constants.getTaskSample();
+        task.setProject(projectAdded);
+        task.setCreatedBy(userAdded);
+        toJson = gson.toJson(task);
+        res = request("POST", "/task/add", toJson);
+        assertEquals(200, res.status);
+
 
     }
 
-    @Test
-    public void _addTask() {
-        String toJson = gson.toJson(Constants.getTaskSample());
-        TestResponse res = request("POST", "/task/add", toJson);
-        assertEquals(200, res.status);
-    }
 
-    @Test
-    public void _addTask2() {
-        String toJson = gson.toJson(Constants.getTaskSample2());
-        TestResponse res = request("POST", "/task/add", toJson);
-        assertEquals(200, res.status);
-    }
-
-    @Test
-    public void _deleteUser() {
+    //@Test
+    public void _deleteAllUser() {
         TestResponse res = request("DELETE", "/user/" + Constants.getUserSample(two.toString()).getUserName(), null);
         assertEquals(200, res.status);
     }
 
-    @Test
+   // @Test
     public void _deleteTask() {
         String toJson = gson.toJson(Constants.getTaskSample2());
         TestResponse res = request("POST", "/task/add", toJson);
         assertEquals(200, res.status);
     }
 
-    @Test
+    //@Test
     public void _deleteProject() {
         TestResponse res = request("DELETE", "/project/" + Constants.getProjectSample(null).getProjectName(), null);
         assertEquals(200, res.status);
     }
 
-    @Test
-    public void _deleteProject2() {
-        TestResponse res = request("DELETE", "/project/" + projectName + two.toString(), null);
-        assertEquals(200, res.status);
-    }
 
     @Test
     public void _deleteZAllProject() {

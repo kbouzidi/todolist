@@ -37,6 +37,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -82,11 +84,11 @@ public class UserServiceTest {
 
     @Test
     public void add() {
-        Mockito.when(sessionMock.save(any())).thenReturn(user);
-        userDaoMock.add(Constants.getUserSample(null)); // task1
-        verify(userDaoMock, times(1)).add(captor.capture());
-        Mockito.verifyNoMoreInteractions(userDaoMock);
-        assertEquals(captor.getValue().getUserName(), Constants.getUserSample(null).getUserName());
+        Mockito.when(sessionMock.save(Mockito.<Class>any())).thenReturn(new Long("1"));
+        Mockito.when(userDaoMock.add(Mockito.any())).thenCallRealMethod();
+        Long result = (Long) userDaoMock.add(Constants.getUserSample(null));
+        assertNotNull(result.longValue());
+        assertEquals(result.intValue(), 1);
 
     }
 

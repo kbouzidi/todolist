@@ -27,6 +27,7 @@ import com.reit.model.User;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
@@ -52,12 +53,13 @@ public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> 
      * @see com.reit.dao.IGenericDao#add(com.reit.model.User)
      */
     @Override
-    public void add(User entity) {
+    public Long add(User entity) {
         User user = findByUserName(entity.getUserName());
         if (user == null) {
-            getCurrentSession().save(entity);
+            return (Long) getCurrentSession().save(entity);
         }
 
+        return null;
     }
 
     /**

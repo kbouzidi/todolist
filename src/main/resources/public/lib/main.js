@@ -1,10 +1,10 @@
 angular
-        .module('TodoWebApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngCookies'])
-        .controller('TodoAppCtrl', TodoAppCtrl)
-        .controller('DialogAddTaskController', DialogAddTaskController)
-        .controller('DialogAddProjectController', DialogAddProjectController)
-        .controller('LoginController', LoginController)
-        .controller('DialogAssignController', DialogAssignController);
+    .module('TodoWebApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngCookies'])
+    .controller('TodoAppCtrl', TodoAppCtrl)
+    .controller('DialogAddTaskController', DialogAddTaskController)
+    .controller('DialogAddProjectController', DialogAddProjectController)
+    .controller('LoginController', LoginController)
+    .controller('DialogAssignController', DialogAssignController);
 
 
 /**
@@ -20,8 +20,8 @@ angular
  */
 function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cookies, $http) {
     $rootScope.isNotProject = true;
-    $rootScope.userName = $cookies.get('userInput');
-    if (!$rootScope.userName) {
+    $rootScope.userData = $cookies.get('userInput');
+    if (!$rootScope.userData) {
 
 
         $mdDialog.show({
@@ -29,14 +29,14 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
             templateUrl: 'views/login.html'
 
         })
-                .then(function (answer) {
-                    $scope.alert = 'You said the information was "' + answer + '".';
-                }, function () {
-                    $scope.alert = 'You cancelled the dialog.';
-                });
+            .then(function (answer) {
+                $scope.alert = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.alert = 'You cancelled the dialog.';
+            });
     }
 
-    // $rootScope.userName = "USER2"; // TODO remove it after test
+    // $rootScope.userData = "USER2"; // TODO remove it after test
 
     $rootScope.tabs = [];
 
@@ -163,7 +163,7 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
             $rootScope.projectInfo = {projectName: $rootScope.tabs[0].projectName, projectName: $rootScope.tabs[0].projectDescription};
         }
 
-        var data = {projectInfo: $rootScope.projectInfo, userName: $rootScope.userName};
+        var data = {projectInfo: $rootScope.projectInfo, userData: $rootScope.userData};
         $mdDialog.show({
             controller: DialogAddTaskController,
             templateUrl: 'views/addTask.html',
@@ -171,11 +171,11 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
                 data: data
             }
         })
-                .then(function (answer) {
-                    $scope.alert = 'You said the information was "' + answer + '".';
-                }, function () {
-                    $scope.alert = 'You cancelled the dialog.';
-                });
+            .then(function (answer) {
+                $scope.alert = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.alert = 'You cancelled the dialog.';
+            });
     };
 
 
@@ -185,12 +185,12 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
             templateUrl: 'views/addProject.html'
 
         })
-                .then(function (answer) {
+            .then(function (answer) {
 
-                    $scope.alert = 'You said the information was "' + answer + '".';
-                }, function () {
-                    $scope.alert = 'You cancelled the dialog.';
-                });
+                $scope.alert = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.alert = 'You cancelled the dialog.';
+            });
     };
 
 
@@ -211,17 +211,17 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
 
     $scope.disconnect = function () {
         $cookies.remove('userInput');
-        $rootScope.userName = undefined;
+        $rootScope.userData = undefined;
         $mdDialog.show({
             controller: LoginController,
             templateUrl: 'views/login.html'
 
         })
-                .then(function (answer) {
-                    $scope.alert = 'You said the information was "' + answer + '".';
-                }, function () {
-                    $scope.alert = 'You cancelled the dialog.';
-                });
+            .then(function (answer) {
+                $scope.alert = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.alert = 'You cancelled the dialog.';
+            });
     }
 
 
@@ -234,7 +234,11 @@ function DialogAddProjectController($scope, $http, $mdDialog, $log, $rootScope) 
         $http.post('/project/add', {projectName: project.projectName, projectDescription: project.description}).success(function (data) {
             $log.debug('data ' + data);
             $rootScope.isNotProject = false;
-            $rootScope.tabs.push({projectName: project.projectName, projectDescription: project.projectDescription, disabled: false});
+            $rootScope.tabs.push({
+                projectName: project.projectName,
+                projectDescription: project.projectDescription,
+                projectId: project.projectId,
+                disabled: false});
             $mdDialog.hide(project);
         }).error(function (err, status) {
             $log.error(err + 'status' + status);
@@ -247,30 +251,41 @@ function DialogAddProjectController($scope, $http, $mdDialog, $log, $rootScope) 
 }
 
 function DialogAddTaskController($scope, $http, $log, $mdDialog, $rootScope, data) {
-    $rootScope.userName = data.userName;
+    $rootScope.userData = data.userData;
     $rootScope.projectInfo = data.projectInfo;
     $log.debug($rootScope.projectInfo);
     $scope.cancelAddTask = function () {
-        if (!$rootScope.userName) {
-            $rootScope.userName = 'USER'
+        if (!$rootScope.userData) {
+            $rootScope.userData = {
+                userName: 'USER'
+            }
+
         }
         $mdDialog.cancel();
     };
 
     $scope.addTask = function (answer) {
         // temp fix for user
-        if (!$rootScope.userName) {
-            $rootScope.userName = 'USER'
+        if (!$rootScope.userData) {
+            $rootScope.userData = {
+                userName: 'USER'
+            }
 
         }
-        answer.createdBy = {userName: $rootScope.userName};
+        answer.createdBy = $rootScope.userData;
         if ($rootScope.projectInfo) {
             answer.project = $rootScope.projectInfo;
-        } else
-        if ($rootScope.projectName) {
-            answer.project = {projectName: $rootScope.projectName, projectDescription: $rootScope.projectDescription};
+        } else if ($rootScope.projectName) {
+            answer.project = {
+                projectName: $rootScope.projectName,
+                projectDescription: $rootScope.projectDescription,
+                projectId: $rootScope.projectId};
         } else if ($rootScope.tabs.length === 1) {
-            answer.project = {projectName: $rootScope.tabs[0].projectName, projectDescription: $rootScope.tabs[0].projectDescription};
+            answer.project = {
+                projectName: $rootScope.tabs[0].projectName,
+                projectDescription: $rootScope.tabs[0].projectDescription,
+                projectId: $rootScope.tabs[0].projectId
+            };
 
         }
 
@@ -298,8 +313,8 @@ function LoginController($scope, $mdDialog, $log, $http, $rootScope, $cookies) {
     $scope.addUser = function (user) {
         $http.post('/user/add', {userName: user.userName}).success(function (data) {
             $log.debug('data ' + data);
-            $rootScope.userName = user.userName;
-            $cookies.put('userInput', user.userName);
+            $rootScope.userData = user.userData;
+            $cookies.put('userInput', user.userData);
             $mdDialog.hide(user);
         }).error(function (err, status) {
             $log.error(err + 'status' + status);
@@ -318,7 +333,7 @@ function DialogAssignController($scope, $http, $log, $mdDialog, data) {
 
     $scope.assignToUser = function (result, task) {
         if (result && task) {
-            task.assignedTo = {userName: result.user};
+            task.assignedTo = {userData: result.user};
             $http.put('/task', task).success(function (data) {
                 $log.debug('data ' + data);
                 $mdDialog.hide(result);

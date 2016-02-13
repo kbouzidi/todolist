@@ -27,29 +27,37 @@ import com.reit.dao.ProjectDaoImpl;
 import com.reit.model.Project;
 import com.reit.test.dao.ProjectDaoTest;
 import com.reit.test.utils.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author kbouzidi
  */
 public class ProjectServiceTest {
@@ -81,11 +89,11 @@ public class ProjectServiceTest {
 
     @Test
     public void add() {
-        Mockito.when(sessionMock.save(any())).thenReturn(project);
-        projectDaoMock.add(Constants.getProjectSample(null)); // task1
-        verify(projectDaoMock, times(1)).add(captor.capture());
-        Mockito.verifyNoMoreInteractions(projectDaoMock);
-        assertEquals(captor.getValue().getProjectName(), Constants.getProjectSample(null).getProjectName());
+        Mockito.when(sessionMock.save(Mockito.<Class>any())).thenReturn(new Long("1"));
+        Mockito.when(projectDaoMock.add(Mockito.any())).thenCallRealMethod();
+        Long result = (Long) projectDaoMock.add(Constants.getProjectSample(null));
+        assertNotNull(result.longValue());
+        assertEquals(result.intValue(), 1);
 
     }
 

@@ -49,7 +49,7 @@ public interface IGenericDao<T, Id extends Serializable> {
      * </ul>
      *
      */
-    public void add(T entity);
+    public Long add(T entity);
 
     /**
      * Update <code>Entity</code> associated to:

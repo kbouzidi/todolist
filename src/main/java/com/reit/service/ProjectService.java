@@ -48,6 +48,13 @@ public class ProjectService {
         getProjectDao().closeCurrentSessionwithTransaction();
     }
 
+    public Long addNew(Project project) {
+        getProjectDao().openCurrentSessionwithTransaction();
+        Long id = getProjectDao().addNewProject(project);
+        getProjectDao().closeCurrentSessionwithTransaction();
+        return id;
+    }
+
     public void update(Project entity) {
         getProjectDao().openCurrentSessionwithTransaction();
         getProjectDao().update(entity);
