@@ -79,11 +79,12 @@ public class TaskServiceTest {
 
     @Test
     public void add() {
-        Mockito.when(sessionMock.save(Mockito.<Class>any())).thenReturn(new Long("1"));
-        Mockito.when(taskDaoMock.add(Mockito.any())).thenCallRealMethod();
-        Long result = (Long) taskDaoMock.add(Constants.getTaskSample());
-        assertNotNull(result.longValue());
-        assertEquals(result.intValue(), 1);
+        Mockito.when(taskDaoMock.add(any(), any(), any())).thenReturn(task);
+        Mockito.when(taskServiceMock.getTaskDao()).thenReturn(taskDaoMock);
+        Mockito.when(taskServiceMock.add(any(), any(), any())).thenCallRealMethod();
+        Task result = (Task) taskServiceMock.add(Constants.getTaskSample(), Constants.getProjectSample(null), Constants.getUserSample(null));
+        assertEquals(result.getTaskName(), Constants.getTaskSample().getTask().getTaskName());
+
     }
 
     @Test
@@ -117,9 +118,9 @@ public class TaskServiceTest {
     public void findById() {
         Mockito.when(taskDaoMock.findById(any())).thenReturn(task);
         Mockito.when(taskServiceMock.getTaskDao()).thenReturn(taskDaoMock);
-        Mockito.when(taskServiceMock.findById(Mockito.any())).thenCallRealMethod();
+        Mockito.when(taskServiceMock.findById(any())).thenCallRealMethod();
         Task result = (Task) taskServiceMock.findById(Constants.getTaskSample().getTaskId());
-        assertEquals(result.getTaskName(),  Constants.getTaskSample().getTask().getTaskName());
+        assertEquals(result.getTaskName(), Constants.getTaskSample().getTask().getTaskName());
 
     }
 
