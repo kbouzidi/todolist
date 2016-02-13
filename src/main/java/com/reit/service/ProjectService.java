@@ -92,11 +92,11 @@ public class ProjectService {
         return project;
     }
 
-    public Project findByProjectName(String projectName) {
+    public List<Project> findByUserId(Long userId) {
         getProjectDao().openCurrentSession();
-        Project project = getProjectDao().findByProjectName(projectName);
+        List<Project> projectList = getProjectDao().findByUserId(userId);
         getProjectDao().closeCurrentSession();
-        return project;
+        return projectList;
     }
 
     public void unlinkProjectsToUser(Long userId) {
