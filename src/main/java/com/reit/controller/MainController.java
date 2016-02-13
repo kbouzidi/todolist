@@ -133,11 +133,12 @@ public class MainController {
          * Delete user by user name *
          */
         delete("/user/:id", (req, res) -> {
-            String userName = req.params(":id");
-            projectService.unlinkProjectsToUser(userName);
-            taskService.unlinkTaskToUser(userName);
-            userService.delete(userName);
-            return userName;
+            Double userId = Double.parseDouble(req.params(":id"));
+            projectService.unlinkProjectsToUser(userId.longValue());
+            List <Task> taskList = taskService.findByUserId(userId.longValue());
+            taskService.unlinkTaskToUser(taskList);
+            userService.delete(userId.longValue());
+            return SUCCESS;
         }, json());
 
         /**
@@ -183,7 +184,6 @@ public class MainController {
          */
         get("/tasks/:id", (req, res) -> {
             Double projectId = Double.parseDouble(req.params(":id"));
-            //Project project = projectService.findById(projectId.longValue());
             return taskService.findByProjectId(projectId.longValue());
         }, json());
 
