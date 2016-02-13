@@ -20,7 +20,11 @@ angular
  */
 function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cookies, $http) {
     $rootScope.isNotProject = true;
-    $rootScope.userData = $cookies.get('userInput');
+    var cookiesData = $cookies.get('userInput');
+    if (cookiesData) {
+        $rootScope.userData = JSON.parse(cookiesData);
+    }
+
     if (!$rootScope.userData) {
 
 
@@ -70,7 +74,11 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
     $scope.$watch('selectedIndex', function (current, old) {
         previous = selected;
         if ($rootScope.tabs[current]) {
-            $rootScope.projectInfo = {projectName: $rootScope.tabs[current].projectName, projectDescription: $rootScope.tabs[current].projectDescription};
+            $rootScope.projectInfo = {
+                projectName: $rootScope.tabs[current].projectName,
+                projectDescription: $rootScope.tabs[current].projectDescription,
+                projectId: $rootScope.tabs[current].projectId
+            };
             $rootScope.projectName = $rootScope.tabs[current].projectName;
             $http.get('/tasks/' + $rootScope.projectName).success(function (data) {
                 $rootScope.tasks = data;
@@ -106,8 +114,7 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
         $log.debug('task to Update ', task, 'stae', state);
         if (task) {
             task.state = state;
-            var name = task.taskName.replace(' ', '');
-            $http.put('/task/' + name + '/' + state).success(function (data) {
+            $http.put('/task/' + task.taskId + '/' + state).success(function (data) {
                 $log.debug('task to Update ' + data);
 
                 $rootScope.tasks = $rootScope.tasks.filter(function (obj) {
@@ -196,7 +203,7 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
 
     $scope.deleteTask = function (task) {
         if (task) {
-            $http.delete('/task/name/' + task.taskName).success(function (data) {
+            $http.delete('/task/' + task.taskId).success(function (data) {
                 $log.debug('data ' + data);
                 $rootScope.tasks = $rootScope.tasks.filter(function (obj) {
                     return obj.taskName !== task.taskName;
@@ -235,10 +242,12 @@ function DialogAddProjectController($scope, $http, $mdDialog, $log, $rootScope) 
             $log.debug('data ' + data);
             $rootScope.isNotProject = false;
             $rootScope.tabs.push({
-                projectName: project.projectName,
-                projectDescription: project.projectDescription,
-                projectId: project.projectId,
+                projectName: data.projectName,
+                projectDescription: data.projectDescription,
+                projectId: data.projectId,
                 disabled: false});
+            $rootScope.projectInfo = data;
+
             $mdDialog.hide(project);
         }).error(function (err, status) {
             $log.error(err + 'status' + status);
@@ -291,7 +300,7 @@ function DialogAddTaskController($scope, $http, $log, $mdDialog, $rootScope, dat
 
         $http.post('/task/add', answer).success(function (data) {
             $log.debug('data ' + data);
-            $rootScope.tasks.push(answer);
+            $rootScope.tasks.push(data);
             $mdDialog.hide(answer);
         }).error(function (err, status) {
             $log.error(err + 'status' + status);
@@ -313,8 +322,9 @@ function LoginController($scope, $mdDialog, $log, $http, $rootScope, $cookies) {
     $scope.addUser = function (user) {
         $http.post('/user/add', {userName: user.userName}).success(function (data) {
             $log.debug('data ' + data);
-            $rootScope.userData = user.userData;
-            $cookies.put('userInput', user.userData);
+            $rootScope.userData = data;
+            data = JSON.stringify(data);
+            $cookies.put('userInput', data);
             $mdDialog.hide(user);
         }).error(function (err, status) {
             $log.error(err + 'status' + status);
