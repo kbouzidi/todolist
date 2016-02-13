@@ -117,7 +117,6 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
         $log.debug('task to Update ', task, 'stae', state);
         if (task) {
             task.state = state;
-            $scope.isLoading = true;
             $http.put('/task/' + task.taskId + '/' + state).success(function (data) {
                 $log.debug('task to Update ' + data);
 
@@ -126,7 +125,6 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
                 });
 
                 $rootScope.tasks.push(task);
-                $scope.isLoading = false;
 
             }).error(function (err, status) {
                 $log.error(err + 'status' + status);
@@ -207,13 +205,11 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
 
     $scope.deleteTask = function (task) {
         if (task) {
-            $scope.isLoading = true;
+            $rootScope.tasks = $rootScope.tasks.filter(function (obj) {
+                return obj.taskId !== task.taskId;
+            });
             $http.delete('/task/' + task.taskId).success(function (data) {
                 $log.debug('data ' + data);
-                $rootScope.tasks = $rootScope.tasks.filter(function (obj) {
-                    return obj.taskId !== data;
-                });
-                $scope.isLoading = true;
             }).error(function (err, status) {
                 $log.error(err + 'status' + status);
             })
@@ -336,7 +332,7 @@ function LoginController($scope, $mdDialog, $log, $http, $rootScope, $cookies) {
         }).error(function (err, status) {
             $log.error(err + 'status' + status);
         });
-        
+
         $mdDialog.cancel();
     };
 

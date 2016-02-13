@@ -76,6 +76,13 @@ public class TaskService {
         return task;
     }
 
+    public List<Task> findByUserId(Long userId) {
+        getTaskDao().openCurrentSession();
+        List<Task> taskList = getTaskDao().findByUserId(userId);
+        getTaskDao().closeCurrentSession();
+        return taskList;
+    }
+    
     public Task findByTaskName(String taskName) {
         getTaskDao().openCurrentSession();
         Task task = getTaskDao().findByTaskName(taskName);
@@ -169,9 +176,17 @@ public class TaskService {
         return taskDao;
     }
 
-    public void unlinkTaskToUser(String userName) {
-        getTaskDao().openCurrentSessionwithTransaction();
-        getTaskDao().unlinkTaskToUser(userName);
-        getTaskDao().closeCurrentSessionwithTransaction();
+    public void unlinkTaskToUser(List<Task> taskList) {
+        if (!taskList.isEmpty()) {
+            taskList.stream().forEach((task) -> {
+                if (task!=null){
+                    task.setAssignedTo(null);
+                    task.setCreatedBy(null);
+                    task.setAssignedToName(null);
+                    update(task);
+                }
+
+            });
+        }
     }
 }
