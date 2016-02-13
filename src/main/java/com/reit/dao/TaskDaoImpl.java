@@ -165,7 +165,7 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
      */
     public List<Task> findByProjectName(String projectName) {
         Project projectResul = (Project) getCurrentSession().createCriteria(Project.class)
-                .add(Restrictions.eq("projectName", projectName)).uniqueResult();
+                .add(Restrictions.eq("project", projectName)).uniqueResult();
         Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("project", projectResul));
         return criteria.list();
     }
@@ -194,6 +194,15 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
         return criteria.list();
     }
 
+    public List<Task> findByProject(Project project) {
+        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("project", project));
+        return criteria.list();
+    }
+
+    public List<Task> findByProjectId(Long projectId) {
+        Criteria criteria = getCurrentSession().createCriteria(Task.class).add(Restrictions.eq("project.projectId", projectId));
+        return criteria.list();
+    }
     /**
      * ---------------------------------------------------------
      *
@@ -204,10 +213,9 @@ public class TaskDaoImpl extends AbstractDao implements IGenericDao<Task, Long> 
     /**
      * Delete all tasks related to a project
      *
-     * @param projectName
+     * @param taskList
      */
-    public void deleteAllByProjectName(String projectName) {
-        List<Task> taskList = findByProjectName(projectName);
+    public void deleteAllTasks(List<Task> taskList) {
         if (!taskList.isEmpty()) {
             taskList.stream().forEach((task) -> {
                 delete(task);

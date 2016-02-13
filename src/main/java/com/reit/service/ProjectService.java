@@ -62,8 +62,17 @@ public class ProjectService {
     }
 
     public void delete(Long id) {
+        // Get project byID
         getProjectDao().openCurrentSessionwithTransaction();
         Project project = getProjectDao().findById(id);
+        getProjectDao().closeCurrentSessionwithTransaction();
+
+        // unlink user
+        project.setUser(null);
+        update(project);
+
+        // Delete project
+        getProjectDao().openCurrentSessionwithTransaction();
         getProjectDao().delete(project);
         getProjectDao().closeCurrentSessionwithTransaction();
     }
@@ -92,9 +101,9 @@ public class ProjectService {
 
     public Project findById(Long id) {
         getProjectDao().openCurrentSession();
-        Project task = getProjectDao().findById(id);
+        Project project = getProjectDao().findById(id);
         getProjectDao().closeCurrentSession();
-        return task;
+        return project;
     }
 
     public Project findByProjectName(String projectName) {
