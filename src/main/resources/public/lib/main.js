@@ -206,7 +206,7 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
             $http.delete('/task/' + task.taskId).success(function (data) {
                 $log.debug('data ' + data);
                 $rootScope.tasks = $rootScope.tasks.filter(function (obj) {
-                    return obj.taskName !== task.taskName;
+                    return obj.taskId !== data;
                 });
             }).error(function (err, status) {
                 $log.error(err + 'status' + status);
@@ -333,7 +333,7 @@ function LoginController($scope, $mdDialog, $log, $http, $rootScope, $cookies) {
 }
 
 
-function DialogAssignController($scope, $http, $log, $mdDialog, data) {
+function DialogAssignController($scope, $http, $log, $mdDialog, data, $rootScope) {
     $scope.task = data.task;
     $scope.usersList = data.users;
 
@@ -341,12 +341,18 @@ function DialogAssignController($scope, $http, $log, $mdDialog, data) {
         $mdDialog.cancel();
     };
 
-    $scope.assignToUser = function (result, task) {
-        if (result && task) {
-            task.assignedTo = {userData: result.user};
-            $http.put('/task', task).success(function (data) {
-                $log.debug('data ' + data);
-                $mdDialog.hide(result);
+    $scope.assignToUser = function (user, task) {
+        if (user && task) {
+            $http.put('/task/assign/' + task.taskId + '/' + user.userId).success(function (userName) {
+                $log.debug('data ' + userName);
+                task.assignedToName = userName;
+                $rootScope.tasks = $rootScope.tasks.filter(function (obj) {
+                    return obj.taskId !== task.taskId;
+                });
+
+                $rootScope.tasks.push(task);
+
+                $mdDialog.hide(user.userId);
             }).error(function (err, status) {
                 $log.error(err + 'status' + status);
             })

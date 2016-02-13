@@ -59,7 +59,7 @@ public class UserDaoImpl extends AbstractDao implements IGenericDao<User, Long> 
             return (Long) getCurrentSession().save(entity);
         }
 
-        return null;
+        return user.getUserId();
     }
 
     /**
