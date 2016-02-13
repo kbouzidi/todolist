@@ -32,7 +32,6 @@ import java.util.Objects;
 import com.reit.model.Task;
 
 /**
- *
  * @author kbouzidi
  */
 public class TestResponse {
@@ -43,14 +42,6 @@ public class TestResponse {
     public TestResponse(int status, String body) {
         this.status = status;
         this.body = body;
-    }
-
-    public List<Map<String, Objects>> getTodoList() {
-        return new Gson().fromJson(body, List.class);
-    }
-
-    public Task getTodo() {
-        return new Gson().fromJson(body, Task.class);
     }
 
     public int getStatus() {
