@@ -4,7 +4,7 @@
     <groupId>com.reit</groupId>
     <artifactId>todo-list</artifactId>
     <packaging>jar</packaging>
-    <version>1.0</version>
+    <version>1.1</version>
     <name>todo-webapp</name>
     <url>https://github.com/kbouzidi/todolist</url>
 
@@ -173,7 +173,7 @@
                     <processTypes>
                         <!-- Tell Heroku how to launch your application -->
                         <!-- You might have to remove the ./ in front   -->
-                        <web>java -jar target/todo-list-1.0-jar-with-dependencies.jar --port $PORT</web>
+                        <web>java -jar target/todo-list-1.1-jar-with-dependencies.jar --port $PORT</web>
                     </processTypes>
                 </configuration>
             </plugin>
