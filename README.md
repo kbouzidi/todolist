@@ -24,6 +24,9 @@ A web App for easily organising project, tasks. Check out the live demo.
 Todo comes with a broad range of features including nested adding new Task, new User, new project, with clean API and modern views. 
 It's best viewed in a modern browser but fallbacks will be available soon.
 
+## Live Demo
+ - [Todo List Live Demo](https://spark-todo.herokuapp.com) 
+ 
 
 ## API description
  
@@ -37,6 +40,7 @@ Download and setup the following applications:
 - [Maven](https://maven.apache.org/)
 - [Postgres](http://www.postgresql.org/)
 - [Angular Material](https://material.angularjs.org/latest/)
+- [Heroku](https://www.heroku.com)
 
 For Windows users please install `Cygwin`
 
