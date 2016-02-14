@@ -130,7 +130,7 @@ public class Task implements Serializable {
 
     @Override
     public String toString() {
-        return "Todo : " + this.taskId + ", " + this.taskName + ", " + this.description + ", " + this.createdBy + ", " + this.state;
+        return "Task : " + this.taskId + ", " + this.taskName + ", " + this.description + ", " + this.createdBy + ", " + this.state;
     }
 
     public void setTaskName(String name) {

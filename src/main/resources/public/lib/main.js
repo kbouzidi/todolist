@@ -6,7 +6,6 @@ angular
     .controller('LoginController', LoginController)
     .controller('DialogAssignController', DialogAssignController)
     .controller('DialogDeleteProject', DialogDeleteProject);
-;
 
 
 /**
@@ -42,9 +41,7 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
                 $scope.alert = 'You cancelled the dialog.';
             });
     }
-
-    // $rootScope.userData = "USER2"; // TODO remove it after test
-
+    
     $rootScope.tabs = [];
 
     $http.get('/projects').success(function (projects) {
@@ -237,6 +234,15 @@ function TodoAppCtrl($scope, $log, $mdBottomSheet, $mdDialog, $rootScope, $cooki
 }
 
 
+/**
+ * Add project Controller
+ * @param $scope
+ * @param $http
+ * @param $mdDialog
+ * @param $log
+ * @param $rootScope
+ * @constructor
+ */
 function DialogAddProjectController($scope, $http, $mdDialog, $log, $rootScope) {
 
     $scope.addProject = function (project) {
@@ -262,6 +268,16 @@ function DialogAddProjectController($scope, $http, $mdDialog, $log, $rootScope) 
     };
 }
 
+/**
+ * Add task Controller
+ * @param $scope
+ * @param $http
+ * @param $log
+ * @param $mdDialog
+ * @param $rootScope
+ * @param data
+ * @constructor
+ */
 function DialogAddTaskController($scope, $http, $log, $mdDialog, $rootScope, data) {
     $rootScope.userData = data.userData;
     $rootScope.projectInfo = data.projectInfo;
@@ -315,6 +331,16 @@ function DialogAddTaskController($scope, $http, $log, $mdDialog, $rootScope, dat
 }
 
 
+/**
+ * Login controller
+ * @param $scope
+ * @param $mdDialog
+ * @param $log
+ * @param $http
+ * @param $rootScope
+ * @param $cookies
+ * @constructor
+ */
 function LoginController($scope, $mdDialog, $log, $http, $rootScope, $cookies) {
     $scope.hide = function () {
         $mdDialog.hide();
@@ -353,6 +379,16 @@ function LoginController($scope, $mdDialog, $log, $http, $rootScope, $cookies) {
 }
 
 
+/**
+ * Assign controller
+ * @param $scope
+ * @param $http
+ * @param $log
+ * @param $mdDialog
+ * @param data
+ * @param $rootScope
+ * @constructor
+ */
 function DialogAssignController($scope, $http, $log, $mdDialog, data, $rootScope) {
     $scope.task = data.task;
     $scope.usersList = data.users;
@@ -382,6 +418,16 @@ function DialogAssignController($scope, $http, $log, $mdDialog, data, $rootScope
     };
 }
 
+/**
+ * Delete project controller
+ * @param $scope
+ * @param $http
+ * @param $log
+ * @param $mdDialog
+ * @param project
+ * @param $rootScope
+ * @constructor
+ */
 function DialogDeleteProject($scope, $http, $log, $mdDialog, project, $rootScope) {
 
     $scope.cancelProjectDeletion = function () {
